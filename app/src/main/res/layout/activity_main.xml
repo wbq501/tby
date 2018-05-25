@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="3dp">
+
+        <com.baigu.dms.common.view.TabButton
+            android:id="@+id/tab_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_weight="1"
+            app:tb_buttonImg="@drawable/rb_home"
+            app:tb_position="0"
+            app:tb_text="@string/home"
+            app:tb_textColor="@color/main_text" />
+
+        <com.baigu.dms.common.view.TabButton
+            android:id="@+id/tab_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_weight="1"
+            app:tb_buttonImg="@drawable/rb_shop"
+            app:tb_position="1"
+            app:tb_text="@string/shop"
+            app:tb_textColor="@color/main_text" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.baigu.dms.common.view.TabButton
+            android:id="@+id/tab_discover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_weight="1"
+            app:tb_buttonImg="@drawable/rb_discover"
+            app:tb_position="2"
+            app:tb_text="@string/discover"
+            app:tb_textColor="@color/main_text" />
+
+        <com.baigu.dms.common.view.TabButton
+            android:id="@+id/tab_my"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_weight="1"
+            android:clickable="true"
+            app:tb_buttonImg="@drawable/rb_my"
+            app:tb_position="3"
+            app:tb_text="@string/my"
+            app:tb_textColor="@color/main_text" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_bar" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/tab_bar"
+        android:background="@color/line" />
+
+    <com.baigu.dms.common.view.DimView
+        android:id="@+id/layout_dim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/dim_background"
+        android:layout_above="@id/tab_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+
+        <com.baigu.dms.common.view.arcmenu.ArcMenu
+            android:id="@+id/arc_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-91.9dp"
+            android:layout_gravity="bottom"
+            app:childSize="46dp"
+            app:fromDegrees="210"
+            app:toDegrees="330" />
+    </LinearLayout>
+</RelativeLayout>

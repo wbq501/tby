@@ -1,0 +1,25 @@
+<resources>
+    <dimen name="toolbar_height">46dp</dimen>
+    <dimen name="bottom_height">46dp</dimen>
+    <dimen name="seperator_small_height">10dp</dimen>
+    <dimen name="seperator_big_height">15dp</dimen>
+
+    <!-- 表情输入框 -->
+    <dimen name="indicator_margin">10dp</dimen>
+    <dimen name="bar_height">32dp</dimen>
+    <dimen name="bar_tool_btn_width">56dp</dimen>
+    <dimen name="item_emoticon_size_default">32dp</dimen>
+
+    <!-- 聊天消息列表 -->
+    <!-- message_item_padding_right = message_item_head_size + message_item_head_margin + message_item_padding_left -->
+    <dimen name="message_item_head_size">40dp</dimen>
+    <dimen name="message_item_head_margin">5dp</dimen>
+    <dimen name="message_item_padding_left">15dp</dimen>
+    <dimen name="message_item_padding_right">60dp</dimen>
+    <dimen name="message_list_divider_height">15dp</dimen>
+    <dimen name="message_item_padding_bottom">12dp</dimen>
+
+    <dimen name="line_height_small">0.2dp</dimen>
+    <dimen name="line_height">0.5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

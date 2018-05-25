@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <com.baigu.dms.common.view.arcmenu.ArcLayout
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        custom:childSize="30dp" />
+
+    <FrameLayout
+        android:id="@+id/control_layout"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:background="@mipmap/tab_center_circel_sep"
+        android:layout_centerInParent="true" >
+        <ImageView
+            android:id="@+id/control_hint"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:duplicateParentState="true"
+            android:background="@mipmap/tab_center_bg" />
+        <ImageView
+            android:id="@+id/logo_bg"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:duplicateParentState="true"
+            android:background="@mipmap/tab_center" />
+    </FrameLayout>
+</merge>

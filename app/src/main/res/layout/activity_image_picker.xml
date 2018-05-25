@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/white"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/view_toolbar"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/main_bg"
+            android:scrollbarSize="3dp"
+            android:scrollbars="vertical"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <LinearLayout
+                android:id="@+id/layout_show_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingRight="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_folder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_999999"
+                    android:textSize="14dp"/>
+
+                <CheckBox
+                    android:id="@+id/cb_folder"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:clickable="false"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/im_cb_img_folder_sel"
+                    android:button="@null"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_send"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:gravity="center"
+                android:background="@drawable/im_btn_img_send"
+                android:text="@string/send"
+                android:textColor="@color/color_999999"
+                android:textSize="14dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/im_progress_bar_bg"
+        android:gravity="center"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@drawable/im_progress_bar"
+        android:indeterminateDuration="1500"
+        android:padding="8dp"
+        android:visibility="gone"/>
+</FrameLayout>

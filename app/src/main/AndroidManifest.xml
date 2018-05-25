@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.baigu.dms">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <permission
+        android:name="com.baigu.dms.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signatureOrSystem" />
+
+    <uses-permission android:name="com.baigu.dms.permission.MIPUSH_RECEIVE" />
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnspecified|adjustPan" />
+        <activity
+            android:name=".activity.GoodsSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.BrandStoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PermissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.view.imagepicker.ImageChooserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.view.imagepicker.ImageFolderChooserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.view.imagepicker.ImagePickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.view.imagepicker.ImagePickerPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.view.imagepicker.ImagePickerSelPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QRCodeScanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyQRCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyInviteCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterStep1Activity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterStep2Activity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterStep3Activity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RefindPasswd1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RefindPasswd2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WalletActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CouponActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScoreShopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyInvitationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddressListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CustomServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderRepealListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddressAddEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CitySelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnspecified|adjustPan" />
+        <activity
+            android:name=".activity.GoodsDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ExpressSelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BlogActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+        <activity
+            android:name=".activity.MyRewardActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.KuaiDiDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ExpressWebActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyHeadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CropImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyNicknameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyEmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyWeixinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BankCardActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CertificationStep1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CertificationStep2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ImageDeletePreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CertificationResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BrandCommentAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoticeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoticeDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PhoneUpdate1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PhoneUpdate2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PhoneUpdate3Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdatePasswdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdatePayPasswdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdatePayPasswd2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddBankCardActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EvaluationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LeaveMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BrandQuestionDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FazeModeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BankTypeSelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LogisticsWebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WalletIntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WalletSecurityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GestureEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GestureVerifyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawRecordActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- alipay sdk end -->
+
+
+        <!-- QQ 分享 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106383345" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- 微信分享 -->
+        <activity
+            android:name="wxapi.WXEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".broadcast.IMNotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.baigu.dms.IM_NOTIFICATION_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="@string/um_app_key" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+        <activity
+            android:name=".activity.RecommendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RefundResonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BrandStoryListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.ShowImageActivity"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
+</manifest>

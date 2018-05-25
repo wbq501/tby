@@ -1,0 +1,18 @@
+<resources>
+    <string name="appid">wxfb072649ec94e628</string>
+    <string name="secret">edacdfd4f5d932bd228f65bcffb8960f</string>
+
+    <!--<string name="hx_customer">kefuchannelimid_062742</string>-->
+    <!--<string name="hx_appkey">1412171006061845#kefuchannelapp41986</string>-->
+    <!--<string name="hx_tenantId">41986</string>-->
+
+    <string name="hx_appkey">1427171108068499#kefuchannelapp49563</string>
+    <string name="hx_customer">kefuchannelimid_134561</string>
+    <string name="hx_tenantId">49563</string>
+    <string name="hx_project_id">2304712</string>
+
+    <string name="wx_appid">wxf3e20e4e9784a0d2</string>
+    <string name="qq_appid">1106383345</string>
+
+    <string name="um_app_key">59fc14438f4a9d251c00003d</string>
+</resources>

@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_select"
+        android:orderInCategory="90"
+        android:icon="@null"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:title=""
+        app:showAsAction="ifRoom|withText"
+        app:actionProviderClass="com.baigu.dms.common.view.imagepicker.ImagePreviewActionProvider"/>
+</menu>

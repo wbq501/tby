@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_next"
+        android:orderInCategory="90"
+        android:icon="@null"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:title="@string/next"
+        app:showAsAction="ifRoom|withText"/>
+</menu>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F45050</color>
+    <color name="colorPrimaryDark">#F45050</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_a">#DD000000</color>
+    <color name="red">#FF0000</color>
+    <color name="color_cccccc">#CCCCCC</color>
+    <color name="color_888888">#888888</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_dadada">#DADADA</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_979797">#979797</color>
+    <color name="add_cart">#FCAC4F</color>
+
+    <color name="main_bg">#F2F2F2</color>
+    <color name="main_text">#444444</color>
+    <color name="line">#D1D1D1</color>
+    <color name="text_time">#848484</color>
+
+    <color name="circle_gray">#BBFFFFFF</color>
+    <color name="font_color_text_hint">#abb1b6</color>
+    <color name="color_111111">#111111</color>
+    <color name="color_333333">#333333</color>
+
+    <color name="refresh_progress1">#f2544b</color>
+    <color name="refresh_progress2">#ffbd1f</color>
+    <color name="refresh_progress3">#48b4ff</color>
+    <color name="refresh_progress4">#3dccb4</color>
+
+    <!-- 网页加载进度条颜色变化 -->
+    <color name="progress1">#F45050</color>
+    <color name="progress2">#F2F2F2</color>
+    <color name="progress3">#FFFFFF</color>
+
+    <!-- 表情输入框 -->
+    <color name="btn_send_textcolor">@color/white</color>
+    <color name="btn_select">#888888</color>
+    <color name="common_bg">@color/white</color>
+    <color name="toolbar_spilt_line">#CDCDCD</color>
+    <color name="toolbar_btn_select">#D9D9D9</color>
+    <color name="toolbar_btn_nomal">@color/white</color>
+    <color name="base_middle_gray">#f3f3f3</color>
+    <color name="base_middle_gray_light">#f8f8f8</color>
+    <color name="qq_bg">#ecedf1</color>
+
+    <color name="scrollbar_color">#CBCBCB</color>
+    <color name="image_picker_folder_bg">#cc000000</color>
+    <color name="message_text">#333333</color>
+    <color name="message_time">#999999</color>
+    <color name="bg_v">#B330C8</color>
+    <color name="bg_idcard">#F49090</color>
+
+    <color name="btn_blue">#FF5987E4</color>
+    <color name="code_unable_get">#aaaaaa</color>
+    <color name="article_content">#757575</color>
+    <color name="bg_nav_tab">#F0F2F4</color>
+    <color name="dim_background">#75000000</color>
+    <color name="dim_background_1">#D0000000</color>
+    <color name="amount_color">#757575</color>
+    <color name="specification_item">#FFB93D</color>
+    <color name="lucency">#00000000</color>
+</resources>

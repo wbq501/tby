@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/black">
+
+    <RelativeLayout
+        android:layout_marginRight="12dp"
+        android:layout_width="100dp"
+        android:layout_height="44dp"
+        android:background="@drawable/im_check_photo_pop">
+        <TextView
+            android:id="@+id/tv_chose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/from_photo"
+            android:textColor="@color/color_333333"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+</LinearLayout>

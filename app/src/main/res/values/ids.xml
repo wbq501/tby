@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="id_autolayout" />
+    <item type="id" name="id_tag_pageset" />
+    <item type="id" name="id_toolbar_left" />
+    <item type="id" name="id_toolbar_right" />
+    <item type="id" name="data_tag">100</item> <!-- 数据TagID,以确定是否需要重新加载数据，防止闪屏-->
+    <item type="id" name="data_src_tag">101</item> <!-- 数据内容,以确定是更改而需要重新加载数据，防止闪屏-->
+    <item name="group_member_list" type="id">成员列表</item>
+
+    <item type="id" name="bgaqrcode_camera_preview" />
+</resources>

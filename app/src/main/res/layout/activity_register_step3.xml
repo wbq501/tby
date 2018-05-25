@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/main_bg"
+    android:orientation="vertical"
+    android:paddingTop="0dp">
+
+    <include layout="@layout/view_toolbar" />
+
+    <com.baigu.dms.common.view.StepView
+        android:id="@+id/stepView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/line" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/tel_num"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_tel"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/pls_input_tel"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/color_666666"
+                        android:textColorHint="@color/line" />
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/invite_code"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_invite_code"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/input_tip_invite_code"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/realname"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_realname"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/input_tip_realname"
+                        android:maxLength="20"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/bank_type"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/et_bank_type"
+                            style="@style/edit_text_unline"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:editable="false"
+                            android:hint="@string/input_tip_bank_type"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColorHint="@color/line" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/arrow" />
+                    </LinearLayout>
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/bank"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_bank"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM"
+                        android:hint="@string/input_tip_bank"
+                        android:maxLength="200"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/alipay"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_alipay"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/input_tip_alipay"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM`-=\;,./~!@#$%^*()_+}{:?"
+                        android:maxLength="200"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/passwd"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_passswd"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM`-=\;,./~!@#$%^*()_+}{:?"
+                        android:hint="@string/pls_input_passwd_register"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLength="@integer/passwd_length"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                    <com.baigu.dms.common.view.SwitchButton
+                        android:id="@+id/sb_pwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:slipBtn="@mipmap/switch_button"
+                        app:switchOffBg="@mipmap/switch_bg_switch"
+                        app:switchOnBg="@mipmap/switch_bg_switch" />
+                </TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/weixin"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_weixin"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM`-=\;,./~!@#$%^*()_+}{:?"
+                        android:hint="@string/input_tip_weixin"
+                        android:maxLength="200"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_padding_left_15" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/code"
+                        android:textColor="@color/main_text"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_msg_code"
+                        style="@style/edit_text_unline"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/tip_msg_code"
+                        android:maxLength="12"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/line" />
+
+                    <Button
+                        android:id="@+id/btn_msg_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@mipmap/reg_bt"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/get_msg_code"
+                        android:textColor="@color/article_content"
+                        android:textSize="12dp" />
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line" />
+
+            </TableLayout>
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_btn_opt"
+                android:gravity="center"
+                android:text="@string/ok"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
