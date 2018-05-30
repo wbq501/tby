@@ -25,6 +25,7 @@ import com.baigu.dms.common.utils.rxbus.Subscribe;
 import com.baigu.dms.common.utils.rxbus.ThreadMode;
 import com.baigu.dms.domain.cache.ShopCart;
 import com.baigu.dms.domain.cache.UserCache;
+import com.baigu.dms.domain.db.RepositoryFactory;
 import com.baigu.dms.domain.model.Address;
 import com.baigu.dms.domain.model.City;
 import com.baigu.dms.domain.model.Express;
@@ -86,6 +87,9 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     private List<Goods> mGoodsList = null;
 
     LinkedHashSet<String> expressA = new LinkedHashSet<>();
+    LinkedHashSet<String> expressB = new LinkedHashSet<>();
+
+    private String expressValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +125,21 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     private void changeGoodSList() {
         mGoodsList = new ArrayList<>();
         List<Goods> goodsList = getIntent().getParcelableArrayListExtra("goodsList");
+        List<Express> expressList = RepositoryFactory.getInstance().getExpressRepository().queryAllOrdered();
+
+        for(Express express : expressList){
+            expressB.add(express.getValue());
+        }
         for (Goods goods: goodsList) {
+            if (expressA.size() > 0){
+                if (expressB.size() > 0){
+                    expressB.clear();
+                    expressB.addAll(expressA);
+                }else {
+                    expressB.addAll(expressA);
+                }
+                expressA.clear();
+            }
             if(goods.getSkus().size()>1){
                 for (Sku sku:goods.getSkus()) {
                     if(sku.getNumber() > 0){
@@ -137,12 +155,13 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                         String expressGroups = sku.getExpressGroups();
                         String[] express = expressGroups.split(",");
                         for (int i = 0; i < express.length; i++){
-                            expressA.add(express[i]);
+                            if (expressB.contains(express[i])){
+                                expressA.add(express[i]);
+                            }
                         }
                         mGoodsList.add(mgoods);
                     }
                 }
-
             }else{
                 Goods mgoods = new Goods();
                 List<Sku> mskus = new ArrayList<Sku>();
@@ -156,11 +175,12 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 String expressGroups = goods.getSkus().get(0).getExpressGroups();
                 String[] express = expressGroups.split(",");
                 for (int i = 0; i < express.length; i++){
-                    expressA.add(express[i]);
+                    if (expressB.contains(express[i])){
+                        expressA.add(express[i]);
+                    }
                 }
                 mGoodsList.add(mgoods);
             }
-
         }
     }
 
@@ -239,6 +259,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 case REQUEST_CODE_EXPRESS_SELECT: //快递选择
                     if (data != null) {
                         Express express = data.getParcelableExtra("express");
+                        expressValue = data.getStringExtra("expressValue");
                         mTvSelectExpress.setText(express == null ? "" : express.getName());
                         mTvSelectExpress.setTag(express.getId());
                         computeExpress();
@@ -280,6 +301,10 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 Intent intent1 = new Intent(this, ExpressSelectorActivity.class);
                 ArrayList<String> express = new ArrayList<>();
                 express.addAll(expressA);
+                if (expressA.size() <= 0){
+                    ViewUtils.showToastSuccess(R.string.express_no);
+                    return;
+                }
                 intent1.putStringArrayListExtra("express", express);
                 startActivityForResult(intent1, REQUEST_CODE_EXPRESS_SELECT);
                 break;
@@ -350,13 +375,14 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         String cityId = mTvCitySelect.getTag() ==  null ? "" : mTvCitySelect.getTag().toString();
         String expressId = mTvSelectExpress.getText() == null ? "" : mTvSelectExpress.getText().toString();
         if (!TextUtils.isEmpty(cityId) && !TextUtils.isEmpty(expressId) && mGoodsList.size() > 0) {
-            mAddOrderPresenter.expressCompute(cityId, expressId,mGoodsList);
+//            mAddOrderPresenter.expressCompute(cityId, expressId,mGoodsList);
+            mAddOrderPresenter.expressCompute(cityId, expressValue,expressId,mGoodsList);
         }
     }
 
     @Override
-    public void onExpressCompute(double expressPrice) {
-        if (expressPrice <= 0 || mGoodsList.size() <= 0) {
+    public void onExpressCompute(List<Double> expressPrice) {
+        if (expressPrice == null || mGoodsList.size() <= 0) {
             ViewUtils.showToastError(R.string.failed_compute_price);
             mTvSelectExpress.setText("");
             mTvSelectExpress.setTag(null);
@@ -368,9 +394,9 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         }
 
         char symbol = 165;
-        mTotalPrice = computeGoodsPrice() + expressPrice;
+        mTotalPrice = computeGoodsPrice() + expressPrice.get(0) + expressPrice.get(1);
         mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",mTotalPrice));
-        String expressPriceStr = String.valueOf(symbol) + expressPrice;
+        String expressPriceStr = String.valueOf(symbol) + expressPrice.get(0);
         mTvExpressPrice.setText(getString(R.string.express_price, expressPriceStr));
     }
 
@@ -471,9 +497,11 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 || !mAddress.getAreaId().equals(address.getAreaId());
         mAddOrderPresenter.checkGoodsStock(mGoodsList);
         if (newAddresss) {
-            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
+//            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
+            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim());
         } else {
-            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
+//            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
+            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim());
         }
     }
 

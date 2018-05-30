@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.ImageUtil;
 import com.baigu.dms.domain.model.Bank;
 import com.hyphenate.helpdesk.model.Content;
 
@@ -43,6 +44,7 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
         itemHolder.name.setText(bank.getBankName());
         String number =bank.getBankAccount().substring(bank.getBankAccount().length()-4,bank.getBankAccount().length());
         itemHolder.bankNumber.setText(number);
+        ImageUtil.loadImage(context,bank.getRemarks(),itemHolder.icon);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

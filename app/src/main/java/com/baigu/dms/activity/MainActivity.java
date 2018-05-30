@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.common.utils.FragmentPageManager;
+import com.baigu.dms.common.utils.SPUtils;
 import com.baigu.dms.common.utils.ShareToQQ;
 import com.baigu.dms.common.utils.ShareUtils;
 import com.baigu.dms.common.utils.ViewUtils;
@@ -253,6 +254,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 ViewUtils.showToastInfo(R.string.exit_twice);
                 mExitTime = System.currentTimeMillis();
             } else {
+                SPUtils.clearBuyType();
                 ViewUtils.exitApp(this);
             }
             return true;

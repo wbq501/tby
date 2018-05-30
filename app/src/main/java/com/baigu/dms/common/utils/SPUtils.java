@@ -4,6 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.baigu.dms.BaseApplication;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -16,6 +24,7 @@ import com.baigu.dms.BaseApplication;
 public class SPUtils {
 
     public static final String SP_NAME = "DMS";
+    public static final String BUYTYPE = "buytype";
 
     public static final String KEY_USER = "key_user";
     public static final String KEY_ACCOUNT = "key_account";
@@ -75,6 +84,54 @@ public class SPUtils {
             return (T) (Long) sp.getLong(key, (Long) defaultObj);
         }
         return null;
+    }
+
+    /**
+     * 保存List
+     * @param tag
+     * @param datalist
+     */
+    public static void setDataList(String tag, LinkedHashSet<String> datalist) {
+        SharedPreferences sp = BaseApplication.getContext().getSharedPreferences(BUYTYPE, Context
+                .MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        if (null == datalist || datalist.size() <= 0)
+            return;
+
+        Gson gson = new Gson();
+        //转换成json数据，再保存
+        String strJson = gson.toJson(datalist);
+        editor.clear();
+        editor.putString(tag, strJson);
+        editor.commit();
+
+    }
+
+    /**
+     * 获取List
+     * @param tag
+     * @return
+     */
+    public static LinkedHashSet<String> getDataList(String tag) {
+        SharedPreferences sp = BaseApplication.getContext().getSharedPreferences(BUYTYPE, Context
+                .MODE_PRIVATE);
+        LinkedHashSet<String> datalist=new LinkedHashSet<>();
+        String strJson = sp.getString(tag, null);
+        if (null == strJson) {
+            return datalist;
+        }
+        Gson gson = new Gson();
+        datalist = gson.fromJson(strJson, new TypeToken<Set<String>>() {
+        }.getType());
+        return datalist;
+    }
+
+    public static void clearBuyType() {
+        SharedPreferences sp = BaseApplication.getContext().getSharedPreferences(BUYTYPE, Context
+                .MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
     }
 
     /**

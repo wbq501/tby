@@ -17,14 +17,14 @@ public interface AddOrderPresenter extends BasePresenter {
 
     void getDefaultAddress(boolean showDialog);
 
-    void expressCompute(String cityId, String expressId, List<Goods> goodsList);
+    void expressCompute(String cityId, String expressId,String logisticsName, List<Goods> goodsList);
 
-    void addOrder(List<Goods> goodsList, Address address, boolean saveAddress, String expressId, String remark);
+    void addOrder(List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark);
     void checkGoodsStock(List<Goods> goodsList);
 
     interface OrderAddView {
         void onGetDefaultAddress(Address address);
-        void onExpressCompute(double expressPrice);
+        void onExpressCompute(List<Double> expressPrice);
         void onAddOrder(OrderDetailResult result);
         void onCheckGoodsStock(Boolean result);
     }

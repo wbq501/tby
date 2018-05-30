@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.BuyGoodsType;
 import com.baigu.dms.common.utils.ViewUtils;
+import com.baigu.dms.domain.model.Goods;
+import com.baigu.dms.domain.model.Sku;
 import com.micky.logger.Logger;
 
 /**
@@ -30,6 +33,8 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
     private int mCurrNum = 0; //购买数量
     private int mMaxNum = 0; //商品库存
     private int mMinNum = 0; //最小值
+
+    private Sku sku;//选择的商品类型
 
     private OnNumChangeListener mOnNumChangeListener;
 
@@ -68,6 +73,14 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
 
     public int getmCurrNum() {
         return mCurrNum;
+    }
+
+    public Sku getSku() {
+        return sku;
+    }
+
+    public void setSku(Sku sku) {
+        this.sku = sku;
     }
 
     private void init() {
@@ -112,6 +125,12 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                 if (mOnNumChangeListener != null && !mOnNumChangeListener.onAbleChanged(mCurrNum)) {
                     return;
                 }
+
+                if (!BuyGoodsType.isBuy(getSku(),false,false)){
+                    ViewUtils.showToastError(R.string.buy_type);
+                    return;
+                }
+
                 if (mCurrNum < mMaxNum) {
                     mCurrNum++;
                 }
@@ -121,12 +140,17 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                 }
                 break;
             case R.id.iv_sub:
-//                if (mOnNumChangeListener != null && !mOnNumChangeListener.onAbleChanged(mCurrNum)) {
-//                    return;
-//                }
+                if (mOnNumChangeListener != null && !mOnNumChangeListener.onAbleChanged(mCurrNum)) {
+                    return;
+                }
                 if (mCurrNum > mMinNum) {
                     mCurrNum--;
                 }
+
+                if (mCurrNum == 0){
+                    BuyGoodsType.isBuy(getSku(),true,false);
+                }
+
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {
                     mOnNumChangeListener.onNumChanged(mCurrNum);

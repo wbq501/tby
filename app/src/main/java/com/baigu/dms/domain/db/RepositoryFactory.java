@@ -5,12 +5,15 @@ import android.util.Log;
 
 import com.baigu.dms.domain.db.dao.BankTypeDao;
 import com.baigu.dms.domain.db.dao.CityDao;
+import com.baigu.dms.domain.db.dao.ExclusiveGroupsDao;
 import com.baigu.dms.domain.db.dao.ExpressDao;
 import com.baigu.dms.domain.db.repository.BankTypeRepository;
 import com.baigu.dms.domain.db.repository.CityRepository;
+import com.baigu.dms.domain.db.repository.ExclusiveGroupsRepository;
 import com.baigu.dms.domain.db.repository.ExpressRepository;
 import com.baigu.dms.domain.db.repository.impl.BankRepositoryImpl;
 import com.baigu.dms.domain.db.repository.impl.CityRepositoryImpl;
+import com.baigu.dms.domain.db.repository.impl.ExclusiveGroupsRepositoryImpl;
 import com.baigu.dms.domain.db.repository.impl.ExpressRepositoryImpl;
 
 public class RepositoryFactory {
@@ -50,5 +53,14 @@ public class RepositoryFactory {
 
         BankTypeDao bankDao = DBCore.getDaoSession().getBankTypeDao();
         return new BankRepositoryImpl(bankDao);
+    }
+
+    public ExclusiveGroupsRepository getExclusiveGroupRepository(){
+        if (DBCore.getDaoSession() == null){
+            return null;
+        }
+
+        ExclusiveGroupsDao exclusiveGroupsDao = DBCore.getDaoSession().getExclusiveGroupsDao();
+        return new ExclusiveGroupsRepositoryImpl(exclusiveGroupsDao);
     }
 }

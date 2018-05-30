@@ -16,12 +16,12 @@ import com.baigu.dms.domain.model.ExpressList;
 
 import java.util.List;
 
-public class KuaiDiAdapter extends BaseRVAdapter<ExpressList>{
+public class KuaiDiAdapter extends BaseRVAdapter<String>{
 
     public Activity mActivity;
-    private List<ExpressList> lists;
+    private List<String> lists;
 
-    public KuaiDiAdapter(Activity activity,List<ExpressList> lists) {
+    public KuaiDiAdapter(Activity activity,List<String> lists) {
         this.mActivity = activity;
         this.lists = lists;
     }
@@ -34,13 +34,13 @@ public class KuaiDiAdapter extends BaseRVAdapter<ExpressList>{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ExpressList expressList = lists.get(position);
+        final String s = lists.get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        itemViewHolder.mTextView.setText(expressList.getName());
+        itemViewHolder.mTextView.setText("快递号："+s);
         itemViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExpressDialog dialog = new ExpressDialog(mActivity,mActivity,expressList);
+                ExpressDialog dialog = new ExpressDialog(mActivity,mActivity,s);
                 dialog.show();
             }
         });

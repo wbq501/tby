@@ -35,7 +35,7 @@ public class ExpressDialog extends Dialog implements ExpressGetPresenter.Express
 
     ExpressGetPresenter expressGetPresenter;
     private Activity activity;
-    ExpressList expressList;
+    String expressList;
     ImageView iv_express_head;
     TextView tv_express_num;
     LinearLayout ll_nomsg;
@@ -44,7 +44,7 @@ public class ExpressDialog extends Dialog implements ExpressGetPresenter.Express
 
     ExpressStateAdapter expressStateAdapter;
 
-    public ExpressDialog(@NonNull Context context,Activity activity,ExpressList expressList) {
+    public ExpressDialog(@NonNull Context context,Activity activity,String expressList) {
         super(context);
         this.activity = activity;
         this.expressList = expressList;
@@ -61,7 +61,7 @@ public class ExpressDialog extends Dialog implements ExpressGetPresenter.Express
         setContentView(R.layout.express_dialog);
 
         expressGetPresenter = new ExpressGetPresenterImpl(activity,this);
-        expressGetPresenter.getExpress(expressList.getNum());
+        expressGetPresenter.getExpress(expressList);
 
         initView();
     }
@@ -88,9 +88,9 @@ public class ExpressDialog extends Dialog implements ExpressGetPresenter.Express
 
     @Override
     public void loadExpress(LogisticsInfo<ExpressInfo> result) {
-        if (result.getState().equals("0")){
+        if (result == null || result.getState().equals("0")){
             Glide.with(getContext()).load(R.mipmap.ic_launcher).into(iv_express_head);
-            tv_express_num.setText(expressList.getNum());
+            tv_express_num.setText(expressList);
             ll_nomsg.setVisibility(View.VISIBLE);
             tv_load.setText(R.string.empty_data);
             mRvOrder.setVisibility(View.GONE);

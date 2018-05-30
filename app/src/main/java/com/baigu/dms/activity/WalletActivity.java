@@ -58,6 +58,12 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener, W
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadMoreEnabled(false);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mRecyclerView.forceToRefresh();
     }
 

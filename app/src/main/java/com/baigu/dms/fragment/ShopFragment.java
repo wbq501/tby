@@ -29,6 +29,7 @@ import com.baigu.dms.adapter.GoodsAdapter;
 import com.baigu.dms.adapter.GoodsCategoryAdater;
 import com.baigu.dms.common.utils.ImageUtil;
 import com.baigu.dms.common.utils.ItemDecoration;
+import com.baigu.dms.common.utils.SPUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.utils.rxbus.EventType;
 import com.baigu.dms.common.utils.rxbus.RxBus;
@@ -53,8 +54,10 @@ import com.baigu.lrecyclerview.interfaces.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
@@ -66,8 +69,6 @@ import io.reactivex.functions.Consumer;
  * @Date 2017/5/24 9:54
  */
 public class ShopFragment extends TabFragment implements GoodsListPresenter.GoodsListView, View.OnClickListener, GoodsAdapter.OnGoodsAmountChangeListener, OnRVItemClickListener {
-
-    //    private ExpandFilterMenuView mExpandNavTabView;
     private RecyclerView mRvGoods;
     private RecyclerView mGoodsCategory;
     private GoodsAdapter mGoodsAdapter;
@@ -114,12 +115,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
     }
 
     private void initView(View view) {
-//        mTvMoney = findView(view, R.id.tv_shop_price);
-//        mTvMoney.setText("");
-//        mLlSelectedOk = findView(view, R.id.ll_selected_ok);
-//        mLlSelectedOk.setOnClickListener(this);
-//        mTvSelectedOk = findView(view, R.id.tv_selected_ok);
-//        mExpandNavTabView = findView(view, R.id.expandNavTabView);
         shopLayout = findView(view, R.id.ll_shop);
         mTvMoney = findView(view, R.id.tv_shop_price);
         findView(view, R.id.ll_shop_search).setOnClickListener(this);
@@ -134,8 +129,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
         mGoodsCategoryAdater = new GoodsCategoryAdater(getContext());
         mGoodsCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         mGoodsCategory.setAdapter(mGoodsCategoryAdater);
-//        mRvGoods.setHeaderViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
-//        mRvGoods.setFooterViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         manager = new LinearLayoutManager(getContext());
         mRvGoods.setLayoutManager(manager);
         mRvGoods.addItemDecoration(new PaddingLeftItemDecoration(getContext(), 90, false));
@@ -177,18 +170,8 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
 
             }
         });
-//        mRvGoods.setOnRefreshListener(this);
-//        mRvGoods.setPullRefreshEnabled(true);
-//        mRvGoods.setLoadMoreEnabled(false);
-//        mRvGoods.setOnLoadMoreListener(this);
-
-//        mExpandNavTabView.setVisibility(View.GONE);
-//        mRvGoods.setVisibility(View.GONE);
-//        mRvGoods.forceToRefresh();
         mGoodsListPresenter.loadImage();
         mGoodsListPresenter.loadGoodsList();
-//        mGoodsListPresenter.loadGoodsPageList(mCurrPage, "");
-
     }
 
     private void changeGoodsCategory(int firstVisibleItemPosition) {
@@ -204,7 +187,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
         if (mGoodsAdapter != null) {
             onShopCartChanged();
             mGoodsAdapter.notifyDataSetChanged();
-
         }
         if (mCategory != null) {
             changeCategoryNumber();
@@ -214,30 +196,10 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
 
     @Override
     public void onLoadGoodsCategory(List<GoodsCategory> list) {
-//        mExpandNavTabView.setVisibility(View.VISIBLE);
-//        List<ExpandFilterMenuView.MenuItemData> menuItemDataList = new ArrayList<>();
-//        for (GoodsCategory category : list) {
-//            ExpandFilterMenuView.MenuItemData tabData = new ExpandFilterMenuView.MenuItemData();
-//            tabData.id = category.getId();
-//            tabData.title = category.getName() + "哈哈哈";
-//            menuItemDataList.add(tabData);
-//        }
-//        mExpandNavTabView.setMenuItemDataList(menuItemDataList);
     }
 
     @Override
     public void onLoadGoodsPageList(PageResult<Goods> goodsPageResult) {
-//        mRvGoods.setVisibility(View.VISIBLE);
-//        mRvGoods.setNoMore(goodsPageResult != null && goodsPageResult.lastPage);
-//        if (goodsPageResult == null) {
-//            ViewUtils.showToastError(R.string.failed_load_data);
-//            return;
-//        }
-//        if (goodsPageResult.list != null) {
-//            mGoodsAdapter.appendDataList(goodsPageResult.list);
-//            mGoodsAdapter.notifyDataSetChanged();
-//            mCurrPage++;
-//        }
     }
 
     @Override
@@ -393,23 +355,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onBusEvent(RxBusEvent event) {
-//        if (event.what == EventType.TYPE_ADD_ORDER) {
-//            ShopCart.clearCart();
-//            mRvGoods.setVisibility(View.INVISIBLE);
-//            mGoodsAdapter.clearSelectGoods();
-//            mGoodsAdapter.setData(null);
-//            mGoodsAdapter.notifyDataSetChanged();
-//            mCurrPage = 1;
-//            mRvGoods.forceToRefresh();
-//        } else if (event.what == EventType.TYPE_SHOP_CART_CHANGED) {
-//            mGoodsAdapter.notifyDataSetChanged();
-//            onShopCartChanged();
-//        }
-//    }
-
     @Override
     public void onDestroy() {
         RxBus.getDefault().unregister(this);
@@ -460,10 +405,29 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                 }
                 category.setNumber(numberCount);
             }
+            Set<String> all = SPUtils.getDataList("buyType");
+            Set<String> buyall = new LinkedHashSet<>();//新建已经加入购物车的类型
+            for (Goods good : ShopCart.getGoodsListSelected()){
+                List<Sku> skus = good.getSkus();
+                for (int i = 0; i < skus.size(); i++){
+                    if (skus.get(i).getNumber() >  0){
+                        String[] split = skus.get(i).getGroup().split(",");
+                        for (int j = 0; j < split.length; j++){
+                            buyall.add(split[j]);
+                        }
+                    }
+                }
+            }
+            for (String groupall : all){
+                if (!buyall.contains(groupall)){
+                    all.remove(groupall);
+                }
+            }
         } else {
             for (GoodsCategory category : mCategory) {
                 category.setNumber(0);
             }
+            SPUtils.clearBuyType();
         }
 
         mGoodsCategoryAdater.notifyDataSetChanged();
