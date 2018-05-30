@@ -27,8 +27,9 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
         public final static Property Id = new Property(0, String.class, "id", true, "ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Value = new Property(2, String.class, "value", false, "VALUE");
-        public final static Property Type = new Property(3, int.class, "type", false, "TYPE");
-        public final static Property Sort = new Property(4, int.class, "sort", false, "SORT");
+        public final static Property Remarks = new Property(3, String.class, "remarks", false, "REMARKS");
+        public final static Property Type = new Property(4, int.class, "type", false, "TYPE");
+        public final static Property Sort = new Property(5, int.class, "sort", false, "SORT");
     }
 
 
@@ -47,8 +48,9 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
                 "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: id
                 "\"NAME\" TEXT," + // 1: name
                 "\"VALUE\" TEXT," + // 2: value
-                "\"TYPE\" INTEGER NOT NULL ," + // 3: type
-                "\"SORT\" INTEGER NOT NULL );"); // 4: sort
+                "\"REMARKS\" TEXT," + // 3: remarks
+                "\"TYPE\" INTEGER NOT NULL ," + // 4: type
+                "\"SORT\" INTEGER NOT NULL );"); // 5: sort
     }
 
     /** Drops the underlying database table. */
@@ -75,8 +77,13 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
         if (value != null) {
             stmt.bindString(3, value);
         }
-        stmt.bindLong(4, entity.getType());
-        stmt.bindLong(5, entity.getSort());
+ 
+        String remarks = entity.getRemarks();
+        if (remarks != null) {
+            stmt.bindString(4, remarks);
+        }
+        stmt.bindLong(5, entity.getType());
+        stmt.bindLong(6, entity.getSort());
     }
 
     @Override
@@ -97,8 +104,13 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
         if (value != null) {
             stmt.bindString(3, value);
         }
-        stmt.bindLong(4, entity.getType());
-        stmt.bindLong(5, entity.getSort());
+ 
+        String remarks = entity.getRemarks();
+        if (remarks != null) {
+            stmt.bindString(4, remarks);
+        }
+        stmt.bindLong(5, entity.getType());
+        stmt.bindLong(6, entity.getSort());
     }
 
     @Override
@@ -112,8 +124,9 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // value
-            cursor.getInt(offset + 3), // type
-            cursor.getInt(offset + 4) // sort
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // remarks
+            cursor.getInt(offset + 4), // type
+            cursor.getInt(offset + 5) // sort
         );
         return entity;
     }
@@ -123,8 +136,9 @@ public class BankTypeDao extends AbstractDao<BankType, String> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setValue(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setType(cursor.getInt(offset + 3));
-        entity.setSort(cursor.getInt(offset + 4));
+        entity.setRemarks(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setType(cursor.getInt(offset + 4));
+        entity.setSort(cursor.getInt(offset + 5));
      }
     
     @Override

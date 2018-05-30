@@ -36,21 +36,8 @@ public class KuaiDiDetailActivity extends BaseActivity implements OnLoadMoreList
     }
 
     private void initView() {
-        List<ExpressList> lists = new ArrayList<>();
-        for (int i = 0; i< 3; i++){
-            ExpressList expressList = new ExpressList();
-            if (i == 0){
-                expressList.setNum("889275378826533873");
-                expressList.setName("889275378826533873");
-            }else if (i == 1){
-                expressList.setNum("71324709430497");
-                expressList.setName("71324709430497");
-            }else {
-                expressList.setNum("171324709430497");
-                expressList.setName("171324709430497");
-            }
-            lists.add(expressList);
-        }
+
+        List<String> lists = getIntent().getStringArrayListExtra("logisticsNos");
         mRvOrder = findView(R.id.rv_order);
         mRvOrder.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         mRvOrder.setHeaderViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);

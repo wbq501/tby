@@ -74,7 +74,7 @@ android {
     }
 
     greendao {
-        schemaVersion 3
+        schemaVersion 5
         daoPackage 'com.baigu.dms.domain.db.dao'
         targetGenDir 'src/main/java'
     }

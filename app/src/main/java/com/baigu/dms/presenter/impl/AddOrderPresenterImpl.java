@@ -102,7 +102,7 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
     }
 
     @Override
-    public void expressCompute(final String cityId, String expressId, List<Goods> goodsList) {
+    public void expressCompute(final String cityId, String expressId,String logisticsName, List<Goods> goodsList) {
         final JSONObject json = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         try {
@@ -118,7 +118,7 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             Logger.e(e.getMessage(), e);
             jsonArray = null;
         }
-        addDisposable(new BaseAsyncTask<String, Void, Double>(mActivity, true) {
+        addDisposable(new BaseAsyncTask<String, Void, List<Double>>(mActivity, true) {
 
             @Override
             protected void onPreExecute() {
@@ -127,13 +127,13 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             }
 
             @Override
-            protected RxOptional<Double> doInBackground(String... params) {
-                RxOptional<Double> result = new RxOptional<>();
-                result.setResult(0.0);
+            protected RxOptional<List<Double>> doInBackground(String... params) {
+                RxOptional<List<Double>> result = new RxOptional<>();
+                result.setResult(null);
                 try {
                     List<City> cityList = getCityList(params[0]);
                     if (cityList == null || cityList.size() <= 0) {
-                        return result;
+                        return null;
                     }
                     String provinceId = cityList.get(0).getId();
                     json.put("provinceId",provinceId);
@@ -148,12 +148,13 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
                     }
                     json.put("areaId",areaId);
                     json.put("logisticsId",params[1]);
+                    json.put("logisticsName",params[2]);
                     RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),json.toString());
-                    Call<BaseResponse<String>> expressComputeCall = ServiceManager.createGsonService(ShopService.class).expressCompute(body);
-                    Response<BaseResponse<String>> expressComputeResponse = expressComputeCall.execute();
+                    Call<BaseResponse<List<Double>>> expressComputeCall = ServiceManager.createGsonService(ShopService.class).expressCompute(body);
+                    Response<BaseResponse<List<Double>>> expressComputeResponse = expressComputeCall.execute();
                     result.setCode(expressComputeResponse != null && expressComputeResponse.body() != null ? expressComputeResponse.body().getCode() : -1);
                     if (expressComputeResponse != null && expressComputeResponse.body() != null && BaseResponse.SUCCESS.equals(expressComputeResponse.body().getStatus())) {
-                        result.setResult(expressComputeResponse.body().getData() == null ? 0 : Double.parseDouble(expressComputeResponse.body().getData()));
+                        result.setResult(expressComputeResponse.body().getData());
                     }
 
                 } catch (Exception e) {
@@ -163,7 +164,7 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             }
 
             @Override
-            protected void onPostExecute(Double price) {
+            protected void onPostExecute(List<Double> price) {
                 super.onPostExecute(price);
                 if (mOrderAddView != null) {
                     mOrderAddView.onExpressCompute(price);
@@ -174,15 +175,15 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             protected void doOnError() {
                 super.doOnError();
                 if (mOrderAddView != null) {
-                    mOrderAddView.onExpressCompute(0);
+                    mOrderAddView.onExpressCompute(null);
                 }
             }
 
-        }.execute(cityId, expressId, jsonArray.toString()));
+        }.execute(cityId, expressId,logisticsName, jsonArray.toString()));
     }
 
     @Override
-    public void addOrder(final List<Goods> goodsList, Address address, boolean saveAddress, String expressId, String remark) {
+    public void addOrder(final List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark) {
         final JSONObject paramJsonObject = new JSONObject();
         JSONArray goodsJsonArr = new JSONArray();
         try {
@@ -196,6 +197,7 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             }
             paramJsonObject.put("goodslist", goodsJsonArr);
             paramJsonObject.put("logisticsId", expressId);
+            paramJsonObject.put("logisticsName", logisticsName);
             paramJsonObject.put("userId", UserCache.getInstance().getUser().getIds());
             paramJsonObject.put("whetherSaveAddress", saveAddress ? "true" : "false");
             if (!TextUtils.isEmpty(address.getId())) {

@@ -44,15 +44,10 @@ public class GoodsSearchAdapter extends BaseRVAdapter<com.baigu.dms.domain.model
         char symbol = 165;
         if (goods.getSkus().size() > 0){
             double minPrice = goods.getSkus().get(0).getUniformprice();
-            if (goods.getSkus().size() > 1) {
-                for (Sku sku : goods.getSkus()) {
-                    if (sku.getUniformprice() < minPrice) {
-                        minPrice = sku.getUniformprice();
-                    }
-                }
-                itemViewHolder.tvGoodsPrice.setText(String.valueOf(symbol) + minPrice + "起");
-            } else {
+            if (goods.getSkus().get(0).getMinPrice() == null || goods.getSkus().get(0).getMaxPrice() == null){
                 itemViewHolder.tvGoodsPrice.setText(String.valueOf(symbol) + String.valueOf(minPrice));
+            }else {
+                itemViewHolder.tvGoodsPrice.setText(String.valueOf(symbol)+goods.getSkus().get(0).getMinPrice()+"-"+String.valueOf(symbol)+goods.getSkus().get(0).getMaxPrice());
             }
         }else {
             itemViewHolder.tvGoodsPrice.setText(String.valueOf(symbol) + String.valueOf(goods.getSkus().get(0).getUniformprice()));

@@ -88,6 +88,7 @@ public class ShopWindowAdapter extends BaseListAdapter<Goods> {
         holder.tvSku.setText(goods.getSkus().get(0).getSkuAttr());
         holder.numberView.setMaxNum(goods.getStocknum());
         holder.numberView.setCurrNum(goods.getSkus().get(0).getNumber());
+        holder.numberView.setSku(goods.getSkus().get(0));
         holder.numberView.setOnNumChangeListener(new NumberView.OnNumChangeListener() {
             @Override
             public boolean onAbleChanged(int currNum) {

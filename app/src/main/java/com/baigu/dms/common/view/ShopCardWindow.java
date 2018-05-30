@@ -124,15 +124,17 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
             } else {
                 Goods mgoods = new Goods();
                 List<Sku> mskus = new ArrayList<Sku>();
-                mskus.add(goods.getSkus().get(0));
-                mgoods.setIds(goods.getIds());
-                mgoods.setStocknum(goods.getSkus().get(0).getStocknum());
-                mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
-                mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
-                mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
-                mgoods.setGoodsname(goods.getGoodsname());
-                mgoods.setSkus(mskus);
-                mGoodsList.add(mgoods);
+                if (goods.getSkus().get(0).getNumber() > 0){
+                    mskus.add(goods.getSkus().get(0));
+                    mgoods.setIds(goods.getIds());
+                    mgoods.setStocknum(goods.getSkus().get(0).getStocknum());
+                    mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
+                    mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
+                    mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
+                    mgoods.setGoodsname(goods.getGoodsname());
+                    mgoods.setSkus(mskus);
+                    mGoodsList.add(mgoods);
+                }
             }
 
         }

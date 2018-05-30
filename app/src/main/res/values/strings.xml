@@ -494,6 +494,10 @@
 
     <integer name="phone_length">11</integer>
     <string name="express_list">快递详情列表</string>
+    <string name="express_no">当前没有快递可选</string>
     <string name="time">时间</string>
     <string name="adress_express">地点和跟踪进度</string>
+    <string name="maxbuy_num">超过购买限制</string>
+    <string name="query">确定</string>
+    <string name="buy_type">购买规格限制</string>
 </resources>

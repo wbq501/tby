@@ -2,6 +2,7 @@ package com.baigu.dms.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.baigu.dms.presenter.OrderDetailPresenter;
 import com.baigu.dms.presenter.impl.OrderDetailPresenterImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * @Description 订单详情
@@ -168,6 +170,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
                 break;
             case R.id.tv_logistics_query:
                 Intent intent2 = new Intent(OrderDetailActivity.this,KuaiDiDetailActivity.class);
+                intent2.putStringArrayListExtra("logisticsNos", (ArrayList<String>) mOrderDetailResult.getLogisticsNos());
                 startActivity(intent2);
 //                mOrderDetailPresenter.queryLogistics(mOrderDetailResult.getId(), StringUtils.getOrderDate(DateUtils.longToStr(Long.valueOf(mOrderDetailResult.getCreateTime()), new SimpleDateFormat("yyyyMM"))));
                 break;
@@ -220,7 +223,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
                 mTvPayNow.setVisibility(View.GONE);
                 mTvRefundOrder.setVisibility(View.GONE);
             }
-            mTvLogisticsQuery.setVisibility(sta == OrderUtils.DELIVER ? View.VISIBLE : View.GONE);
+            mTvLogisticsQuery.setVisibility(mOrderDetailResult.getLogisticsNos().size() > 0 ? View.VISIBLE : View.GONE);
+//            mTvLogisticsQuery.setVisibility(sta == OrderUtils.DELIVER ? View.VISIBLE : View.GONE);
             mLlBottom.setVisibility(mTvCancelOrder.getVisibility() == View.GONE && mTvPayNow.getVisibility() == View.GONE && mTvRefundOrder.getVisibility() == View.GONE ? View.GONE : View.VISIBLE);
 
         } else {

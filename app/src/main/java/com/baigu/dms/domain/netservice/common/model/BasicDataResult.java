@@ -3,6 +3,7 @@ package com.baigu.dms.domain.netservice.common.model;
 import com.baigu.dms.domain.model.Bank;
 import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.domain.model.City;
+import com.baigu.dms.domain.model.ExclusiveGroups;
 import com.baigu.dms.domain.model.Express;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public class BasicDataResult {
 
     public List<BankType> bankList;
 
+    public List<ExclusiveGroups> exclusiveGroups;
     public int version;
 }

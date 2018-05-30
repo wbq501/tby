@@ -8,10 +8,12 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import com.baigu.dms.domain.model.ExclusiveGroups;
 import com.baigu.dms.domain.model.Express;
 import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.domain.model.City;
 
+import com.baigu.dms.domain.db.dao.ExclusiveGroupsDao;
 import com.baigu.dms.domain.db.dao.ExpressDao;
 import com.baigu.dms.domain.db.dao.BankTypeDao;
 import com.baigu.dms.domain.db.dao.CityDao;
@@ -25,10 +27,12 @@ import com.baigu.dms.domain.db.dao.CityDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig exclusiveGroupsDaoConfig;
     private final DaoConfig expressDaoConfig;
     private final DaoConfig bankTypeDaoConfig;
     private final DaoConfig cityDaoConfig;
 
+    private final ExclusiveGroupsDao exclusiveGroupsDao;
     private final ExpressDao expressDao;
     private final BankTypeDao bankTypeDao;
     private final CityDao cityDao;
@@ -36,6 +40,9 @@ public class DaoSession extends AbstractDaoSession {
     public DaoSession(Database db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
         super(db);
+
+        exclusiveGroupsDaoConfig = daoConfigMap.get(ExclusiveGroupsDao.class).clone();
+        exclusiveGroupsDaoConfig.initIdentityScope(type);
 
         expressDaoConfig = daoConfigMap.get(ExpressDao.class).clone();
         expressDaoConfig.initIdentityScope(type);
@@ -46,19 +53,26 @@ public class DaoSession extends AbstractDaoSession {
         cityDaoConfig = daoConfigMap.get(CityDao.class).clone();
         cityDaoConfig.initIdentityScope(type);
 
+        exclusiveGroupsDao = new ExclusiveGroupsDao(exclusiveGroupsDaoConfig, this);
         expressDao = new ExpressDao(expressDaoConfig, this);
         bankTypeDao = new BankTypeDao(bankTypeDaoConfig, this);
         cityDao = new CityDao(cityDaoConfig, this);
 
+        registerDao(ExclusiveGroups.class, exclusiveGroupsDao);
         registerDao(Express.class, expressDao);
         registerDao(BankType.class, bankTypeDao);
         registerDao(City.class, cityDao);
     }
     
     public void clear() {
+        exclusiveGroupsDaoConfig.clearIdentityScope();
         expressDaoConfig.clearIdentityScope();
         bankTypeDaoConfig.clearIdentityScope();
         cityDaoConfig.clearIdentityScope();
+    }
+
+    public ExclusiveGroupsDao getExclusiveGroupsDao() {
+        return exclusiveGroupsDao;
     }
 
     public ExpressDao getExpressDao() {

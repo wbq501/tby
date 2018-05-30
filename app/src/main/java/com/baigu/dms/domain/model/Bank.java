@@ -16,12 +16,13 @@ import org.greenrobot.greendao.annotation.Property;
 public class Bank implements Parcelable{
 
     private String id;
-    private  String name;
-    private  String bankAccount;
+    private String name;
+    private String bankAccount;
     private String icon;
     private String bankCode;
     private String bankOpenName;
     private String bankName;
+    private String remarks;
 
 
 
@@ -82,7 +83,15 @@ public class Bank implements Parcelable{
         this.bankName = bankName;
     }
 
-    public Bank(String id, String name, String bankAccount, String icon, String bankCode, String bankOpenName, String bankName) {
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public Bank(String id, String name, String bankAccount, String icon, String bankCode, String bankOpenName, String bankName,String remarks) {
         this.id = id;
         this.name = name;
         this.bankAccount = bankAccount;
@@ -90,6 +99,7 @@ public class Bank implements Parcelable{
         this.bankCode = bankCode;
         this.bankOpenName = bankOpenName;
         this.bankName = bankName;
+        this.remarks = remarks;
     }
 
     public Bank() {
@@ -109,6 +119,7 @@ public class Bank implements Parcelable{
         parcel.writeString(bankCode);
         parcel.writeString(bankOpenName);
         parcel.writeString(bankName);
+        parcel.writeString(remarks);
     }
 
     protected Bank(Parcel in) {
@@ -119,6 +130,7 @@ public class Bank implements Parcelable{
         bankCode = in.readString();
         bankOpenName = in.readString();
         bankName = in.readString();
+        remarks = in.readString();
     }
 
     public static final Creator<Bank> CREATOR = new Creator<Bank>() {

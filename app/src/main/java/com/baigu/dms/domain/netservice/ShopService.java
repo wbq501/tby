@@ -57,7 +57,7 @@ public interface ShopService {
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("shop/api/scOrder/logisticsReckon")
 //    Call<BaseResponse<String>> expressCompute(@Field("provinceId") String provinceId, @Field("cityId") String cityId, @Field("areaId") String areaId, @Field("logisticsId") String logisticsId, @Field("goodsList") String goodsList);
-    Call<BaseResponse<String>> expressCompute(@Body RequestBody body);
+    Call<BaseResponse<List<Double>>> expressCompute(@Body RequestBody body);
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("shop/api/scOrder/checkGoodsStock")

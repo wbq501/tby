@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.adapter.SkuDialogAdapter;
+import com.baigu.dms.common.utils.BuyGoodsType;
 import com.baigu.dms.common.utils.OnItemClickListener;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.domain.cache.ShopCart;
@@ -120,6 +121,7 @@ public class SkuDialog extends Dialog {
 //        number.setMaxNum(goods.getSkus().get(0).getStocknum());
 
         number.setCurrNum(mapNumber.get(goods.getSkus().get(0).getSkuId()));
+        number.setSku(goods.getSkus().get(0));
         tvTitle.setText(goods.getGoodsname());
 
         tvSeletOK.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +158,7 @@ public class SkuDialog extends Dialog {
 //                if (amount == sku.getStocknum()){
                 if (amount == buynum(sku.getStocknum(),sku.getMaxCount())){
                     if (isshow) {
-                        ViewUtils.showToastSuccess("库存不足");
+                        ViewUtils.showToastSuccess(R.string.maxbuy_num);
                         isshow = false;
                     }
                 }
@@ -196,6 +198,7 @@ public class SkuDialog extends Dialog {
             @Override
             public void OnItemClick(View view, int position) {
                 isshow = true;
+                number.setSku(goods.getSkus().get(position));
                 number.setMaxNum(buynum(goods.getSkus().get(position).getStocknum(),goods.getSkus().get(position).getMaxCount()));
             }
         });
@@ -207,7 +210,7 @@ public class SkuDialog extends Dialog {
      */
     private int buynum(int stocknum,int maxCount){
         int buynum;
-        if (stocknum > maxCount){
+        if (stocknum > maxCount && maxCount != 0){
             buynum = maxCount;
         }else {
             buynum = stocknum;

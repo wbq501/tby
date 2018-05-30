@@ -11,6 +11,7 @@ import com.baigu.dms.domain.db.DBCore;
 import com.baigu.dms.domain.db.RepositoryFactory;
 import com.baigu.dms.domain.db.repository.BankTypeRepository;
 import com.baigu.dms.domain.db.repository.CityRepository;
+import com.baigu.dms.domain.db.repository.ExclusiveGroupsRepository;
 import com.baigu.dms.domain.db.repository.ExpressRepository;
 import com.baigu.dms.domain.model.BrandStory;
 import com.baigu.dms.domain.model.ShareInfo;
@@ -94,6 +95,15 @@ public class HomePreseterImpl extends BasePresenterImpl implements HomePresenter
                                 if (repository != null) {
                                     repository.deleteAll();
                                     repository.saveOrUpdate(basicDataResult.areaList);
+                                }
+                            }
+
+                            //互斥规则
+                            if (basicDataResult.exclusiveGroups != null && basicDataResult.exclusiveGroups.size() >0){
+                                ExclusiveGroupsRepository exclusiveGroupRepository = RepositoryFactory.getInstance().getExclusiveGroupRepository();
+                                if (exclusiveGroupRepository != null){
+                                    exclusiveGroupRepository.deleteAll();
+                                    exclusiveGroupRepository.saveOrUpdate(basicDataResult.exclusiveGroups);
                                 }
                             }
                         }

@@ -81,6 +81,7 @@ public class ExpressSelectorActivity extends BaseActivity implements ExpressSele
         Express express = mExpressAdapter.getItem(position);
         Intent intent = getIntent();
         intent.putExtra("express", express);
+        intent.putExtra("expressValue",express.getValue());
         setResult(RESULT_OK, intent);
         finish();
     }

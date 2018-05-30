@@ -1,7 +1,10 @@
 package com.baigu.dms.adapter;
 
 import android.app.Activity;
+
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,13 +17,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.BuyGoodsType;
+import com.baigu.dms.common.utils.SPUtils;
 import com.baigu.dms.common.utils.StringUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.view.ConfirmDialog;
 import com.baigu.dms.common.view.NumberView;
 import com.baigu.dms.common.view.SkuDialog;
 import com.baigu.dms.domain.cache.ShopCart;
+import com.baigu.dms.domain.db.RepositoryFactory;
+import com.baigu.dms.domain.model.ExclusiveGroups;
 import com.baigu.dms.domain.model.Goods;
+import com.baigu.dms.domain.model.GoodsCategory;
 import com.baigu.dms.domain.model.ShopPictrue;
 import com.baigu.dms.domain.model.Sku;
 import com.bumptech.glide.Glide;
@@ -30,8 +38,11 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GoodsAdapter extends BaseRVAdapter<Goods> {
     public Activity mActivity;
@@ -67,7 +78,7 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_goods, parent, false);
-        return new GoodsAdapter.ItemViewHolder(view);
+        return new ItemViewHolder(view);
     }
 
     @Override
@@ -127,11 +138,6 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
                 }
             }
         }
-//        itemViewHolder.tvGoodsWeight.setText("/" + StringUtils.getWeightString(goods.getGoodsweight()));
-//        itemViewHolder.tvGoodsStock.setText(context.getString(R.string.stock_label, String.valueOf(goods.getStocknum())));
-//        itemViewHolder.tvGoodsStock.setVisibility(goods.getIsshow() == Goods.StockShowType.SHOW ? View.VISIBLE : View.GONE);
-//        itemViewHolder.numberView.setMaxNum(goods.getStocknum());
-
         if (goods.getSkus().size() > 0) {
             itemViewHolder.numberView.setMaxNum(goods.getSkus().get(0).getStocknum());
         }
@@ -144,7 +150,9 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
         }
         if (goods.getSkus().size() == 1) {
             itemViewHolder.numberView.setCurrNum(goods.getSkus().get(0).getNumber());
+            itemViewHolder.numberView.setSku(goods.getSkus().get(0));
         }
+
 
         if (goods.getStocknum() > 0) {
             itemViewHolder.numberView.setVisibility(View.VISIBLE);
@@ -188,7 +196,6 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
                 dialog.setCancelListener(new SkuDialog.CancelListener() {
                     @Override
                     public void UnmberUpData(List<Sku> skus) {
-//                        goods.setSkus(skus);
                         if (mOnGoodsAmountChangeListener != null) {
                             mOnGoodsAmountChangeListener.onAmountChanged(skus, position);
                         }
@@ -205,9 +212,7 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
         ImageView ivGoods;
         TextView tvGoodsName;
         TextView tvGoodsPrice;
-//        TextView tvGoodsStock;
         NumberView numberView;
-        //        TextView tvCategory;
         Button tvGoodsSku;
         TextView tvSkuNumber;
 
@@ -216,10 +221,7 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
             ivGoods = (ImageView) itemView.findViewById(R.id.iv_goods);
             tvGoodsName = (TextView) itemView.findViewById(R.id.tv_goods_name);
             tvGoodsPrice = (TextView) itemView.findViewById(R.id.tv_goods_price);
-//            tvGoodsWeight = (TextView) itemView.findViewById(R.id.tv_goods_weight);
-//            tvGoodsStock = (TextView) itemView.findViewById(R.id.tv_goods_stock);
             numberView = (NumberView) itemView.findViewById(R.id.number_view);
-//            tvCategory = (TextView) itemView.findViewById(R.id.tv_category);
             tvGoodsSku = (Button) itemView.findViewById(R.id.tv_goods_sku);
             tvSkuNumber = (TextView) itemView.findViewById(R.id.tv_sku_number);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +243,14 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
 
         @Override
         public boolean onAbleChanged(int mCurrNum) {
+            if (mCurrNum >= buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount())){
+                if (goods.getShow()){
+                    goods.setShow(false);
+                    ViewUtils.showToastError(R.string.maxbuy_num);
+                    notifyDataSetChanged();
+                }
+                return false;
+            }
             if (mConfirmDialog == null) {
                 mConfirmDialog = new ConfirmDialog(mActivity, "");
                 mConfirmDialog.setHideCancel(true);
@@ -256,12 +266,30 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
 
         @Override
         public void onNumChanged(int amount) {
+            if (amount < buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount())){
+                goods.setShow(true);
+                notifyDataSetChanged();
+            }
             goods.getSkus().get(0).setNumber(amount);
             ShopCart.addGoods(goods);
             if (mOnGoodsAmountChangeListener != null) {
                 mOnGoodsAmountChangeListener.onAmountChanged();
             }
         }
+    }
+
+    /**
+     * 2018.5.24
+     * 购买最大数量不超过库存
+     */
+    private int buynum(int stocknum,int maxCount){
+        int buynum;
+        if (stocknum > maxCount && maxCount != 0){
+            buynum = maxCount;
+        }else {
+            buynum = stocknum;
+        }
+        return buynum;
     }
 
     public interface OnGoodsAmountChangeListener {

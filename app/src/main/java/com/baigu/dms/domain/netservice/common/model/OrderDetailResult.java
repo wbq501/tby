@@ -33,6 +33,7 @@ public class OrderDetailResult implements Parcelable {
     private List<OrderGoods> goodsList;
     private  String remark;
     private String refundReason;
+    private List<String> logisticsNos;
 
     public OrderDetail getOrder() {
         return order;
@@ -168,6 +169,14 @@ public class OrderDetailResult implements Parcelable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<String> getLogisticsNos() {
+        return logisticsNos;
+    }
+
+    public void setLogisticsNos(List<String> logisticsNos) {
+        this.logisticsNos = logisticsNos;
     }
 
     @Override

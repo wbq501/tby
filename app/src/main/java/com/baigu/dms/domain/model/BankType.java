@@ -19,14 +19,17 @@ public class BankType implements Parcelable {
     private String id;
     private String name;
     private String value;
+    private String remarks;
     private int type;
     private int sort;
 
-    @Generated(hash = 1038029507)
-    public BankType(String id, String name, String value, int type, int sort) {
+    @Generated(hash = 26720188)
+    public BankType(String id, String name, String value, String remarks, int type,
+            int sort) {
         this.id = id;
         this.name = name;
         this.value = value;
+        this.remarks = remarks;
         this.type = type;
         this.sort = sort;
     }
@@ -59,6 +62,14 @@ public class BankType implements Parcelable {
         this.value = value;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public int getType() {
         return type;
     }
@@ -79,6 +90,7 @@ public class BankType implements Parcelable {
         id = in.readString();
         name = in.readString();
         value = in.readString();
+        remarks = in.readString();
         type = in.readInt();
         sort = in.readInt();
     }
@@ -88,6 +100,7 @@ public class BankType implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(value);
+        dest.writeString(remarks);
         dest.writeInt(type);
         dest.writeInt(sort);
     }
