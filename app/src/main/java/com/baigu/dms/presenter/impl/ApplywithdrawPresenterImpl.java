@@ -47,8 +47,13 @@ public class ApplywithdrawPresenterImpl extends BasePresenterImpl implements App
                     result.setCode(bankResponse != null && bankResponse.body() != null ? bankResponse.body().getCode() : -1);
                     if (bankResponse != null && bankResponse.body() != null && bankResponse.body().getStatus().equals(BaseResponse.SUCCESS)) {
 //                        result.setResult(bankResponse.body().getData().toString());
-                        result.setResult(bankResponse.body().getStatus());
-
+                        result.setResult(mActivity.getString(R.string.withdraw_success));
+                    }else {
+                        if (bankResponse.body().getCode() < 0){
+                            result.setResult(bankResponse.body().getMessage());
+                        }else {
+                            result.setResult(mActivity.getString(R.string.withdraw_success));
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

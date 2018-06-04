@@ -144,11 +144,13 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
         mEtMsgCode = findView(R.id.et_msg_code);
         mEtMsgCode.addTextChangedListener(this);
         mEtRealname = findView(R.id.et_realname);
+        mEtRealname.addTextChangedListener(this);
 //        mEtBankType = findView(R.id.et_bank_type);
 //        mEtBankType.setOnClickListener(this);
 //        mEtBank = findView(R.id.et_bank);
 //        mEtAlipay = findView(R.id.et_alipay);
         mEtWeixin = findView(R.id.et_weixin);
+        mEtWeixin.addTextChangedListener(this);
 
         mBtnCode = findView(R.id.btn_msg_code);
         mBtnCode.setOnClickListener(this);
@@ -294,7 +296,7 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
             ViewUtils.showToastInfo(R.string.invite_code_error);
             return;
         }
-        if (password.length() < 6 || password.length() > 20) {
+        if (password.length() < 6 || password.length() > 30) {
             ViewUtils.showToastInfo(R.string.input_tip_tel_pwd_length_error);
             return;
         }

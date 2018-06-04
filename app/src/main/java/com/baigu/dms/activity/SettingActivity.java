@@ -83,24 +83,24 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_update_pay_pwd:
                 User user = UserCache.getInstance().getUser();
                 String idcardstatus = user.getIdcardstatus();
-                startActivity(new Intent(this, UpdatePayPasswdActivity.class));
-//                if (idcardstatus.equals("1")){
-//                }else{
-//                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//                    dialog.setMessage(R.string.go_realname).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (dialog != null)
-//                                dialog.dismiss();
-//                        }
-//                    }).setPositiveButton(R.string.go_finish, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            startActivity(new Intent(SettingActivity.this, WalletActivity.class));
-//                        }
-//                    }).create();
-//                    dialog.show();
-//                }
+                if (idcardstatus.equals("1")){
+                    startActivity(new Intent(this, UpdatePayPasswdActivity.class));
+                }else{
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.setMessage(R.string.go_realname).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (dialog != null)
+                                dialog.dismiss();
+                        }
+                    }).setPositiveButton(R.string.go_finish, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(SettingActivity.this, WalletActivity.class));
+                        }
+                    }).create();
+                    dialog.show();
+                }
                 break;
             case R.id.tv_faze_mode:
                 startActivity(new Intent(this, FazeModeActivity.class));

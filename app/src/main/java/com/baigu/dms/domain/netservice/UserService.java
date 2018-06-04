@@ -51,7 +51,12 @@ public interface UserService {
 
     @POST("c/api/cmembers/updatePayPwd")
     @FormUrlEncoded
-    Call<BaseResponse> updatePayPasswd(@Field("phone") String phone, @Field("pwd") String pwd, @Field("code") String code);
+    Call<BaseResponse> updatePayPasswd(@Field("phone") String phone, @Field("pwd") String pwd, @Field("code") String code,@Field("originPwd") String originPwd);
+
+    @POST("c/api/cmembers/resetPayPwd")
+    @FormUrlEncoded
+    Call<BaseResponse> resetPayPwd(@Field("phone") String phone, @Field("pwd") String pwd, @Field("code") String code,@Field("idCard") String idCard);
+
 
     @POST("c/api/cmembers/getCode")
     @FormUrlEncoded

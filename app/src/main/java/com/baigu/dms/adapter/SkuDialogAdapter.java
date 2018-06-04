@@ -68,10 +68,17 @@ public class SkuDialogAdapter extends BaseRVAdapter<Sku> {
             ((MyHolder) holder).skunName.setBackground(context.getResources().getDrawable(R.drawable.bg_btn_goods_specification_unselecte));
         }
 
+//        if (sku.getNumber() > 0){
+//            ((MyHolder) holder).number.setText(sku.getNumber()+"");
+//            ((MyHolder) holder).number.setVisibility(View.VISIBLE);
+//        }else {
+//            ((MyHolder) holder).number.setVisibility(View.GONE);
+//        }
+
         if( mapNumber != null && mapNumber.containsKey(getDataList().get(position).getSkuId()) ){
             if(mapNumber.get(getDataList().get(position).getSkuId())>0){
-            ((MyHolder) holder).number.setText(mapNumber.get(getDataList().get(position).getSkuId())+"");
-            ((MyHolder) holder).number.setVisibility(View.VISIBLE);
+                ((MyHolder) holder).number.setText(mapNumber.get(getDataList().get(position).getSkuId())+"");
+                ((MyHolder) holder).number.setVisibility(View.VISIBLE);
             }else{
                 ((MyHolder) holder).number.setVisibility(View.GONE);
             }
@@ -118,6 +125,8 @@ public class SkuDialogAdapter extends BaseRVAdapter<Sku> {
         public void onClick(View view) {
             setSelsed(getLayoutPosition());
             if(numberView!= null){
+//                List<Sku> dataList = getDataList();
+//                numberView.setCurrNum(dataList.get(getLayoutPosition()).getNumber());
                 numberView.setCurrNum(mapNumber.get(getDataList().get(getLayoutPosition()).getSkuId()));
             }
             if(listener != null){

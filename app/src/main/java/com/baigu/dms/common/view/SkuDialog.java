@@ -50,11 +50,12 @@ public class SkuDialog extends Dialog {
     boolean isshow = true;
 
     public void setData(Goods goods) {
-        sortSku(goods);
+//        sortSku(goods);
         this.goods = goods;
 
     }
 
+    //排序
     private void sortSku(Goods goods) {
         List<Sku> skuList = goods.getSkus();
         for (int i = 0; i < skuList.size(); i++) {
@@ -210,10 +211,10 @@ public class SkuDialog extends Dialog {
      */
     private int buynum(int stocknum,int maxCount){
         int buynum;
-        if (stocknum > maxCount && maxCount != 0){
-            buynum = maxCount;
-        }else {
+        if (maxCount == 0){
             buynum = stocknum;
+        }else {
+            buynum = stocknum > maxCount ? maxCount : stocknum;
         }
         return buynum;
     }

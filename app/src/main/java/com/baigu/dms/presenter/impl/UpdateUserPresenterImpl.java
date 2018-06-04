@@ -237,7 +237,7 @@ public class UpdateUserPresenterImpl extends BasePresenterImpl implements Update
 
 
     @Override
-    public void updatePayPasswd(String phone, String passwd, String code) {
+    public void updatePayPasswd(String oldpsd, String phone, String passwd, String code) {
         addDisposable(new BaseAsyncTask<String, Void, String>(mActivity, true) {
             @Override
             protected void onPreExecute() {
@@ -256,7 +256,7 @@ public class UpdateUserPresenterImpl extends BasePresenterImpl implements Update
                         RSAEncryptor encryptor = new RSAEncryptor();
                         encryptor.loadPublicKey(keyResponse.body().getData());
                         String pwdEncrypt = encryptor.encryptWithBase64(params[1]);
-                        Call<BaseResponse> updateCall = ServiceManager.createGsonService(UserService.class).updatePayPasswd(params[0], pwdEncrypt, params[2]);
+                        Call<BaseResponse> updateCall = ServiceManager.createGsonService(UserService.class).updatePayPasswd(params[0], pwdEncrypt, params[2],params[3]);
                         Response<BaseResponse> updateResponse = updateCall.execute();
                         if (updateResponse != null && updateResponse.body() != null) {
                             if (BaseResponse.SUCCESS.equals(updateResponse.body().getStatus())) {
@@ -294,7 +294,7 @@ public class UpdateUserPresenterImpl extends BasePresenterImpl implements Update
                     mUserUpdateView.onUpdateUser(false);
                 }
             }
-        }.execute(phone, passwd, code));
+        }.execute(phone, passwd, code,oldpsd));
     }
 
     private boolean updateUser(String ids, String nick, String email, String wx_account) {

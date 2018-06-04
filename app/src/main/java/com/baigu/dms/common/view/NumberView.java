@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -126,13 +127,12 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                     return;
                 }
 
-                if (!BuyGoodsType.isBuy(getSku(),false,false)){
-                    ViewUtils.showToastError(R.string.buy_type);
-                    return;
-                }
-
                 if (mCurrNum < mMaxNum) {
                     mCurrNum++;
+                    if (!BuyGoodsType.isBuy(getSku(),false,false)){
+                        ViewUtils.showToastError(R.string.buy_type);
+                        return;
+                    }
                 }
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {

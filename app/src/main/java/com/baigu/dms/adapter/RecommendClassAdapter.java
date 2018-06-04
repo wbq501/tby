@@ -2,11 +2,13 @@ package com.baigu.dms.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
@@ -61,6 +63,12 @@ public class RecommendClassAdapter extends BaseRVAdapter<RecommendClass> {
             super(itemView);
             icon = itemView.findViewById(R.id.iv_recommend);
             mclass = itemView.findViewById(R.id.tv_description);
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+            int widthPixels = displayMetrics.widthPixels;
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) icon.getLayoutParams();
+            params.weight = widthPixels/4;
+            params.height = widthPixels/4-20;
+            icon.setLayoutParams(params);
             itemView.setOnClickListener(this);
         }
 

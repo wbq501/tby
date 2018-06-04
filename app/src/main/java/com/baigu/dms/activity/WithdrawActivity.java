@@ -158,11 +158,10 @@ public class WithdrawActivity extends BaseActivity implements ApplywithdrawPrese
 
     @Override
     public void OngetMyMoney(String result) {
-        if (result != null){
-            ViewUtils.showToastSuccess(R.string.withdraw_success);
+        ViewUtils.showToastError(result);
+        String change_success = getString(R.string.change_success);
+        if (result.equals(change_success)){
             finish();
-        }else {
-            ViewUtils.showToastError(R.string.withdraw_fail);
         }
     }
 

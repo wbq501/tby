@@ -11,7 +11,7 @@ public interface UpdateUserPresenter extends BasePresenter {
     void updateEmail(String email);
     void updateWeixin(String weixin);
     void updatePasswd(String oldPasswd, String newPasswd);
-    void updatePayPasswd(String phone, String passwd, String code);
+    void updatePayPasswd(String oldpwd, String phone, String passwd, String code);
 
 
     interface UpdateUserView {

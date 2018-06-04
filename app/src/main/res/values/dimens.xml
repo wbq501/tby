@@ -22,4 +22,7 @@
     <dimen name="line_height_small">0.2dp</dimen>
     <dimen name="line_height">0.5dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- 边距10dp -->
+    <dimen name="margin_size">10dp</dimen>
 </resources>

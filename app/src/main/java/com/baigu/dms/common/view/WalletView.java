@@ -171,9 +171,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                     case User.IDCardStatus.VERIFY_FAILED:
                         dialog.show();
                         break;
-
                 }
-
                 break;
             case R.id.ll_certification:
 
@@ -191,6 +189,8 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                 switch (idcardstatus) {
                     case User.IDCardStatus.VERIFY_SUCCESS:
                         Intent intent = new Intent(getContext(), WithdrawActivity.class);
+                        if (money == null)
+                            return;
                         intent.putExtra("money",money.getAmount());
                         getContext().startActivity(intent);
                         break;
@@ -200,9 +200,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                     case User.IDCardStatus.VERIFY_FAILED:
                         dialog.show();
                         break;
-
                 }
-
                 break;
             case R.id.ll_security:
                 switch (idcardstatus) {
@@ -215,11 +213,8 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                     case User.IDCardStatus.VERIFY_FAILED:
                         dialog.show();
                         break;
-
                 }
-
                 break;
-
             case R.id.btn_next:
                 getContext().startActivity(new Intent(getContext(), CertificationStep1Activity.class));
                 break;

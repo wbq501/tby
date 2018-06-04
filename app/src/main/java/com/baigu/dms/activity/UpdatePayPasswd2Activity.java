@@ -17,13 +17,15 @@ import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.view.SwitchButton;
 import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.model.User;
+import com.baigu.dms.presenter.ChangePayPresenter;
 import com.baigu.dms.presenter.SMSCodePresenter;
+import com.baigu.dms.presenter.impl.ChangePayPresenterImpl;
 import com.baigu.dms.presenter.impl.SMSCodePresenterImpl;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnClickListener,SMSCodePresenter.SMSCodeView{
+public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnClickListener,SMSCodePresenter.SMSCodeView,ChangePayPresenter.ChangePayView{
     public static final int FLAG_COUNTING = 1001;
     public static final int FLAG_COUNT_FINISH = 1002;
 
@@ -36,6 +38,7 @@ public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnCli
     private Timer mTimer;
     private int mTimeCount = Constants.AUTH_CODE_TIME;
     private SMSCodePresenter mSMSCodePresenter;
+    private ChangePayPresenter changePayPresenter;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -70,6 +73,7 @@ public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnCli
         setTitle(R.string.forget_pay_passwd);
         initView();
         mSMSCodePresenter = new SMSCodePresenterImpl(this, this);
+        changePayPresenter = new ChangePayPresenterImpl(this,this);
     }
 
     private void initView() {
@@ -128,10 +132,10 @@ public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnCli
             ViewUtils.showToastError(R.string.input_tip_idcard);
             return;
         }
-//        if (!idcard.equals(user.getIdcard())){
-//            ViewUtils.showToastError(R.string.is_idcard);
-//            return;
-//        }
+        if (!idcard.equals(user.getIdcard())){
+            ViewUtils.showToastError(R.string.is_idcard);
+            return;
+        }
         if (phonenum.length() != 11){
             ViewUtils.showToastError(R.string.input_tip_take_phone);
             return;
@@ -152,7 +156,7 @@ public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnCli
             ViewUtils.showToastError(R.string.tip_msg_code);
             return;
         }
-        ViewUtils.showToastSuccess("修改成功");
+        changePayPresenter.resetpay(phonenum,code,passd,idcard);
     }
 
     @Override
@@ -239,6 +243,19 @@ public class UpdatePayPasswd2Activity extends BaseActivity implements View.OnCli
     public void onSendSMSCode(boolean result, String phone) {
         if (!result) {
             clearCounter();
+        }
+    }
+
+    @Override
+    public void changePayState(String state) {
+        if (TextUtils.isEmpty(state)){
+            ViewUtils.showToastSuccess("修改失败");
+            return;
+        }
+        ViewUtils.showToastSuccess(state);
+        String change_success = getString(R.string.change_success);
+        if (state.equals(change_success)){
+            finish();
         }
     }
 }

@@ -249,6 +249,13 @@ public class UpdatePayPasswdActivity extends BaseActivity implements UpdateUserP
     }
 
     private void save() {
+        if (type == 0){
+            if (TextUtils.isEmpty(et_old_passwd.getText().toString().trim())){
+                ViewUtils.showToastError(R.string.input_tip_passwd_old);
+                return;
+            }
+        }
+
         if (TextUtils.isEmpty(mEtPasswd.getText().toString().trim())) {
             ViewUtils.showToastError(R.string.input_tip_passwd);
             return;
@@ -268,7 +275,7 @@ public class UpdatePayPasswdActivity extends BaseActivity implements UpdateUserP
                 ViewUtils.showToastError(R.string.input_tip_msg_code);
                 return;
             }
-            mUpdateUserPresenter.updatePayPasswd(UserCache.getInstance().getUser().getCellphone(), mEtPasswd.getText().toString().trim(), mEtMsgCode.getText().toString().trim());
+            mUpdateUserPresenter.updatePayPasswd(et_old_passwd.getText().toString().trim(),UserCache.getInstance().getUser().getCellphone(), mEtPasswd.getText().toString().trim(), mEtMsgCode.getText().toString().trim());
         }
 
 
@@ -301,7 +308,6 @@ public class UpdatePayPasswdActivity extends BaseActivity implements UpdateUserP
 
     @Override
     public void onSaveIDCard(boolean b) {
-
         if (!b) {
             ViewUtils.showToastError(getString(R.string.init_pwd_failed));
             return;

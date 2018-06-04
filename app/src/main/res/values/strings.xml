@@ -92,7 +92,7 @@
     <string name="complete">已收货</string>
 
     <string name="my_reward">我的销量</string>
-    <string name="wallet">我的谭豆儿</string>
+    <string name="wallet">我的钱包</string>
     <string name="coupon">抵用券</string>
     <string name="my_qrcode">我的二维码</string>
     <string name="my_invitation">我的邀请</string>
@@ -118,8 +118,8 @@
     <string name="tel_num">手机号</string>
     <string name="new_tel_num">新手机号</string>
     <string name="pls_input_tel">请输入11位手机号码</string>
-    <string name="pls_input_passwd_register">请输入密码(6-16位)</string>
-    <integer name="passwd_length">16</integer>
+    <string name="pls_input_passwd_register">请输入密码(6-30位)</string>
+    <integer name="passwd_length">30</integer>
     <integer name="paypasswd_length">6</integer>
     <string name="get_msg_code">获取验证码</string>
     <string name="pls_reget_msg_code">请重新获取短信验证码</string>
@@ -267,7 +267,7 @@
     <string name="completed">已确认</string>
     <string name="unverify">待确认</string>
     <string name="verify">确认</string>
-    <string name="all_money">总颗数</string>
+    <string name="all_money">总金额</string>
     <string name="bank_card_manager">银行卡</string>
     <string name="certification">实名认证</string>
     <string name="withdraw_request">提现申请</string>
@@ -345,7 +345,7 @@
     <string name="query_logistics">查看物流信息</string>
 
     <string name="input_tip_tel_length_error">手机号码格式不正确</string>
-    <string name="input_tip_tel_pwd_length_error">密码不能少于6位或大于20位</string>
+    <string name="input_tip_tel_pwd_length_error">密码不能少于6位或大于30位</string>
     <string name="input_tip_tel_passwd">手机号、密码不能为空 </string>
     <string name="input_tip_msg_code">请输入您收到的短信验证码</string>
     <string name="input_tip_name_passwd">请输入用户名和密码</string>
@@ -378,6 +378,7 @@
     <string name="input_tip_passwd">请输入新密码</string>
     <string name="input_tip_new_passwd_again">请再次输入新密码</string>
     <string name="input_tip_passwd_again">请再次输入密码</string>
+    <string name="input_tip_passwd_old">请输入原始密码</string>
     <string name="input_tip_new_old_passwd_not_same">两次输入的新密码不一致</string>
     <string name="input_tip_product_keyword">请输入产品关键字</string>
     <string name="input_tip_gesture_psd">请输入手势锁密码</string>
@@ -403,6 +404,7 @@
     <string name="withdraw_money_max">您的可提现金额为</string>
     <string name="history_record">历史记录</string>
     <string name="withdraw_record">提现记录</string>
+    <string name="transaction_record">交易记录</string>
     <string name="withdraw_now">立即提现</string>
 
     <!-- Gesture code starting -->
@@ -500,4 +502,8 @@
     <string name="maxbuy_num">超过购买限制</string>
     <string name="query">确定</string>
     <string name="buy_type">购买规格限制</string>
+    <string name="withdrew_history_no">您好没有相关提现记录</string>
+    
+    <string name="express_support">所选地区不支持该快递</string>
+    <string name="change_success">修改成功</string>
 </resources>

@@ -184,12 +184,12 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
     @Override
     public void onResume() {
         super.onResume();
+        if (mCategory != null) {
+            changeCategoryNumber();
+        }
         if (mGoodsAdapter != null) {
             onShopCartChanged();
             mGoodsAdapter.notifyDataSetChanged();
-        }
-        if (mCategory != null) {
-            changeCategoryNumber();
         }
     }
 
@@ -428,6 +428,12 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                 category.setNumber(0);
             }
             SPUtils.clearBuyType();
+            for (int i = 0; i < mgoodsList.size(); i++){
+                List<Sku> skus = mgoodsList.get(i).getSkus();
+                for (int j = 0; j < skus.size(); j++){
+                    skus.get(j).setNumber(0);
+                }
+            }
         }
 
         mGoodsCategoryAdater.notifyDataSetChanged();

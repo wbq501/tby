@@ -393,6 +393,17 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
+        if (expressPrice.size() == 1){
+            ViewUtils.showToastError(R.string.express_support);
+            mTvSelectExpress.setText("");
+            mTvSelectExpress.setTag(null);
+            mTvExpressPrice.setText("");
+            char symbol = 165;
+            double totalPrice = computeGoodsPrice();
+            mTvTotalPrice.setText(String.valueOf(symbol) + totalPrice);
+            return;
+        }
+
         char symbol = 165;
         mTotalPrice = computeGoodsPrice() + expressPrice.get(0) + expressPrice.get(1);
         mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",mTotalPrice));

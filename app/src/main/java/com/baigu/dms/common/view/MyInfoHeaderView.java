@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.activity.MyInfoActivity;
+import com.baigu.dms.activity.WithdrawRecordActivity;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.model.Advert;
@@ -35,6 +36,7 @@ public class MyInfoHeaderView extends FrameLayout {
     private ImageView mIvHead;
     private TextView mTvNickname;
     private TextView mTvPhone;
+    private TextView tv_integral;
 
     public MyInfoHeaderView(@NonNull Context context) {
         super(context);
@@ -70,6 +72,16 @@ public class MyInfoHeaderView extends FrameLayout {
         mIvHead = (ImageView) view.findViewById(R.id.iv_head);
         mTvNickname = (TextView) view.findViewById(R.id.tv_nickname);
         mTvPhone = (TextView) view.findViewById(R.id.tv_phone);
+        tv_integral = view.findViewById(R.id.tv_integral);
+        TextView tv_payhistory = view.findViewById(R.id.tv_payhistory);
+        tv_payhistory.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), WithdrawRecordActivity.class);
+                intent.putExtra("isHistory",false);
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     public void setData(List<Advert> adList) {
@@ -85,6 +97,7 @@ public class MyInfoHeaderView extends FrameLayout {
 
         mTvNickname.setText(user.getNick());
         mTvPhone.setText(user.getCellphone());
+        tv_integral.setText("我的积分");
     }
 
     public void onUpdateHead() {

@@ -4,6 +4,7 @@ import com.baigu.dms.domain.model.Bank;
 import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.domain.model.CertificationResult;
 import com.baigu.dms.domain.model.Money;
+import com.baigu.dms.domain.model.WithdrawHistory;
 import com.baigu.dms.domain.netservice.response.BaseResponse;
 
 import java.math.BigDecimal;
@@ -64,4 +65,12 @@ public interface WalletService {
     @POST("/c/api/capplywithdraw/applywithdraw")
     @FormUrlEncoded
     Call<BaseResponse> applywithdraw(@Field("pwd") String pwd, @Field("money") String money,@Field("bankid") String bankid);
+
+    @POST("c/api/capplywithdraw/withdrawRecord")
+    @FormUrlEncoded
+    Call<BaseResponse<List<WithdrawHistory>>> withdrawRecord(@Field("memberId") String memberId,@Query("offset") int pageNum);
+
+    @POST("c/api/cwalletstream/detail")
+    @FormUrlEncoded
+    Call<BaseResponse<List<WithdrawHistory>>> detail(@Field("memberId") String memberId,@Query("offset") int pageNum);
 }

@@ -149,8 +149,8 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
             goods.setBuyNum(cartGoods.getBuyNum());
         }
         if (goods.getSkus().size() == 1) {
-            itemViewHolder.numberView.setCurrNum(goods.getSkus().get(0).getNumber());
             itemViewHolder.numberView.setSku(goods.getSkus().get(0));
+            itemViewHolder.numberView.setCurrNum(goods.getSkus().get(0).getNumber());
         }
 
 
@@ -284,10 +284,10 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
      */
     private int buynum(int stocknum,int maxCount){
         int buynum;
-        if (stocknum > maxCount && maxCount != 0){
-            buynum = maxCount;
-        }else {
+        if (maxCount == 0){
             buynum = stocknum;
+        }else {
+            buynum = stocknum > maxCount ? maxCount : stocknum;
         }
         return buynum;
     }

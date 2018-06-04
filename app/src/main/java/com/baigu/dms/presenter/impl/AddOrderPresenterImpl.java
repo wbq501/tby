@@ -153,10 +153,15 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
                     Call<BaseResponse<List<Double>>> expressComputeCall = ServiceManager.createGsonService(ShopService.class).expressCompute(body);
                     Response<BaseResponse<List<Double>>> expressComputeResponse = expressComputeCall.execute();
                     result.setCode(expressComputeResponse != null && expressComputeResponse.body() != null ? expressComputeResponse.body().getCode() : -1);
-                    if (expressComputeResponse != null && expressComputeResponse.body() != null && BaseResponse.SUCCESS.equals(expressComputeResponse.body().getStatus())) {
-                        result.setResult(expressComputeResponse.body().getData());
+                    if (expressComputeResponse.body().getCode() == -23000){
+                        List<Double> doubleList = new ArrayList<>();
+                        doubleList.add(0.0);
+                        result.setResult(doubleList);
+                    }else {
+                        if (expressComputeResponse != null && expressComputeResponse.body() != null && BaseResponse.SUCCESS.equals(expressComputeResponse.body().getStatus())) {
+                            result.setResult(expressComputeResponse.body().getData());
+                        }
                     }
-
                 } catch (Exception e) {
                     Logger.e(e, e.getMessage());
                 }

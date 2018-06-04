@@ -5,15 +5,19 @@
     <!--111.9.208.226:1112-->
     <!--192.168.2.149:3333-->
     <!--https://183.220.239.91:8444/-->
-    <string name="base_url">http://192.168.2.112:9000</string>
-    <string name="my_reward_url">http://192.168.2.112:5555/index</string>
-    <string name="end_point">http://192.168.2.149:3333/</string>
-    <string name="pay_point">http://192.168.2.149:4444/</string>
+    <!-- 博客地址 -->
+    <string name="base_url">http://blog.tanbaye.com</string>
+    <!-- 销量wap网站 -->
+    <string name="my_reward_url">http://m.tanbaye.com/index</string>
+    <!-- 接口地址 -->
+    <string name="end_point">http://api.tanbaye.com/</string>
+    <!-- 支付地址 -->
+    <string name="pay_point">http://pay.tanbaye.com/</string>
 
-    <!--<string name="base_url">http://192.168.2.112:9000</string>
-    <string name="my_reward_url">http://192.168.2.112:5555/index</string>
-    <string name="end_point">http://192.168.2.133:80/</string>
-    <string name="pay_point">http://192.168.2.149:4444/</string>-->
+    <!--<string name="base_url">http://192.168.2.112:9000</string>-->
+    <!--<string name="my_reward_url">http://192.168.2.112:5555/index</string>-->
+    <!--<string name="end_point">http://192.168.2.149:3333/</string>-->
+    <!--<string name="pay_point">http://192.168.2.149:4444/</string>-->
 
     <string name="url_upload_head">http://7xj89v.com1.z0.glb.clouddn.com/</string>
     <string name="url_update_idcard">platform/upimage/idCardImg</string>

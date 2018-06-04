@@ -207,22 +207,22 @@ public class ChatActivity extends BaseActivity implements ChatPresenter.ChatView
                 mLoaddingDialog = new LoadingDialog(this);
             }
             mLoaddingDialog.show();
-            ChatClient.getInstance().register(user.getImuser(), user.getImpwd(), new Callback() {
-                @Override
-                public void onSuccess() {
-                    Log.e("onSuccess", "onSuccess: " );
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    Log.e("onSuccess", "onSuccess: " );
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-                    Log.e("onSuccess", "onSuccess: " );
-                }
-            });
+//            ChatClient.getInstance().register(user.getImuser(), user.getImpwd(), new Callback() {
+//                @Override
+//                public void onSuccess() {
+//                    Log.e("onSuccess", "onSuccess: " );
+//                }
+//
+//                @Override
+//                public void onError(int i, String s) {
+//                    Log.e("onSuccess", "onSuccess: " );
+//                }
+//
+//                @Override
+//                public void onProgress(int i, String s) {
+//                    Log.e("onSuccess", "onSuccess: " );
+//                }
+//            });
             try {
 //                RSAEncryptor encryptor = new RSAEncryptor();
 //                encryptor.loadPrivateKey(user.getPrivateKey());

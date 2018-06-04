@@ -42,6 +42,7 @@ public class CertificationResultActivity extends BaseActivity implements View.On
         ivStatus = findView(R.id.iv_status);
         tvStatus = findView(R.id.tv_status);
         mBtnCertificationAgain = findViewById(R.id.btn_certification_again);
+        mBtnCertificationAgain.setOnClickListener(this);
         User user = UserCache.getInstance().getUser();
 
         mPresenter = new CertificationResultPresenterImpl(this, this);

@@ -8,5 +8,19 @@
     <include layout="@layout/view_toolbar" />
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <com.baigu.lrecyclerview.recyclerview.LRecyclerView
+            android:id="@+id/rv_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_bg"
+            android:fadingEdge="none"
+            android:overScrollMode="never" />
+
+        <include
+            layout="@layout/view_empty_data"/>
+    </FrameLayout>
 </LinearLayout>

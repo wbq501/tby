@@ -282,10 +282,10 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                     /**
                      * 2018-5-24  去掉多少money起  改为多少到多少价格
                      */
-                    if (goods.getSkus().get(defaultSku).getMinPrice() == null || goods.getSkus().get(defaultSku).getMinPrice() == null){
-                        mTvGoodsPrice.setText(String.valueOf(String.valueOf(symbol) + goods.getSkus().get(defaultSku).getUniformprice()));
+                    if (goods.getSkus().get(position).getMinPrice() == null || goods.getSkus().get(position).getMinPrice() == null){
+                        mTvGoodsPrice.setText(String.valueOf(String.valueOf(symbol) + goods.getSkus().get(position).getUniformprice()));
                     }else {
-                        mTvGoodsPrice.setText(String.valueOf(String.valueOf(symbol) + goods.getSkus().get(defaultSku).getMinPrice() + "-" + goods.getSkus().get(defaultSku).getMaxPrice()));
+                        mTvGoodsPrice.setText(String.valueOf(String.valueOf(symbol) + goods.getSkus().get(position).getMinPrice() + "-" + goods.getSkus().get(position).getMaxPrice()));
                     }
                     mGoodsStock.setText(getString(R.string.stock_label, String.valueOf(mGoods.getSkus().get(position).getStocknum())));
                     mGoodsStock.setVisibility(mGoods.getIsshow() == Goods.StockShowType.SHOW ? View.VISIBLE : View.GONE);
@@ -347,6 +347,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         setNumberMap();
     }
 
+    //排序
     private void sortSku() {
         List<Sku> skuList = mGoods.getSkus();
         if (skuList != null && skuList.size() > 0) {
@@ -412,12 +413,14 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                 mSharePopView.showAtLocation(this.findViewById(R.id.rl_main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.tv_add_cart:
-                //todo 待默认字段
                 SkuDialog dialog = new SkuDialog(this);
                 dialog.setData(mGoods);
                 dialog.setCancelListener(new SkuDialog.CancelListener() {
                     @Override
                     public void UnmberUpData(List<Sku> skus) {
+                        setNumberMap();
+                        goodsSpecificationAdapter.setMapNumber(mapNumber);
+                        goodsSpecificationAdapter.notifyDataSetChanged();
                         finish();
                     }
                 });
@@ -432,6 +435,8 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                     public void UnmberUpData(List<Sku> skus) {
                         if (ShopCart.getGoodsListSelected().size() <= 0 || !ShopCart.hasContains(mGoods)) {
                             ViewUtils.showToastInfo(R.string.buynumber_zero);
+                            setNumberMap();
+                            goodsSpecificationAdapter.setMapNumber(mapNumber);
                             goodsSpecificationAdapter.notifyDataSetChanged();
                             return;
                         } else {
