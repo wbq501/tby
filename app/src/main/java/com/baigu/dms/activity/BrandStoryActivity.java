@@ -46,29 +46,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class BrandStoryActivity extends BaseActivity implements BrandStoryDetailPresenter.BrandStoryDetailView {
 
-//    private static final int REQUEST_CODE_COMMENT = 40001;
-//    private LRecyclerView mRecyclerView;
-//    private ShineButton mShineButton;
-//
-//
-//    private LRecyclerViewAdapter mRecyclerViewAddapter;
-//    private CommentPraiseAdapter mCommentPraiseAdapter;
-//    private BrandStoryDetailView mCommentDetailView;
-
     private WebView mWebView;
     private BrandStory mBrandStory;
     private TextView mTvDate;
     private TextView mTvTitle;
     private TextView mTvContent;
     private ImageView mIvIcon;
-
-
-//    private int mCurrCommentPage = 1;
-//    private int mCurrPraisePage = 1;
-//
-//    private boolean mCommentTab = true;
-//    private boolean mCommentNoMore;
-//    private boolean mPraiseNoMore;
 
     private BrandStoryDetailPresenter mBrandStoryDetailPresenter;
 
@@ -87,8 +70,6 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
         mBrandStoryDetailPresenter = new BrandStoryDetailPresenterImpl(this, this);
         initView();
         mBrandStoryDetailPresenter.loadBrandStoryById(mBrandStory.getIds());
-//        mBrandStoryDetailPresenter.loadCommentList(mBrandStory.getId(), mCurrCommentPage, false);
-//        mBrandStoryDetailPresenter.loadPraiseList(mBrandStory.getId(), mCurrPraisePage, false);
     }
 
     private void initView() {
@@ -106,58 +87,7 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
         webSettings.setSupportZoom(true); // 支持缩放
-//        mRecyclerView = findView(R.id.rv_comment_praise);
-//        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
-//        mRecyclerView.setHeaderViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
-//        mRecyclerView.setFooterViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mCommentPraiseAdapter = new CommentPraiseAdapter(this);
-//        mRecyclerViewAddapter = new LRecyclerViewAdapter(mCommentPraiseAdapter);
-//        mRecyclerView.setAdapter(mRecyclerViewAddapter);
-//        mRecyclerView.setPullRefreshEnabled(false);
-//        mRecyclerView.setLoadMoreEnabled(true);
-//        mRecyclerView.setOnLoadMoreListener(this);
-//
-//        mCommentDetailView = new BrandStoryDetailView(this);
-//        mCommentDetailView.setBrandStory(mBrandStory);
-//        mCommentDetailView.setOnCommentPraiseTabChangeListener(this);
-//        mRecyclerViewAddapter.addHeaderView(mCommentDetailView);
-//
-//        mShineButton = (ShineButton) findViewById(R.id.btn_praise);
-//        mShineButton.setChecked(mBrandStory.getIsdz() > 0);
-//        findViewById(R.id.layout_praise).setOnClickListener(new OnPraiseClickListener(mShineButton));
-//        findViewById(R.id.layout_comment).setOnClickListener(new OnCommentClickListener());
-    }
-
-
-//    @Override
-//    public void onLoadCommentList(PageResult<Comment> pageResult) {
-//        mRecyclerView.setNoMore(pageResult != null && pageResult.lastPage);
-//        if (pageResult == null) {
-//            if (mCurrCommentPage == 1) {
-//                mCommentPraiseAdapter.clearCommentData();
-//                mCommentPraiseAdapter.notifyDataSetChanged();
-//            }
-//            ViewUtils.showToastError(R.string.failed_load_data);
-//            return;
-//        }
-//        if (pageResult.list == null && mCurrCommentPage == 1) {
-//            mCommentPraiseAdapter.clearCommentData();
-//            mCommentPraiseAdapter.notifyDataSetChanged();
-//        }
-//        if (pageResult.list != null) {
-//            if (mCurrCommentPage == 1) {
-//                mCommentPraiseAdapter.setCommentData(pageResult.list);
-//            } else {
-//                mCommentPraiseAdapter.appendCommentDataList(pageResult.list);
-//            }
-//            mCommentPraiseAdapter.notifyDataSetChanged();
-//            if (pageResult.lastPage) {
-//                mCommentNoMore = true;
-//            }
-//            mCurrCommentPage++;
-//        }
-//    }
+ }
 
     @Override
     public void onLoadBrandStory(BrandStory brandStory) {
@@ -174,10 +104,9 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
        }else{
            mTvContent.setText(brandStory.getBrand_brief());
        }
+//        ImageUtil.loadImage(this,brandStory.getBrand_ctx_img(),mIvIcon);
         ImageUtil.loadImage(this,brandStory.getBrand_img(),mIvIcon);
         mWebView.loadDataWithBaseURL(null, brandStory.getBrand_content(), "text/html" , "utf-8", null);
-        //        mShineButton.setChecked(mBrandStory.getIsdz() > 0);
-//        mCommentDetailView.setBrandStory(mBrandStory);
     }
 
     @Override
@@ -190,51 +119,6 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
 
     }
 
-//    @Override
-//    public void onLoadPraiseList(PageResult<Praise> pageResult) {
-//        mRecyclerView.setNoMore(pageResult != null && pageResult.lastPage);
-//        if (pageResult == null) {
-//            if (mCurrPraisePage == 1) {
-//                mCommentPraiseAdapter.clearPraiseData();
-//                mCommentPraiseAdapter.notifyDataSetChanged();
-//            }
-//            ViewUtils.showToastError(R.string.failed_load_data);
-//            return;
-//        }
-//        if (pageResult.list == null && mCurrPraisePage == 1) {
-//            mCommentPraiseAdapter.clearPraiseData();
-//            mCommentPraiseAdapter.notifyDataSetChanged();
-//        }
-//        if (pageResult.list != null) {
-//            if (mCurrPraisePage == 1) {
-//                mCommentPraiseAdapter.setPraiseData(pageResult.list);
-//            } else {
-//                mCommentPraiseAdapter.appendPraiseDataList(pageResult.list);
-//            }
-//            mCommentPraiseAdapter.notifyDataSetChanged();
-//            if (pageResult.lastPage) {
-//                mPraiseNoMore = true;
-//            }
-//            mCurrPraisePage++;
-//        }
-//    }
-
-//    @Override
-//    public void onCommentPraiseTabSelect(boolean commentTab) {
-//        mCommentTab = commentTab;
-//        mCommentPraiseAdapter.selCommentTab(commentTab);
-//        mRecyclerView.setNoMore(commentTab ? mCommentNoMore : mPraiseNoMore);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK && requestCode ==  REQUEST_CODE_COMMENT) {
-//            Comment comment = data.getParcelableExtra("comment");
-//            mCommentPraiseAdapter.addComment(comment);
-//        }
-//    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -242,55 +126,4 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
             mBrandStoryDetailPresenter.onDestroy();
         }
     }
-
-//    class OnPraiseClickListener implements View.OnClickListener {
-//
-//        private ShineButton shineButton;
-//
-//        public OnPraiseClickListener(ShineButton shineButton) {
-//            this.shineButton = shineButton;
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            if (mBrandStory.getIsdz() > 0) {
-//                return;
-//            }
-//            if (!(v instanceof ShineButton)) {
-//                shineButton.click();
-//            }
-//            ServiceManager.createGsonService(BrandStoryService.class)
-//                    .addPraise(UserCache.getInstance().getUser().getIds(), mBrandStory.getId())
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Consumer<BaseResponse>() {
-//                        @Override
-//                        public void accept(BaseResponse response) throws Exception {
-//                            if (response != null && BaseResponse.SUCCESS.equals(response.getStatus())) {
-//                                mBrandStory.setDd(mBrandStory.getDd() + 1);
-//                                mBrandStory.setIsdz(1);
-//                                RxBus.getDefault().post(EventType.TYPE_PRAISE_ADDED, mBrandStory.getId());
-//                            } else {
-//                                ViewUtils.showToastError(R.string.failed_add_praise);
-//                            }
-//                        }
-//                    }, new Consumer<Throwable>() {
-//                        @Override
-//                        public void accept(@NonNull Throwable throwable) throws Exception {
-//                            ViewUtils.showToastError(R.string.failed_add_praise);
-//                        }
-//                    });
-//        }
-//    }
-//
-//    class OnCommentClickListener implements View.OnClickListener {
-//
-//        @Override
-//        public void onClick(View v) {
-//            if (ViewUtils.isFastClick()) return;
-//            Intent intent = new Intent(BrandStoryActivity.this, BrandCommentAddActivity.class);
-//            intent.putExtra("brandId", mBrandStory.getId());
-//            startActivityForResult(intent, REQUEST_CODE_COMMENT);
-//        }
-//    }
 }

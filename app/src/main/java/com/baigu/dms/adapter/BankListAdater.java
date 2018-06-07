@@ -25,6 +25,7 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
     private Context context;
 
     private OnItemClickListener onItemClickListener;
+    private OnItemLongListener onItemLongListener;
 
     public BankListAdater(Context context){
         this.context=context;
@@ -33,7 +34,7 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bank_list, parent, false);
-        return new BankListAdater.BankHolder(view,onItemClickListener);
+        return new BankListAdater.BankHolder(view,onItemClickListener,onItemLongListener);
     }
 
     @Override
@@ -51,20 +52,27 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public class BankHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public void setOnItemLongListener(OnItemLongListener onItemLongListener) {
+        this.onItemLongListener = onItemLongListener;
+    }
+
+    public class BankHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
 
         TextView name;
         TextView bankNumber;
         ImageView icon;
         OnItemClickListener itemClickListener;
+        OnItemLongListener itemLongListener;
 
-        public BankHolder(View itemView,OnItemClickListener itemClickListener) {
+        public BankHolder(View itemView,OnItemClickListener itemClickListener,OnItemLongListener itemLongListener) {
             super(itemView);
             this.itemClickListener = itemClickListener;
+            this.itemLongListener = itemLongListener;
             name=itemView.findViewById(R.id.tv_bank_name);
             bankNumber=itemView.findViewById(R.id.tv_bank_number);
             icon=itemView.findViewById(R.id.iv_bank_icon);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -77,9 +85,21 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
         public void setItemClickListener(OnItemClickListener itemClickListener) {
             this.itemClickListener = itemClickListener;
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (itemLongListener != null){
+                itemLongListener.onItemClick(itemView,getLayoutPosition()-1);
+            }
+            return false;
+        }
     }
 
     public interface OnItemClickListener{
+        void onItemClick(View view,int postion);
+    }
+
+    public interface OnItemLongListener{
         void onItemClick(View view,int postion);
     }
 }

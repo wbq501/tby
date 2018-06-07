@@ -56,7 +56,7 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
     private void initView() {
         TextView tvName = findView(R.id.tv_realname);
         User user = UserCache.getInstance().getUser();
-        tvName.setText(getString(R.string.upload_your_idcard_tip, user.getNick()));
+        tvName.setText(getString(R.string.upload_your_idcard_tip, user.getNick() == null ? "用户" : user.getNick()));
 
         presenter = new CertificationPresenterImpl(this, this);
 

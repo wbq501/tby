@@ -1,8 +1,10 @@
 package com.baigu.dms.common.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,18 @@ import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.activity.AddOrderActivity;
+import com.baigu.dms.activity.GoodsDetailActivity;
 import com.baigu.dms.adapter.ShopWindowAdapter;
 import com.baigu.dms.common.utils.ImageUtil;
+import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.domain.cache.ShopCart;
+import com.baigu.dms.domain.model.BuyNum;
 import com.baigu.dms.domain.model.Goods;
 import com.baigu.dms.domain.model.Sku;
+import com.baigu.dms.domain.netservice.common.model.OrderDetailResult;
+import com.baigu.dms.domain.netservice.response.BaseResponse;
+import com.baigu.dms.presenter.BuyNumPresenter;
+import com.baigu.dms.presenter.impl.BuyNumPresenterimpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +40,7 @@ import java.util.zip.GZIPOutputStream;
  * @Email 644605843@qq.com
  * @Date
  */
-public class ShopCardWindow extends PopupWindow implements View.OnClickListener {
+public class ShopCardWindow extends PopupWindow implements View.OnClickListener,BuyNumPresenter.BuyNumView {
 
     private Context context;
     private ListView shopCard;
@@ -40,6 +49,8 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
     private TextView price;
     private ShopWindowAdapter adapter;
     private List<Goods> mGoodsList;
+
+    private BuyNumPresenter buyNumPresenter;
 
     public ShopCardWindow(Context context) {
         this.context = context;
@@ -53,6 +64,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
         setAnimationStyle(R.style.ShopCardWinow);
         setFocusable(true);
         adapter = new ShopWindowAdapter(context);
+        buyNumPresenter = new BuyNumPresenterimpl((Activity) context,this);
         initView(view);
     }
 
@@ -91,11 +103,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
                 dismiss();
                 break;
             case R.id.ll_shopcard_order:
-                Intent intent = new Intent();
-                intent.setClass(context, AddOrderActivity.class);
-                intent.putParcelableArrayListExtra("goodsList", ShopCart.getGoodsListSelected());
-                context.startActivity(intent);
-                dismiss();
+                buyNumPresenter.buyNum(ShopCart.getGoodsListSelected());
                 break;
         }
     }
@@ -112,6 +120,8 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
                         mskus.add(sku);
                         mgoods.setStocknum(sku.getStocknum());
                         mgoods.setIds(goods.getIds());
+                        mgoods.setSupercoverpath(goods.getSupercoverpath());
+                        mgoods.setCoverpath(goods.getCoverpath());
                         mgoods.setBuyNum(sku.getNumber());
                         mgoods.setUniformprice(sku.getUniformprice());
                         mgoods.setMarketprice(sku.getMarketprice());
@@ -127,6 +137,8 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
                 if (goods.getSkus().get(0).getNumber() > 0){
                     mskus.add(goods.getSkus().get(0));
                     mgoods.setIds(goods.getIds());
+                    mgoods.setSupercoverpath(goods.getSupercoverpath());
+                    mgoods.setCoverpath(goods.getCoverpath());
                     mgoods.setStocknum(goods.getSkus().get(0).getStocknum());
                     mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
                     mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
@@ -143,4 +155,20 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener 
     }
 
 
+    @Override
+    public void isBuy(BuyNum result) {
+        if (result == null){
+            ViewUtils.showToastError(R.string.failed_load_data);
+        }else {
+            if (result.getCode() == 1){
+                Intent intent = new Intent();
+                intent.setClass(context, AddOrderActivity.class);
+                intent.putParcelableArrayListExtra("goodsList", ShopCart.getGoodsListSelected());
+                context.startActivity(intent);
+                dismiss();
+            }else {
+                ViewUtils.showToastError(result.getResult());
+            }
+        }
+    }
 }

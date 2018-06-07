@@ -119,6 +119,11 @@ public class DateUtils {
         }
     };
 
+    public static String StingSimpleDateFormat(long updateDate){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(updateDate);
+    }
+
     public static final int SEMI_MONTH = 1001;
     private static final int MODIFY_TRUNCATE = 0;
     private static final int MODIFY_CEILING = 2;

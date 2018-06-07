@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.DateUtils;
 import com.baigu.dms.domain.model.WithdrawHistory;
 import com.baigu.dms.presenter.WithdrawHistoryPresenter;
 
@@ -35,9 +36,8 @@ public class WithdrawAdapter extends BaseRVAdapter<WithdrawHistory>{
         super.onBindViewHolder(holder, position);
         ViewHolder viewHolder = (ViewHolder) holder;
         WithdrawHistory withdrawHistory = mDataList.get(position);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         viewHolder.tv_type.setText("提现金额");
-        viewHolder.tv_time.setText(format.format(withdrawHistory.getUpdateDate()));
+        viewHolder.tv_time.setText(DateUtils.StingSimpleDateFormat(withdrawHistory.getUpdateDate()));
         int applyStatus = withdrawHistory.getApplyStatus();
         BigDecimal ammout = null;
         if (applyStatus == 0){

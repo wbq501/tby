@@ -64,7 +64,7 @@ public class WithdrawRecordActivity extends BaseActivity implements OnLoadMoreLi
         LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(withdrawAdapter);
         adapter.setOnItemClickListener(this);
         rv_history.setAdapter(adapter);
-        rv_history.setPullRefreshEnabled(false);
+        rv_history.setPullRefreshEnabled(true);
         rv_history.setOnRefreshListener(this);
         rv_history.setLoadMoreEnabled(true);
         rv_history.setOnLoadMoreListener(this);
@@ -86,6 +86,7 @@ public class WithdrawRecordActivity extends BaseActivity implements OnLoadMoreLi
     @Override
     public void onRefresh() {
         pageNum = 0;
+        rv_history.refreshComplete(10);
         loadData(pageNum,true);
     }
 

@@ -2,17 +2,22 @@ package com.baigu.dms.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
@@ -23,11 +28,13 @@ import com.baigu.dms.common.utils.rxbus.RxBus;
 import com.baigu.dms.common.utils.rxbus.RxBusEvent;
 import com.baigu.dms.common.utils.rxbus.Subscribe;
 import com.baigu.dms.common.utils.rxbus.ThreadMode;
+import com.baigu.dms.common.view.CouponWindow;
 import com.baigu.dms.domain.cache.ShopCart;
 import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.db.RepositoryFactory;
 import com.baigu.dms.domain.model.Address;
 import com.baigu.dms.domain.model.City;
+import com.baigu.dms.domain.model.Coupon;
 import com.baigu.dms.domain.model.Express;
 import com.baigu.dms.domain.model.Goods;
 import com.baigu.dms.domain.model.Sku;
@@ -78,6 +85,8 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     private Address mDefaultAddress;
     private Address mAddress;
 
+    private TextView tv_select_coupon;
+
     private double mTotalPrice;
 
     private GoodsSelAdapter mGoodsSelAdapter;
@@ -90,6 +99,19 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     LinkedHashSet<String> expressB = new LinkedHashSet<>();
 
     private String expressValue;
+    private String couponId = "";
+
+    private float alpha = 1f;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    changAlpha((float) msg.obj);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +170,8 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                         mskus.add(sku);
                         mgoods.setIds(goods.getIds());
                         mgoods.setBuyNum(sku.getNumber());
+                        mgoods.setSupercoverpath(goods.getSupercoverpath());
+                        mgoods.setCoverpath(goods.getCoverpath());
                         mgoods.setUniformprice(sku.getUniformprice());
                         mgoods.setMarketprice(sku.getMarketprice());
                         mgoods.setGoodsname(goods.getGoodsname());
@@ -166,6 +190,8 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 Goods mgoods = new Goods();
                 List<Sku> mskus = new ArrayList<Sku>();
                 mgoods.setIds(goods.getIds());
+                mgoods.setSupercoverpath(goods.getSupercoverpath());
+                mgoods.setCoverpath(goods.getCoverpath());
                 mskus.add(goods.getSkus().get(0));
                 mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
                 mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
@@ -216,6 +242,9 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         mLLCitySelect.setOnClickListener(this);
         findViewById(R.id.ll_express).setOnClickListener(this);
         findViewById(R.id.tv_submit).setOnClickListener(this);
+
+        findView(R.id.ll_coupon).setOnClickListener(this);
+        tv_select_coupon = findView(R.id.tv_select_coupon);
 
         char symbol = 165;
         double totalPrice = computeGoodsPrice();
@@ -298,6 +327,9 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 startActivityForResult(new Intent(this, CitySelectorActivity.class), REQUEST_CODE_CITY_SELECT);
                 break;
             case R.id.ll_express:
+                boolean chooseAdress = isChooseAdress();
+                if (!chooseAdress)
+                    return;
                 Intent intent1 = new Intent(this, ExpressSelectorActivity.class);
                 ArrayList<String> express = new ArrayList<>();
                 express.addAll(expressA);
@@ -313,9 +345,88 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ll_use_default_addr:
                 break;
+            case R.id.ll_coupon:
+                boolean chooseAdress2 = isChooseAdress();
+                if (!chooseAdress2)
+                    return;
+                boolean b = chooseExpress();
+                if (!b)
+                    return;
+                showWindow();
+                break;
             default:
                 break;
         }
+    }
+
+    CouponWindow.CouponInterFace couponInterFace = new CouponWindow.CouponInterFace() {
+        @Override
+        public void getCoupon(Coupon.ListBean couponAdapterItem) {
+            couponId = couponAdapterItem.getCouponUser().getCouponId();
+            int rule = couponAdapterItem.getCoupon().getRule();
+            char symbol = 165;
+            mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",computeGoodsPrice() - rule < 0 ? mTotalPrice - computeGoodsPrice() : mTotalPrice - rule));
+            tv_select_coupon.setText(couponAdapterItem.getCoupon().getName());
+        }
+    };
+
+    private void showWindow() {
+        CouponWindow window = new CouponWindow(AddOrderActivity.this,couponInterFace,computeGoodsPrice());
+        window.showAtLocation(findView(R.id.ll_addorder), Gravity.BOTTOM, 0, 0);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (alpha > 0.5f) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 1;
+
+                    alpha -= 0.01f;
+                    msg.obj = alpha;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+        }).start();
+
+
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        while (alpha < 1f) {
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = 1;
+                            alpha += 0.01f;
+                            msg.obj = alpha;
+                            mHandler.sendMessage(msg);
+                        }
+                    }
+
+                }).start();
+
+            }
+        });
+    }
+
+    private void changAlpha(float v) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = v; //0.0-1.0
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 
     private void switchDefaultAddr(boolean b) {
@@ -355,6 +466,11 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         mEtTakeDetailAddress.setText("");
         mCbAddFreqAddr.setVisibility(View.VISIBLE);
         mViewAddFreqAddrLine.setVisibility(View.VISIBLE);
+
+        //清除快递  红包
+        mTvSelectExpress.setText("");
+        mTvSelectExpress.setTag(null);
+        tv_select_coupon.setText("");
 
         mEtTakeUser.setEnabled(true);
         mEtTakePhone.setEnabled(true);
@@ -468,6 +584,41 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         return result;
     }
 
+    private boolean isChooseAdress(){
+        if (TextUtils.isEmpty(mEtTakeUser.getText().toString().trim())) {
+            ViewUtils.showToastError(R.string.input_tip_take_user);
+            return false;
+        }
+
+        String phone = mEtTakePhone.getText().toString().trim();
+        if (TextUtils.isEmpty(phone) || phone.length() != 11 || !phone.startsWith("1")) {
+            ViewUtils.showToastError(R.string.input_tip_take_phone);
+            return false;
+        }
+
+        String Regionid = mTvCitySelect.getTag().toString().trim();
+        if (TextUtils.isEmpty(Regionid)) {
+            ViewUtils.showToastError(R.string.input_tip_take_city);
+            return false;
+        }
+
+        String detailadress = mEtTakeDetailAddress.getText().toString().trim();
+        if (TextUtils.isEmpty(detailadress)) {
+            ViewUtils.showToastError(R.string.input_tip_take_detail_address);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean chooseExpress(){
+        String expressId = mTvSelectExpress.getText() == null ? "" : mTvSelectExpress.getText().toString();
+        if (TextUtils.isEmpty(expressId)) {
+            ViewUtils.showToastInfo(R.string.input_tip_select_express);
+            return false;
+        }
+        return true;
+    }
+
     private void submitOrder() {
         Address address = new Address();
         address.setShipTo(mEtTakeUser.getText().toString().trim());
@@ -479,27 +630,15 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         address.setDefault(mCbAddFreqAddr.isChecked());
         address.setUserid(UserCache.getInstance().getUser().getIds());
 
-        if (TextUtils.isEmpty(mEtTakeUser.getText().toString().trim())) {
-            ViewUtils.showToastError(R.string.input_tip_take_user);
+        boolean chooseAdress = isChooseAdress();
+        if (!chooseAdress)
             return;
-        }
-        if (TextUtils.isEmpty(address.getPhone()) || address.getPhone().length() != 11 || !address.getPhone().startsWith("1")) {
-            ViewUtils.showToastError(R.string.input_tip_take_phone);
+
+        boolean b = chooseExpress();
+        if (!b)
             return;
-        }
-        if (TextUtils.isEmpty(address.getRegionid())) {
-            ViewUtils.showToastError(R.string.input_tip_take_city);
-            return;
-        }
-        if (TextUtils.isEmpty(address.getAddress())) {
-            ViewUtils.showToastError(R.string.input_tip_take_detail_address);
-            return;
-        }
+
         String expressId = mTvSelectExpress.getText() == null ? "" : mTvSelectExpress.getText().toString();
-        if (TextUtils.isEmpty(expressId)) {
-            ViewUtils.showToastInfo(R.string.input_tip_select_express);
-            return;
-        }
 
         boolean newAddresss = mAddress == null
                 || !mAddress.getName().equals(address.getName())
@@ -509,10 +648,10 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         mAddOrderPresenter.checkGoodsStock(mGoodsList);
         if (newAddresss) {
 //            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
-            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim());
+            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponId);
         } else {
 //            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
-            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim());
+            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponId);
         }
     }
 

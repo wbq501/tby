@@ -8,6 +8,7 @@
         android:id="@+id/iv_goods"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/place_holder" />
 

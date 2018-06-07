@@ -36,11 +36,16 @@ import com.baigu.dms.common.view.SharePopView;
 import com.baigu.dms.common.view.SkuDialog;
 import com.baigu.dms.common.view.SpaceItemDecoration;
 import com.baigu.dms.domain.cache.ShopCart;
+import com.baigu.dms.domain.model.BuyNum;
 import com.baigu.dms.domain.model.Goods;
 import com.baigu.dms.domain.model.ShopPictrue;
 import com.baigu.dms.domain.model.Sku;
+import com.baigu.dms.domain.netservice.common.model.OrderDetailResult;
+import com.baigu.dms.domain.netservice.response.BaseResponse;
 import com.baigu.dms.fragment.ShopFragment;
+import com.baigu.dms.presenter.BuyNumPresenter;
 import com.baigu.dms.presenter.GoodsDetailPresenter;
+import com.baigu.dms.presenter.impl.BuyNumPresenterimpl;
 import com.baigu.dms.presenter.impl.GoodsDetailPresenterImpl;
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
@@ -63,7 +68,7 @@ import java.util.Map;
  * @Email mickyliu@126.com
  * @Date 2017/6/25 11:32
  */
-public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPresenter.GoodsDetailView, View.OnClickListener {
+public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPresenter.GoodsDetailView, View.OnClickListener,BuyNumPresenter.BuyNumView {
 
     public static final int ADVERT_INTERVAL_TIME = 6000;
 
@@ -86,6 +91,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
     private List<String> mGoodsDetailImageList = new ArrayList<>();
     private Map<String, Integer> mapNumber; //记录选择中position及数量
     private GoodsDetailPresenter mGoodsDetailPresenter;
+    private BuyNumPresenter buyNumPresenter;
     private Goods mGoods;
     private int defaultSku;
     private ConfirmDialog mConfirmDialog;
@@ -104,6 +110,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
             return;
         }
         mGoodsDetailPresenter = new GoodsDetailPresenterImpl(this, this);
+        buyNumPresenter = new BuyNumPresenterimpl(this,this);
         mGoodsDetailPresenter.loadGoodsDetail(goodsId);
     }
 
@@ -440,12 +447,9 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                             goodsSpecificationAdapter.notifyDataSetChanged();
                             return;
                         } else {
-                            Intent intent = new Intent(GoodsDetailActivity.this, AddOrderActivity.class);
                             List<Goods> goodsList = new ArrayList<>();
                             goodsList.add(mGoods);
-                            intent.putParcelableArrayListExtra("goodsList", (ArrayList<? extends Parcelable>) goodsList);
-                            startActivity(intent);
-                            finish();
+                            buyNumPresenter.buyNum(goodsList);
                         }
 
                     }
@@ -476,6 +480,24 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         }
         mGoodsAddPopView.initData(addCart, mGoods);
         mGoodsAddPopView.showAtLocation(this.findViewById(R.id.rl_main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    @Override
+    public void isBuy(BuyNum result) {
+        if (result == null){
+            ViewUtils.showToastError(R.string.failed_load_data);
+        }else {
+            if (result.getCode() == 1){
+                Intent intent = new Intent(GoodsDetailActivity.this, AddOrderActivity.class);
+                List<Goods> goodsList = new ArrayList<>();
+                goodsList.add(mGoods);
+                intent.putParcelableArrayListExtra("goodsList", (ArrayList<? extends Parcelable>) goodsList);
+                startActivity(intent);
+                finish();
+            }else {
+                ViewUtils.showToastError(result.getResult());
+            }
+        }
     }
 
     public class GlideImageLoader extends ImageLoader {

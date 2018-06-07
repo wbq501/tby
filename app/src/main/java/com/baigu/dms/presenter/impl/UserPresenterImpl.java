@@ -72,7 +72,7 @@ public class UserPresenterImpl extends BasePresenterImpl implements UserPresente
                             spUser.setBlance(user.getBlance());
                             spUser.setEmail(user.getEmail());
                             spUser.setMyqrcode(user.getMyqrcode());
-                            spUser.setPhoto(user.getPhoto());
+                            spUser.setPhoto(mActivity.getString(R.string.url_upload_head)+user.getPhoto());
                             spUser.setLastlogindate(user.getLastlogindate());
                             spUser.setIdcard(user.getIdcard());
                             spUser.setIdcardimg(user.getIdcardimg());

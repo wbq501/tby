@@ -98,6 +98,7 @@ public class MyInfoHeaderView extends FrameLayout {
         mTvNickname.setText(user.getNick());
         mTvPhone.setText(user.getCellphone());
         tv_integral.setText("我的积分");
+        tv_integral.setVisibility(View.GONE);
     }
 
     public void onUpdateHead() {

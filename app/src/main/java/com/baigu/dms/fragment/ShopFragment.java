@@ -193,7 +193,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
         }
     }
 
-
     @Override
     public void onLoadGoodsCategory(List<GoodsCategory> list) {
     }

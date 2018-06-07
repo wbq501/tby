@@ -93,7 +93,7 @@
 
     <string name="my_reward">我的销量</string>
     <string name="wallet">我的钱包</string>
-    <string name="coupon">抵用券</string>
+    <string name="coupon">优惠券</string>
     <string name="my_qrcode">我的二维码</string>
     <string name="my_invitation">我的邀请</string>
     <string name="my_invite_code">我的邀请码</string>
@@ -502,8 +502,17 @@
     <string name="maxbuy_num">超过购买限制</string>
     <string name="query">确定</string>
     <string name="buy_type">购买规格限制</string>
-    <string name="withdrew_history_no">您好没有相关提现记录</string>
-    
+    <string name="withdrew_history_no">您还没有相关提现记录</string>
+
+    <string name="coupon_msg">您还没有红包抵用券</string>
+    <string name="no_use">未使用</string>
+    <string name="yes_use">已使用</string>
+    <string name="be_overdue">已过期</string>
+    <string name="choose_coupon">选择优惠券:</string>
+    <string name="choose_coupon_type">请选择优惠券</string>
+    <string name="cannot_use">不可使用此优惠券</string>
+    <string name="all_coupon">通用卷</string>
+
     <string name="express_support">所选地区不支持该快递</string>
     <string name="change_success">修改成功</string>
 </resources>

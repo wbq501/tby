@@ -39,7 +39,7 @@ public class GoodsSearchAdapter extends BaseRVAdapter<com.baigu.dms.domain.model
         com.baigu.dms.domain.model.Goods goods = mDataList.get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Context context = itemViewHolder.itemView.getContext();
-        Glide.with(context).load(goods.getCoverpath()).centerCrop().placeholder(R.mipmap.place_holder).into(itemViewHolder.ivGoods);
+        Glide.with(context).load(goods.getSupercoverpath()).centerCrop().placeholder(R.mipmap.place_holder).into(itemViewHolder.ivGoods);
         itemViewHolder.tvGoodsName.setText(goods.getGoodsname());
         char symbol = 165;
         if (goods.getSkus().size() > 0){

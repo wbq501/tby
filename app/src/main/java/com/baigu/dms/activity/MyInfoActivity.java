@@ -114,7 +114,8 @@ public class MyInfoActivity extends BaseActivity implements UserPresenter.UserVi
                 startActivity(new Intent(this, MyNicknameActivity.class));
                 break;
             case R.id.ll_phone:
-                startActivity(new Intent(this, MyPhoneActivity.class));
+                ViewUtils.showToastError(R.string.failed_get_reward);
+//                startActivity(new Intent(this, MyPhoneActivity.class));
                 break;
             case R.id.ll_qrcode:
                 startActivity(new Intent(this, MyQRCodeActivity.class));

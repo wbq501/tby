@@ -161,7 +161,7 @@ public class PayPresenterImpl extends BasePresenterImpl implements PayPresenter 
 
     @Override
     public void payOrderByWallet(String orderNo, String orderDate,String payPwd) {
-        addDisposable(new BaseAsyncTask<String, Void, String>(mActivity, false) {
+        addDisposable(new BaseAsyncTask<String, Void, String>(mActivity, true) {
             @Override
             protected RxOptional<String> doInBackground(String... params) {
                 RxOptional<String> rxResult = new RxOptional<>();
@@ -173,10 +173,9 @@ public class PayPresenterImpl extends BasePresenterImpl implements PayPresenter 
                             .build();
                     Call<BaseResponse<String>> orderInfoCall = retrofit.create(ShopService.class).getPayOrderByWallet(params[0], params[1], params[2]);
                     Response<BaseResponse<String>> orderInfoResponse = orderInfoCall.execute();
-                   Log.i("test",orderInfoResponse.toString());
                     rxResult.setCode(orderInfoResponse != null && orderInfoResponse.body() != null ? orderInfoResponse.body().getCode() : -1);
                     if (orderInfoResponse != null && orderInfoResponse.body() != null) {
-                        if (BaseResponse.SUCCESS.equals(orderInfoResponse.body().getStatus()) && !TextUtils.isEmpty(orderInfoResponse.body().getData())) {
+                        if (BaseResponse.SUCCESS.equals(orderInfoResponse.body().getStatus())) {
                             result = "success";
                         } else {
                             result = orderInfoResponse.body().getDescription();

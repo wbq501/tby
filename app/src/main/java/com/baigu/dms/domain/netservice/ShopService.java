@@ -67,6 +67,10 @@ public interface ShopService {
     @POST("shop/api/scOrder/addOrder")
     Call<BaseResponse<OrderDetailResult>> addOrder(@Body RequestBody orderJson);
 
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("shop/api/scOrder/preCheckOrder")
+    Call<BaseResponse<String>> preCheckOrder(@Body RequestBody orderJson);
+
     @GET("c/api/my/myOrder")
     Call<BaseResponse<PageResult<Order>>> getOrderList(@Query("userId") String userId, @Query("orderStatus") String status, @Query("pageNum") String pageNum);
 

@@ -3,6 +3,7 @@ package com.baigu.dms.domain.netservice;
 import com.baigu.dms.domain.model.Bank;
 import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.domain.model.CertificationResult;
+import com.baigu.dms.domain.model.Coupon;
 import com.baigu.dms.domain.model.Money;
 import com.baigu.dms.domain.model.WithdrawHistory;
 import com.baigu.dms.domain.netservice.response.BaseResponse;
@@ -53,6 +54,10 @@ public interface WalletService {
     @POST("c/api/my/myBank")
     Call<BaseResponse<List<Bank>>> getBankList(@Query("userId") String userId);
 
+    @POST("/c/api/my/deleteMyBank")
+    @FormUrlEncoded
+    Call<BaseResponse<String>> deleteMyBank(@Field("bankId") String bankId);
+
     //    @POST("c/api/my/addMyBlank")
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST("c/api/my/addMyBank")
@@ -69,6 +74,10 @@ public interface WalletService {
     @POST("c/api/capplywithdraw/withdrawRecord")
     @FormUrlEncoded
     Call<BaseResponse<List<WithdrawHistory>>> withdrawRecord(@Field("memberId") String memberId,@Query("offset") int pageNum);
+
+    @POST("c/api/coupon/getCouponList")
+    @FormUrlEncoded
+    Call<BaseResponse<Coupon>> getCouponList(@Field("status") int status, @Query("pageNum") int pageNum);
 
     @POST("c/api/cwalletstream/detail")
     @FormUrlEncoded

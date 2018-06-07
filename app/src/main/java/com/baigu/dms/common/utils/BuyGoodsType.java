@@ -28,8 +28,6 @@ public class BuyGoodsType {
     public static boolean isBuy(Sku sku, boolean isremove, boolean isMore){
         List<Set<String>> rules = getRules();
         LinkedHashSet<String> all = SPUtils.getDataList("buyType");
-        Toast.makeText(BaseApplication.getContext(),"读取当前已经存储的类型："+all.toString()+"\n"
-                +"当前选择类型"+sku.getGroup(),Toast.LENGTH_SHORT).show();
         if (isremove){
             if (ShopCart.getGoodsListSelected().size() > 0){
                 Set<String> buyall = new LinkedHashSet<>();//新建已经加入购物车的类型
@@ -109,7 +107,6 @@ public class BuyGoodsType {
             SPUtils.clearBuyType();
         }
         Set<String> buyType = SPUtils.getDataList("buyType");
-        Toast.makeText(BaseApplication.getContext(),"存储已经选了有的类型："+buyType.toString(),Toast.LENGTH_SHORT).show();
         return true;
     }
 

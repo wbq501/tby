@@ -63,4 +63,9 @@
     <color name="amount_color">#757575</color>
     <color name="specification_item">#FFB93D</color>
     <color name="lucency">#00000000</color>
+
+    <color name="coupon_yes">#F34F52</color>
+    <color name="coupon_no">#cdcbce</color>
+    <color name="coupon_textcolor">#929292</color>
+    <color name="coupon_bg">#33FFFFFF</color>
 </resources>

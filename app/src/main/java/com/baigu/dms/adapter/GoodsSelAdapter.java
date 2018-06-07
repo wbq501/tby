@@ -50,7 +50,7 @@ public class GoodsSelAdapter extends BaseListAdapter<Goods> {
             holder = (Holder) convertView.getTag();
         }
         Goods goods = getItem(position);
-        Glide.with(mContext).load(goods.getCoverpath()).centerCrop().placeholder(R.mipmap.place_holder).into(holder.ivGoods);
+        Glide.with(mContext).load(goods.getSupercoverpath()).centerCrop().placeholder(R.mipmap.place_holder).into(holder.ivGoods);
         holder.tvName.setText(goods.getGoodsname());
         holder.tvSelNum.setText(mContext.getString(R.string.buy_num, String.valueOf(goods.getBuyNum())));
         holder.tvAgentPrice.setText("￥" + String.valueOf(goods.getUniformprice()));
