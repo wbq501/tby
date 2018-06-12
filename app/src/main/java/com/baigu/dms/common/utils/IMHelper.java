@@ -153,7 +153,8 @@ public class IMHelper {
     public VisitorInfo createVisitorInfo() {
         VisitorInfo info = ContentFactory.createVisitorInfo(null);
         User user = UserCache.getInstance().getUser();
-        info.nickName(user.getNick())
+//        info.nickName(user.getNick())
+        info.nickName(user.getRealName()+"-"+user.getCellphone())
                 .name(user.getRealname())
                 .qq(user.getQq())
                 .phone(user.getCellphone())

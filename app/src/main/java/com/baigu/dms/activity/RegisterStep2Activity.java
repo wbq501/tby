@@ -118,14 +118,19 @@ public class RegisterStep2Activity extends BaseActivity implements View.OnClickL
                     ViewUtils.showToastInfo(R.string.input_tip_tel_length_error);
                     return;
                 }
-                sendMsgCode(phone);
+//                sendMsgCode(phone);
+                Intent intent = new Intent(this, RegisterStep3Activity.class);
+                intent.putExtra("phone", phone);
+                intent.putExtra("inviteCode", mInviteCode);
+                startActivity(intent);
+                finish();
             default:
                 break;
         }
     }
 
     private void sendMsgCode(final String phone) {
-        mSMSCodePresenter.sendSMSCode(User.SMSCodeType.REGISTER, phone);
+//        mSMSCodePresenter.sendSMSCode(User.SMSCodeType.REGISTER, phone);
     }
 
     @Override

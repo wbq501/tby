@@ -100,7 +100,7 @@ public class GoodsAddPopView extends PopupWindow implements OnClickListener {
             }
 
             @Override
-            public void onNumChanged(int amount) {
+            public void onNumChanged(int amount,boolean isAdd) {
                 updatePriceLabel(amount);
 
             }

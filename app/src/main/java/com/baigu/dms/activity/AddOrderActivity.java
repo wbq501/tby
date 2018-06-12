@@ -176,6 +176,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                         mgoods.setMarketprice(sku.getMarketprice());
                         mgoods.setGoodsname(goods.getGoodsname());
                         mgoods.setSkus(mskus);
+                        mgoods.setCategory(goods.getCategory());
                         String expressGroups = sku.getExpressGroups();
                         String[] express = expressGroups.split(",");
                         for (int i = 0; i < express.length; i++){
@@ -198,6 +199,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
                 mgoods.setGoodsname(goods.getGoodsname());
                 mgoods.setSkus(mskus);
+                mgoods.setCategory(goods.getCategory());
                 String expressGroups = goods.getSkus().get(0).getExpressGroups();
                 String[] express = expressGroups.split(",");
                 for (int i = 0; i < express.length; i++){

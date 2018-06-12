@@ -25,19 +25,33 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingRight="16dp">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_custom_service"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="?selectableItemBackground"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
             <ImageView
+                android:id="@+id/iv_kefu"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@mipmap/service" />
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_message_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/iv_kefu"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-10dp"
+                android:layout_toRightOf="@id/iv_kefu"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12dp"/>
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/layout_search"

@@ -166,8 +166,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                 if (null != mTitleIntList && mTitleIntList.size() > position) {
                     mGoodsAdapter.setSelection(position);
                 }
-
-
             }
         });
         mGoodsListPresenter.loadImage();

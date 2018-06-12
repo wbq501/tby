@@ -139,7 +139,8 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
             }
         }
         if (goods.getSkus().size() > 0) {
-            itemViewHolder.numberView.setMaxNum(goods.getSkus().get(0).getStocknum());
+            itemViewHolder.numberView.setMaxNum(BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount()));
+//            itemViewHolder.numberView.setMaxNum(goods.getSkus().get(0).getStocknum());
         }
 
         Goods cartGoods = ShopCart.getGoods(goods.getIds());
@@ -243,14 +244,6 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
 
         @Override
         public boolean onAbleChanged(int mCurrNum) {
-            if (mCurrNum >= buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount())){
-                if (goods.getShow()){
-                    goods.setShow(false);
-                    ViewUtils.showToastError(R.string.maxbuy_num);
-                    notifyDataSetChanged();
-                }
-                return false;
-            }
             if (mConfirmDialog == null) {
                 mConfirmDialog = new ConfirmDialog(mActivity, "");
                 mConfirmDialog.setHideCancel(true);
@@ -265,31 +258,27 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
         }
 
         @Override
-        public void onNumChanged(int amount) {
-            if (amount < buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount())){
-                goods.setShow(true);
-                notifyDataSetChanged();
+        public void onNumChanged(int amount,boolean isAdd) {
+            int buynum = BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(), goods.getSkus().get(0).getMaxCount());
+            if (isAdd){
+                if (goods.getSkus().get(0).getShow() && amount >= buynum){
+                    goods.getSkus().get(0).setShow(false);
+                    ViewUtils.showToastError(R.string.maxbuy_num);
+                    notifyDataSetChanged();
+                }
+            }else {
+                if (amount < buynum){
+                    goods.getSkus().get(0).setShow(true);
+                    notifyDataSetChanged();
+                }
             }
+
             goods.getSkus().get(0).setNumber(amount);
             ShopCart.addGoods(goods);
             if (mOnGoodsAmountChangeListener != null) {
                 mOnGoodsAmountChangeListener.onAmountChanged();
             }
         }
-    }
-
-    /**
-     * 2018.5.24
-     * 购买最大数量不超过库存
-     */
-    private int buynum(int stocknum,int maxCount){
-        int buynum;
-        if (maxCount == 0){
-            buynum = stocknum;
-        }else {
-            buynum = stocknum > maxCount ? maxCount : stocknum;
-        }
-        return buynum;
     }
 
     public interface OnGoodsAmountChangeListener {

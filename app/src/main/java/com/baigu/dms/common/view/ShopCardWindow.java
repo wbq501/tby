@@ -127,6 +127,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener,
                         mgoods.setMarketprice(sku.getMarketprice());
                         mgoods.setGoodsname(goods.getGoodsname());
                         mgoods.setSkus(mskus);
+                        mgoods.setCategory(goods.getCategory());
                         mGoodsList.add(mgoods);
                     }
                 }
@@ -145,6 +146,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener,
                     mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
                     mgoods.setGoodsname(goods.getGoodsname());
                     mgoods.setSkus(mskus);
+                    mgoods.setCategory(goods.getCategory());
                     mGoodsList.add(mgoods);
                 }
             }

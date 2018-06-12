@@ -11,7 +11,13 @@ import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.common.utils.ImageUtil;
+import com.baigu.dms.common.view.CircleImageView;
+import com.baigu.dms.common.view.GlideCircleTransform;
+import com.baigu.dms.domain.db.RepositoryFactory;
+import com.baigu.dms.domain.db.repository.BankTypeRepository;
 import com.baigu.dms.domain.model.Bank;
+import com.baigu.dms.domain.model.BankType;
+import com.bumptech.glide.Glide;
 import com.hyphenate.helpdesk.model.Content;
 
 import java.util.List;
@@ -45,7 +51,15 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
         itemHolder.name.setText(bank.getBankName());
         String number =bank.getBankAccount().substring(bank.getBankAccount().length()-4,bank.getBankAccount().length());
         itemHolder.bankNumber.setText(number);
-        ImageUtil.loadImage(context,bank.getRemarks(),itemHolder.icon);
+        BankTypeRepository bankRepository = RepositoryFactory.getInstance().getBankRepository();
+        List<BankType> bankTypes = bankRepository.queryAllBank();
+        for (BankType bankType : bankTypes){
+            if (bankType.getValue().equals(bank.getBankCode()) && bankType.getName().equals(bank.getBankName())){
+//                ImageUtil.loadImage(context,bankType.getRemarks(),itemHolder.icon);
+                Glide.with(context).load(bankType.getRemarks()).centerCrop().transform(new GlideCircleTransform(context)).into(itemHolder.icon);
+            }
+        }
+//        ImageUtil.loadImage(context,bank.getRemarks(),itemHolder.icon);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -60,7 +74,7 @@ public class BankListAdater extends BaseRVAdapter<Bank> {
 
         TextView name;
         TextView bankNumber;
-        ImageView icon;
+        CircleImageView icon;
         OnItemClickListener itemClickListener;
         OnItemLongListener itemLongListener;
 

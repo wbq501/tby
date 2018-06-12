@@ -5,21 +5,24 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
 import com.baigu.dms.R;
-import com.baigu.dms.adapter.WalletAdapter;
+import com.baigu.dms.adapter.WithdrawAdapter;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.view.WalletView;
+import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.model.Money;
+import com.baigu.dms.domain.model.WithdrawHistory;
 import com.baigu.dms.presenter.WalletPresenter;
+import com.baigu.dms.presenter.WithdrawHistoryPresenter;
 import com.baigu.dms.presenter.impl.WalletPresenterImpl;
+import com.baigu.dms.presenter.impl.WithdrewHistoryPresenterImpl;
+import com.baigu.lrecyclerview.interfaces.OnLoadMoreListener;
 import com.baigu.lrecyclerview.interfaces.OnRefreshListener;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerView;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerViewAdapter;
 import com.baigu.lrecyclerview.recyclerview.ProgressStyle;
+
+import java.util.List;
 
 /**
  * @Description
@@ -27,11 +30,16 @@ import com.baigu.lrecyclerview.recyclerview.ProgressStyle;
  * @Email mickyliu@126.com
  * @Date 2017/7/29 12:31
  */
-public class WalletActivity extends BaseActivity implements OnRefreshListener, WalletPresenter.WalletView {
+public class WalletActivity extends BaseActivity implements OnRefreshListener,OnLoadMoreListener, WalletPresenter.WalletView,WithdrawHistoryPresenter.WithdrawHistoryView {
     private WalletPresenter mWalletPresenter;
 
     private LRecyclerView mRecyclerView;
     private WalletView mWalletView;
+    
+    WithdrawHistoryPresenter withdrawHistoryPresenter;
+    private int pageNum;
+    WithdrawAdapter withdrawAdapter;
+    boolean isHistory = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,7 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener, W
         initToolBar();
         setTitle(R.string.wallet);
         mWalletPresenter = new WalletPresenterImpl(this, this);
+        withdrawHistoryPresenter = new WithdrewHistoryPresenterImpl(this,this);
         initView();
     }
 
@@ -53,11 +62,13 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener, W
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setOnRefreshListener(this);
         mWalletView = new WalletView(this);
-        LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(new WalletAdapter());
+        withdrawAdapter = new WithdrawAdapter(this, withdrawHistoryPresenter);
+        LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(withdrawAdapter);
         adapter.addHeaderView(mWalletView);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadMoreEnabled(false);
+        mRecyclerView.setLoadMoreEnabled(true);
+        mRecyclerView.setOnLoadMoreListener(this);
 
     }
 
@@ -88,6 +99,9 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener, W
     @Override
     public void onRefresh(){
         mWalletPresenter.getMyMoney();
+        pageNum = 0;
+        mRecyclerView.refreshComplete(10);
+        loadData(pageNum,true);
     }
 
     @Override
@@ -105,5 +119,34 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener, W
     protected void onPause() {
         super.onPause();
         mWalletView.cancleDialog();
+    }
+
+    @Override
+    public void onLoadMore() {
+        loadData(pageNum,true);
+    }
+
+    private void loadData(int pageNum,boolean showDialog) {
+        String menberId = UserCache.getInstance().getUser().getIds();
+        withdrawHistoryPresenter.getHistory(menberId,pageNum,showDialog,isHistory);
+    }
+
+    @Override
+    public void getHistory(List<WithdrawHistory> result) {
+        if (result == null && pageNum == 0){
+            return;
+        }
+        if (pageNum == 0){
+
+        }else {
+            mRecyclerView.setNoMore(result.size() == 0 && withdrawAdapter.getItemCount() > 0);
+        }
+        if (pageNum == 0){
+            withdrawAdapter.clearData();
+            withdrawAdapter.notifyDataSetChanged();
+        }
+        withdrawAdapter.appendDataList(result);
+        withdrawAdapter.notifyDataSetChanged();
+        pageNum++;
     }
 }

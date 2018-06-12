@@ -118,7 +118,7 @@ public class SkuDialog extends Dialog {
          * 2018.5.24
          * 购买最大数量不超过库存
          */
-        number.setMaxNum(buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount()));
+        number.setMaxNum(BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount()));
 //        number.setMaxNum(goods.getSkus().get(0).getStocknum());
 
         number.setCurrNum(mapNumber.get(goods.getSkus().get(0).getSkuId()));
@@ -140,7 +140,7 @@ public class SkuDialog extends Dialog {
             }
 
             @Override
-            public void onNumChanged(int amount) {
+            public void onNumChanged(int amount,boolean isAdd) {
                 //记录购买数量，显示价格
                 adapter.upDataNumber(amount);
                 Sku sku = goods.getSkus().get(adapter.getSelsed());
@@ -149,20 +149,26 @@ public class SkuDialog extends Dialog {
                  * 2018.5.24
                  * 购买最大数量不超过库存
                  */
-                number.setMaxNum(buynum(sku.getStocknum(),sku.getMaxCount()));
-//                number.setMaxNum(sku.getStocknum());
+                number.setMaxNum(BuyGoodsType.buynum(sku.getStocknum(),sku.getMaxCount()));
 
                 if (mapNumber.containsKey(sku.getSkuId())) {
                     mapNumber.put(sku.getSkuId(), amount);
                     goods.getSkus().get(adapter.getSelsed()).setNumber(amount);
                 }
-//                if (amount == sku.getStocknum()){
-                if (amount == buynum(sku.getStocknum(),sku.getMaxCount())){
-                    if (isshow) {
-                        ViewUtils.showToastSuccess(R.string.maxbuy_num);
-                        isshow = false;
+                int buynum = BuyGoodsType.buynum(sku.getStocknum(), sku.getMaxCount());
+                if (isAdd){
+                    if (amount == buynum){
+                        if (isshow) {
+                            ViewUtils.showToastError(R.string.maxbuy_num);
+                            isshow = false;
+                        }
+                    }
+                }else {
+                    if (amount < buynum){
+                        isshow = true;
                     }
                 }
+
                 tvMoney.setText("￥" + getCount());
             }
         });
@@ -200,24 +206,11 @@ public class SkuDialog extends Dialog {
             public void OnItemClick(View view, int position) {
                 isshow = true;
                 number.setSku(goods.getSkus().get(position));
-                number.setMaxNum(buynum(goods.getSkus().get(position).getStocknum(),goods.getSkus().get(position).getMaxCount()));
+                number.setMaxNum(BuyGoodsType.buynum(goods.getSkus().get(position).getStocknum(),goods.getSkus().get(position).getMaxCount()));
             }
         });
     }
 
-    /**
-     * 2018.5.24
-     * 购买最大数量不超过库存
-     */
-    private int buynum(int stocknum,int maxCount){
-        int buynum;
-        if (maxCount == 0){
-            buynum = stocknum;
-        }else {
-            buynum = stocknum > maxCount ? maxCount : stocknum;
-        }
-        return buynum;
-    }
 
     private void getNumberMap() {
         mapNumber = new HashMap<>();

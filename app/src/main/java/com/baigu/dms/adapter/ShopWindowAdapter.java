@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.BuyGoodsType;
+import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.view.NumberView;
 import com.baigu.dms.domain.cache.ShopCart;
 import com.baigu.dms.domain.model.Goods;
@@ -86,7 +88,8 @@ public class ShopWindowAdapter extends BaseListAdapter<Goods> {
         }
 
         holder.tvSku.setText(goods.getSkus().get(0).getSkuAttr());
-        holder.numberView.setMaxNum(goods.getStocknum());
+//        holder.numberView.setMaxNum(goods.getStocknum());
+        holder.numberView.setMaxNum(BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(),goods.getSkus().get(0).getMaxCount()));
         holder.numberView.setCurrNum(goods.getSkus().get(0).getNumber());
         holder.numberView.setSku(goods.getSkus().get(0));
         holder.numberView.setOnNumChangeListener(new NumberView.OnNumChangeListener() {
@@ -96,19 +99,30 @@ public class ShopWindowAdapter extends BaseListAdapter<Goods> {
             }
 
             @Override
-            public void onNumChanged(int amount) {
+            public void onNumChanged(int amount,boolean isAdd) {
+                int buynum = BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(), goods.getSkus().get(0).getMaxCount());
+                if (isAdd){
+                    if (amount >= buynum && getItem(position).getSkus().get(0).getShow()){
+                        getItem(position).getSkus().get(0).setShow(false);
+                        ViewUtils.showToastError(R.string.maxbuy_num);
+                    }
+                }else {
+                    if (amount < buynum){
+                        getItem(position).getSkus().get(0).setShow(true);
+                    }
+                }
                 getItem(position).getSkus().get(0).setNumber(amount);
                 ArrayList<Goods> listSelected = ShopCart.getGoodsListSelected();
                 for (Goods mGoods : listSelected) {
                     if (mGoods.getIds().equals(getItem(position).getIds())) {
                         for (Sku sku : mGoods.getSkus()) {
-                                if (getItem(position).getSkus().get(0).getSkuId().equals(sku.getSkuId())) {
-                                    sku.setNumber(amount);
-                                }
+                            if (getItem(position).getSkus().get(0).getSkuId().equals(sku.getSkuId())) {
+                                sku.setNumber(amount);
+                            }
                         }
                     }
                 }
-//                ShopCart.addGoods(getItem(position));
+                ShopCart.addGoods(getItem(position));
                 ShopCart.checkGoods();
                 holder.tvTotalPrice.setText(mContext.getString(R.string.total_price2, String.format("%.2f", amount * goods.getUniformprice())));
                 String markPrice = "原价:" + String.format("%.2f",goods.getMarketprice() * amount);
@@ -123,7 +137,6 @@ public class ShopWindowAdapter extends BaseListAdapter<Goods> {
         });
         return convertView;
     }
-
     class Holder {
         ImageView ivGoods;
         TextView tvName;

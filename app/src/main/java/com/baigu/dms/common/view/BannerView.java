@@ -99,7 +99,7 @@ public class BannerView extends FrameLayout {
                 }
             });
 
-            maxCount = list.size() * 10;
+            maxCount = list.size() * 100;
 
             mBannerPageAdapter.setData(list);
             mBannerPageAdapter.notifyDataSetChanged();

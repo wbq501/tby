@@ -31,7 +31,7 @@ public class Goods implements Parcelable {
     private int limitnum = 0;
     private GoodsCategory category;
     private List<ShopPictrue> pics;//列表显示position为1的图片
-    private Boolean isShow = true;
+
 
     public static final class StockShowType {
         public static final int SHOW = 1;
@@ -183,13 +183,6 @@ public class Goods implements Parcelable {
         this.pics = pics;
     }
 
-    public Boolean getShow() {
-        return isShow;
-    }
-
-    public void setShow(Boolean show) {
-        isShow = show;
-    }
 
     @Override
     public String toString() {
@@ -212,7 +205,6 @@ public class Goods implements Parcelable {
                 ", limitnum=" + limitnum +
                 ", category=" + category +
                 ", pics=" + pics +
-                ", isShow=" + isShow +
                 '}';
     }
 
@@ -240,7 +232,7 @@ public class Goods implements Parcelable {
         dest.writeInt(this.isshow);
         dest.writeInt(this.limitnum);
         dest.writeParcelable(this.category, flags);
-        dest.writeInt(isShow ? 1 : -1);
+
     }
 
     public Goods() {
@@ -264,7 +256,6 @@ public class Goods implements Parcelable {
         this.isshow = in.readInt();
         this.limitnum = in.readInt();
         this.category = in.readParcelable(GoodsCategory.class.getClassLoader());
-        this.isShow = in.readInt() > 0 ? true:false;
     }
 
     public static final Creator<Goods> CREATOR = new Creator<Goods>() {

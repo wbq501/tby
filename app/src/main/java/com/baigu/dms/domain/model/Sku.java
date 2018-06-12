@@ -26,6 +26,8 @@ public class Sku implements Parcelable{
     private int maxCount;
     private String expressGroups;
 
+    private Boolean isShow = true;
+
 
     public int getNumber() {
         return number;
@@ -140,6 +142,14 @@ public class Sku implements Parcelable{
         this.expressGroups = expressGroups;
     }
 
+    public Boolean getShow() {
+        return isShow;
+    }
+
+    public void setShow(Boolean show) {
+        isShow = show;
+    }
+
     @Override
     public String toString() {
         return "Sku{" +
@@ -157,6 +167,7 @@ public class Sku implements Parcelable{
                 ", group='" + group + '\'' +
                 ", maxCount=" + maxCount +
                 ", expressGroups='" + expressGroups + '\'' +
+                ", isShow=" + isShow +
                 '}';
     }
 
@@ -182,6 +193,7 @@ public class Sku implements Parcelable{
         dest.writeString(this.group);
         dest.writeInt(this.maxCount);
         dest.writeString(this.expressGroups);
+        dest.writeInt(isShow ? 1 : -1);
     }
 
     public Sku() {
@@ -202,6 +214,7 @@ public class Sku implements Parcelable{
         this.group = in.readString();
         this.maxCount = in.readInt();
         this.expressGroups = in.readString();
+        this.isShow = in.readInt() > 0 ? true:false;
     }
 
     public static final Creator<Sku> CREATOR = new Creator<Sku>() {

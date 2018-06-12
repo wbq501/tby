@@ -136,7 +136,7 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                 }
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {
-                    mOnNumChangeListener.onNumChanged(mCurrNum);
+                    mOnNumChangeListener.onNumChanged(mCurrNum,true);
                 }
                 break;
             case R.id.iv_sub:
@@ -153,7 +153,7 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
 
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {
-                    mOnNumChangeListener.onNumChanged(mCurrNum);
+                    mOnNumChangeListener.onNumChanged(mCurrNum,false);
                 }
                 break;
             default:
@@ -163,6 +163,6 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
 
     public interface OnNumChangeListener {
         boolean onAbleChanged(int currNum);
-        void onNumChanged(int amount);
+        void onNumChanged(int amount,boolean isAdd);
     }
 }

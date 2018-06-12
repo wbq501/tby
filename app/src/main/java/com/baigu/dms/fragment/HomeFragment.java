@@ -49,6 +49,11 @@ import com.baigu.lrecyclerview.interfaces.OnRefreshListener;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerView;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerViewAdapter;
 import com.baigu.lrecyclerview.recyclerview.ProgressStyle;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.chat.Conversation;
+import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
+import com.hyphenate.helpdesk.model.ContentFactory;
+import com.micky.logger.Logger;
 
 import java.util.List;
 
@@ -82,6 +87,8 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
     private BrandStoryAdapter mBrandStroyAdapter;
     private HomePresenter mHomePresenter;
 
+    private TextView mTvMessageNum;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,8 +108,33 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
         String token = TokenManager.getInstance().getToken();
 
         loadData(true);
-
+        loadMessageNum();
         return mRootView;
+    }
+
+    public void setMessageNum(int num) {
+        if (num <= 0) {
+            mTvMessageNum.setVisibility(View.GONE);
+        } else if (num >= 99) {
+            mTvMessageNum.setVisibility(View.VISIBLE);
+            mTvMessageNum.setText(num + "+");
+        } else {
+            mTvMessageNum.setVisibility(View.VISIBLE);
+            mTvMessageNum.setText(String.valueOf(num));
+        }
+    }
+
+    private void loadMessageNum() {
+        try {
+            Conversation conversation = ChatClient.getInstance().chatManager().getConversation(getString(R.string.hx_customer));
+            if (conversation == null) {
+                return;
+            }
+            int count = conversation.unreadMessagesCount();
+            setMessageNum(count);
+        } catch (Exception e) {
+            Logger.e(e, e.getMessage());
+        }
     }
 
     private void initView(View view) {
@@ -110,6 +142,7 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
         mLayoutSearch.setOnClickListener(this);
 
         findView(view, R.id.ll_custom_service).setOnClickListener(this);
+        mTvMessageNum = findView(view,R.id.tv_message_num);
 
         mRecyclerView = findView(view, R.id.iRecyclerView);
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.LineScalePulseOut);
@@ -400,6 +433,9 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
                     }
                 }
                 mBrandStroyAdapter.notifyDataSetChanged();
+                break;
+            case EventType.TYPE_UPDATE_MESSAGE_NUM:
+                loadMessageNum();
                 break;
             default:
                 break;

@@ -46,7 +46,6 @@ public class WithdrawAdapter extends BaseRVAdapter<WithdrawHistory>{
             ammout = new BigDecimal(withdrawHistory.getApplyAmount());
         }
         BigDecimal divide = ammout.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
-        viewHolder.tv_money.setText("￥"+ divide.doubleValue());
         String stats="";
         switch (withdrawHistory.getApplyStatus()){
             case 1:
@@ -66,12 +65,15 @@ public class WithdrawAdapter extends BaseRVAdapter<WithdrawHistory>{
                 switch (withdrawHistory.getExpRecType()){
                     case 0:
                         viewHolder.tv_type.setText("未知");
+                        viewHolder.tv_money.setText("￥"+ divide.doubleValue());
                         break;
                     case 1:
                         viewHolder.tv_type.setText("支出");
+                        viewHolder.tv_money.setText("-"+ divide.doubleValue());
                         break;
                     case 2:
                         viewHolder.tv_type.setText("收入");
+                        viewHolder.tv_money.setText("+"+ divide.doubleValue());
                         break;
                 }
                 break;

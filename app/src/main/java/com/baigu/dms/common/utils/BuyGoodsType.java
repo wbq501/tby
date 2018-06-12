@@ -136,4 +136,19 @@ public class BuyGoodsType {
         System.arraycopy(b,0,c,a.length,b.length);
         return c;
     }
+
+
+    /**
+     * 2018.5.24
+     * 购买最大数量不超过库存
+     */
+    public static int buynum(int stocknum,int maxCount){
+        int buynum;
+        if (maxCount == 0){
+            buynum = stocknum;
+        }else {
+            buynum = stocknum > maxCount ? maxCount : stocknum;
+        }
+        return buynum;
+    }
 }

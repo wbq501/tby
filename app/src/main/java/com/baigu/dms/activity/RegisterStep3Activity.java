@@ -105,10 +105,10 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
         mTvTel.setText(phone);
         mTvInviteCode.setText(inviteCode);
 
-        mIsSendingCode = true;
-        mBtnCode.setText(getString(R.string.code_sent, String.valueOf(mTimeCount)));
-        mBtnCode.setTextColor(getResources().getColor(R.color.code_unable_get));
-        startCount();
+//        mIsSendingCode = true;
+//        mBtnCode.setText(getString(R.string.code_sent, String.valueOf(mTimeCount)));
+//        mBtnCode.setTextColor(getResources().getColor(R.color.code_unable_get));
+//        startCount();
     }
 
     @Override
