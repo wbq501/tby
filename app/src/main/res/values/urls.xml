@@ -6,13 +6,13 @@
     <!--192.168.2.149:3333-->
     <!--https://183.220.239.91:8444/-->
     <!-- 博客地址 -->
-    <string name="base_url">http://blog.tanbaye.com</string>
+    <string name="base_url">https://blog.tanbaye.com</string>
     <!-- 销量wap网站 -->
-    <string name="my_reward_url">http://m.tanbaye.com/index</string>
+    <string name="my_reward_url">https://m.tanbaye.com/index</string>
     <!-- 接口地址 -->
-    <string name="end_point">http://api.tanbaye.com/</string>
+    <string name="end_point">https://api.tanbaye.com/</string>
     <!-- 支付地址 -->
-    <string name="pay_point">http://pay.tanbaye.com/</string>
+    <string name="pay_point">https://pay.tanbaye.com/</string>
 
     <!--<string name="base_url">http://192.168.2.112:9000</string>-->
     <!--<string name="my_reward_url">http://192.168.2.112:5555/index</string>-->

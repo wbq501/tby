@@ -125,6 +125,7 @@ public class CouponActivity extends BaseActivity implements OnLoadMoreListener,O
                         break;
                 }
                 pageNum = 1;
+                couponAdapter.setState(mStatus);
                 rv_hb.setNoMore(false);
                 EmptyViewUtil.hide(CouponActivity.this);
                 loadData();
@@ -178,6 +179,11 @@ public class CouponActivity extends BaseActivity implements OnLoadMoreListener,O
             return;
         }
         List<Coupon.ListBean> lists = coupon.getList();
+        if (lists.get(0).getCoupon() == null){
+            EmptyViewUtil.show(this);
+            rv_hb.setNoMore(true);
+            return;
+        }
         if (pageNum == 1){
             EmptyViewUtil.hide(this);
             if (lists == null || lists.size() == 0){

@@ -282,3 +282,14 @@
 -keep class com.baigu.dms.domain.netservice.response.** { *;}
 -keep class com.baigu.dms.domain.file.** { *;}
 ###################################Model End###################################
+
+
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
+
+# tinker混淆规则
+-dontwarn com.tencent.tinker.**
+-keep class com.tencent.tinker.** { *; }

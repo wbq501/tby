@@ -48,6 +48,7 @@ import com.baigu.dms.presenter.GoodsDetailPresenter;
 import com.baigu.dms.presenter.impl.BuyNumPresenterimpl;
 import com.baigu.dms.presenter.impl.GoodsDetailPresenterImpl;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -336,6 +337,8 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
 
     private void changGoodsSku() {
 //        sortSku();
+        if (mGoods == null)
+            return;
         for (Sku sku : mGoods.getSkus()) {
             try {
                 StringBuilder tv_sku = new StringBuilder();
@@ -503,7 +506,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(GoodsDetailActivity.this).load(path).placeholder(R.mipmap.place_holder).centerCrop().into(imageView);
+            Glide.with(GoodsDetailActivity.this).load(path).placeholder(R.mipmap.place_holder).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
         }
     }
 

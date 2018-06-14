@@ -11,54 +11,70 @@ import android.os.Parcelable;
  */
 public class VersionInfo implements Parcelable {
 
-    private int versionCode;
-    private String versionName;
-    private String downUrl;
-    private String updateContent;
-    private int versionForced;
+    private String id;
+    private String porttype;
+    private String url;
+    private String versioncode;
+    private String versionname;
+    private String applicationdescription;
+    private int versionforced;
 
-    public int getVersionCode() {
-        return versionCode;
+    public String getId() {
+        return id;
     }
 
-    public void setVersionCode(int versionCode) {
-        this.versionCode = versionCode;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getVersionName() {
-        return versionName;
+    public String getPorttype() {
+        return porttype;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setPorttype(String porttype) {
+        this.porttype = porttype;
     }
 
-    public String getDownUrl() {
-        return downUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setDownUrl(String downUrl) {
-        this.downUrl = downUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public int getVersionForced() {
-        return versionForced;
+    public String getVersioncode() {
+        return versioncode;
     }
 
-    public void setVersionForced(int versionForced) {
-        this.versionForced = versionForced;
+    public void setVersioncode(String versioncode) {
+        this.versioncode = versioncode;
     }
 
-    public String getUpdateContent() {
-        return updateContent;
+    public String getVersionname() {
+        return versionname;
     }
 
-    public void setUpdateContent(String updateContent) {
-        this.updateContent = updateContent;
+    public void setVersionname(String versionname) {
+        this.versionname = versionname;
     }
 
-    public VersionInfo() {
+    public String getApplicationdescription() {
+        return applicationdescription;
     }
+
+    public void setApplicationdescription(String applicationdescription) {
+        this.applicationdescription = applicationdescription;
+    }
+
+    public int getVersionforced() {
+        return versionforced;
+    }
+
+    public void setVersionforced(int versionforced) {
+        this.versionforced = versionforced;
+    }
+
 
     @Override
     public int describeContents() {
@@ -67,19 +83,26 @@ public class VersionInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.versionCode);
-        dest.writeString(this.versionName);
-        dest.writeString(this.downUrl);
-        dest.writeString(this.updateContent);
-        dest.writeInt(this.versionForced);
+        dest.writeString(this.id);
+        dest.writeString(this.porttype);
+        dest.writeString(this.url);
+        dest.writeString(this.versioncode);
+        dest.writeString(this.versionname);
+        dest.writeString(this.applicationdescription);
+        dest.writeInt(this.versionforced);
+    }
+
+    public VersionInfo() {
     }
 
     protected VersionInfo(Parcel in) {
-        this.versionCode = in.readInt();
-        this.versionName = in.readString();
-        this.downUrl = in.readString();
-        this.updateContent = in.readString();
-        this.versionForced = in.readInt();
+        this.id = in.readString();
+        this.porttype = in.readString();
+        this.url = in.readString();
+        this.versioncode = in.readString();
+        this.versionname = in.readString();
+        this.applicationdescription = in.readString();
+        this.versionforced = in.readInt();
     }
 
     public static final Creator<VersionInfo> CREATOR = new Creator<VersionInfo>() {

@@ -73,10 +73,10 @@ public class BrandStoryAdapter extends BaseRVAdapter<BrandStory> {
 //        Glide.with(context).load(brandStory.getBrand_ctx_img()).diskCacheStrategy(DiskCacheStrategy.ALL).transform(new GlideCircleTransform(context)).into(itemViewHolder.ivHead);
         itemViewHolder.tvUsername.setText(brandStory.getBrand_title());
         itemViewHolder.tvTime.setText(StringUtils.getTimeLabelStr(brandStory.getCreate_time()));
-        if (TextUtils.isEmpty(brandStory.getBrand_content())) {
+        if (TextUtils.isEmpty(brandStory.getBrand_brief())) {
             itemViewHolder.tvContent.setText("暂时还没有内容哦");
         } else {
-            itemViewHolder.tvContent.setText(brandStory.getBrand_content());
+            itemViewHolder.tvContent.setText(brandStory.getBrand_brief());
         }
 
 //        itemViewHolder.tvPraiseNum.setText(String.valueOf(brandStory.getDd()));

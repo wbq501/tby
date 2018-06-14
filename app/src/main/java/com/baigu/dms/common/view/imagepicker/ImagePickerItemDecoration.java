@@ -13,7 +13,7 @@ import android.view.View;
  * @Author Micky Liu
  * @Email liuhongwei@isphere.top
  * @Date 2016-08-01 16:16
- * @Company 北京华云合创科技有限公司成都分公司
+ * @Company
  * @Copyright Copyright(C) 2016-2018
  * @Version 1.0.0
  */

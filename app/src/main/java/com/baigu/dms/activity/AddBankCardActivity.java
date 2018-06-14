@@ -93,6 +93,8 @@ public class AddBankCardActivity extends BaseActivity implements View.OnClickLis
     public void addBank(Boolean result) {
             if(result){
                 ViewUtils.showToastInfo(R.string.bank_success);
+                Intent intent = new Intent();
+                setResult(100,intent);
                 finish();
             }else{
                 ViewUtils.showToastInfo(R.string.bank_false);

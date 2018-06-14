@@ -370,7 +370,7 @@
     <string name="input_tip_invalid_email">邮箱格式不正确</string>
     <string name="input_tip_upload_idcard_front">请上传身份证正面</string>
     <string name="input_tip_upload_idcard_back">请上传身份证反面</string>
-    <string name="input_tip_idcard">请输入身份证号</string>
+    <string name="input_tip_idcard">请输入正确的身份证号</string>
     <string name="input_tip_comment">请输入评论内容</string>
     <string name="input_tip_invite_code">请输入邀请码</string>
     <string name="input_tip_old_passwd">请输入原密码</string>
@@ -515,4 +515,6 @@
 
     <string name="express_support">所选地区不支持该快递</string>
     <string name="change_success">修改成功</string>
+    <integer name="id_card_length">18</integer>
+    <string name="sure_money">确认金额</string>
 </resources>

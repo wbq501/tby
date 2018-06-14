@@ -1,22 +1,18 @@
 package com.baigu.dms;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
-
-import com.baigu.dms.activity.SplashActivity;
 import com.baigu.dms.common.utils.Constants;
 import com.baigu.dms.common.utils.CrashHandler;
 import com.baigu.dms.common.utils.LogUtils;
-import com.baigu.dms.common.utils.ViewUtils;
-import com.baigu.dms.common.view.toast.Toasty;
-import com.baigu.dms.domain.db.DBCore;
-import com.hyphenate.chat.ChatClient;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
+
+import java.util.Locale;
 
 /**
  * @Description
@@ -31,9 +27,11 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        initBugly();
         sContext = this;
         CrashHandler.getInstance().init(this);
         LogUtils.initLogger();
+
 
         //umeng初始化
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, getString(R.string.um_app_key));
@@ -52,6 +50,10 @@ public class BaseApplication extends MultiDexApplication {
         QbSdk.initX5Environment(getApplicationContext(),cb);
     }
 
+    private void initBugly() {
+        Bugly.init(getApplicationContext(),"6732252c38",false);
+    }
+
     public static Context getContext() {
         return sContext;
     }
@@ -60,6 +62,8 @@ public class BaseApplication extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+
+//        Beta.installTinker();
     }
 
 }

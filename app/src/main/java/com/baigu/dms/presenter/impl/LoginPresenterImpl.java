@@ -58,7 +58,7 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
                 try {
                     ShopCart.clearCart();
                     User user = UserCache.getInstance().getUser();
-                    String loginResult = loginInner(user.getCellphone(), user.getLoginToken(), true);
+                    String loginResult = loginInner(user.getCellphone(), user.getLoginToken(), true,user.getInvitecode());
                     if (!TextUtils.isEmpty(loginResult)) {
                         result = loginResult;
                     }
@@ -104,7 +104,7 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
                 String result = mActivity.getString(R.string.login_failed);
                 try {
                     ShopCart.clearCart();
-                    String loginResult = loginInner(params[0], params[1], false);
+                    String loginResult = loginInner(params[0], params[1], false,"");
                     if (!TextUtils.isEmpty(loginResult)) {
                         result = loginResult;
                     }
@@ -137,7 +137,7 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
         }.execute(phone, pwd));
     }
 
-    private String loginInner(String phone, String pwd, boolean autoLogin) throws Exception {
+    private String loginInner(String phone, String pwd, boolean autoLogin,String inviteCode) throws Exception {
         String result = "";
         Call<BaseResponse<String>> keyCall = ServiceManager.createGsonService(UserService.class).getPublicKey(phone, User.RSAKeyType.LOGIN);
         Response<BaseResponse<String>> keyResponse = keyCall.execute();
@@ -160,6 +160,7 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
                         TokenManager.getInstance().setToken(user.getToken());
                         user.setToken("");
                         if (autoLogin) {
+                            user.setInvitecode(inviteCode);
                             user.setLoginToken(UserCache.getInstance().getUser().getLoginToken());
                         }
                         UserCache.getInstance().setUser(user);

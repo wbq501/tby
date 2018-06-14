@@ -12,6 +12,7 @@ import com.baigu.dms.common.utils.StringUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.presenter.CertificationPresenter;
 import com.baigu.dms.presenter.impl.CertificationPresenterImpl;
+import com.github.yoojia.inputs.verifiers.IDCardVerifier;
 
 /**
  * @Description 实名认证
@@ -57,7 +58,9 @@ public class CertificationStep2Activity extends BaseActivity implements Certific
         int id = item.getItemId();
         if (id == R.id.action_next) {
             String idCard = mEtIDCard.getText().toString().trim();
-            if (TextUtils.isEmpty(idCard)) {
+            IDCardVerifier idCardVerifier = new IDCardVerifier();
+            boolean isIdcard = idCardVerifier.performTestNotEmpty(idCard);
+            if (!isIdcard) {
                 ViewUtils.showToastError(R.string.input_tip_idcard);
                 return super.onOptionsItemSelected(item);
             }

@@ -116,9 +116,9 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
             }
             APKUtils.Version localVersion = mAPKUtils.getLocalVersionCode();
             if (localVersion != null) {
-                boolean forceUpgrade = serverVersion.getVersionForced() > 0;
-                if (!TextUtils.isEmpty(serverVersion.getDownUrl()) && localVersion.versionCode < serverVersion.getVersionCode()) { //提示更新apk
-                    String versionText = serverVersion.getVersionForced() > 0 ? getString(R.string.find_new_version_force, serverVersion.getVersionName()) : getString(R.string.find_new_version, serverVersion.getVersionName());
+                boolean forceUpgrade = serverVersion.getVersionforced() > 0;
+                if (!TextUtils.isEmpty(serverVersion.getUrl()) && localVersion.versionCode < Integer.valueOf(serverVersion.getVersioncode())) { //提示更新apk
+                    String versionText = serverVersion.getVersionforced() > 0 ? getString(R.string.find_new_version_force, serverVersion.getVersionname()) : getString(R.string.find_new_version, serverVersion.getVersionname());
                     if (mConfirmDialog == null) {
                         mConfirmDialog = new ConfirmDialog(this, versionText, !forceUpgrade);
                     }
@@ -172,7 +172,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 ViewUtils.showToastError(R.string.check_sdcard);
                 return;
             }
-            mAPKUtils.downFile(serverVersionInfo.getDownUrl(), FileUtils.APK_LOCAL_PATH, serverVersionInfo.getVersionName() + ".apk", mHandler);
+            mAPKUtils.downFile(serverVersionInfo.getUrl(), FileUtils.APK_LOCAL_PATH, serverVersionInfo.getVersionname() + ".apk", mHandler);
         }
 
         @Override

@@ -56,7 +56,7 @@ public interface WalletService {
 
     @POST("/c/api/my/deleteMyBank")
     @FormUrlEncoded
-    Call<BaseResponse<String>> deleteMyBank(@Field("bankId") String bankId);
+    Call<BaseResponse<String>> deleteMyBank(@Field("bankId") String bankId,@Query("bankId") String userId);
 
     //    @POST("c/api/my/addMyBlank")
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头

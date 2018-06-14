@@ -109,6 +109,7 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
                         List<String> pathList = data.getStringArrayListExtra(ImagePickerActivity.FLAG_SELECTED_PATH_LIST);
                         if (pathList != null && pathList.size() > 0) {
                             String path = pathList.get(0);
+                            mIDCardFrontPath = path;
                             presenter.upLoadImage(path, REQUEST_CODE_IDCARD_FRONT);
                             if (!TextUtils.isEmpty(path)) {
                                 Drawable drawable = Drawable.createFromPath(path);
@@ -122,6 +123,7 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
                         List<String> pathList = data.getStringArrayListExtra(ImagePickerActivity.FLAG_SELECTED_PATH_LIST);
                         if (pathList != null && pathList.size() > 0) {
                             String path = pathList.get(0);
+                            mIDCardBackPath = path;
                             presenter.upLoadImage(path, REQUEST_CODE_IDCARD_BACK);
                             if (!TextUtils.isEmpty(path)) {
 
@@ -204,18 +206,19 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
     public void onLoadImage(String imgURL) {
         if(TextUtils.isEmpty(imgURL)){
             ViewUtils.showToastError("图片上传失败");
+            mIDCardFrontPath = imgURL;
             return;
         }
-        mIDCardFrontPath = imgURL;
+//        mIDCardFrontPath = imgURL;
     }
 
     @Override
     public void onLoadImageBack(String imgURL) {
         if(TextUtils.isEmpty(imgURL)){
             ViewUtils.showToastError("图片上传失败");
+            mIDCardBackPath = imgURL;
             return;
         }
-        mIDCardBackPath = imgURL;
-
+//        mIDCardBackPath = imgURL;
     }
 }

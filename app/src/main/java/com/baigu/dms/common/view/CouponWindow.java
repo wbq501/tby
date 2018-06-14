@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.adapter.CouponAdapter;
@@ -58,6 +59,8 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
         initview(view);
         int strId = mActivity.getResources().getIdentifier("coupon_msg", "string", mActivity.getPackageName());
         ll_empty = view.findViewById(R.id.ll_empty);
+        TextView tv_empty_tip = view.findViewById(R.id.tv_empty_tip);
+        tv_empty_tip.setText(R.string.coupon_msg);
         loadData();
     }
 
@@ -117,6 +120,11 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
             return;
         }
         List<Coupon.ListBean> lists = coupon.getList();
+        if (lists.get(0).getCoupon() == null){
+            ll_empty.setVisibility(View.VISIBLE);
+            rv_hb.setNoMore(true);
+            return;
+        }
         if (pageNum == 1){
             if (lists == null || lists.size() == 0){
                 ll_empty.setVisibility(View.VISIBLE);

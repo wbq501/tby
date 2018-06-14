@@ -21,6 +21,7 @@
         android:background="@color/white"
         android:hint="@string/input_tip_idcard"
         android:digits="@string/input_idcard_type"
+        android:maxLength="@integer/id_card_length"
         android:textColor="@color/main_text"
         android:textSize="15dp" />
 

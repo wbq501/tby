@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.baigu.dms.R;
 import com.baigu.dms.common.utils.BaseAsyncTask;
 import com.baigu.dms.common.utils.RxOptional;
+import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.netservice.ServiceManager;
 import com.baigu.dms.domain.netservice.WalletService;
 import com.baigu.dms.domain.netservice.response.BaseResponse;
@@ -33,7 +34,7 @@ public class DelMyBankPresenterimpl extends BasePresenterImpl implements DelMyBa
                 RxOptional<String> rxOptional = new RxOptional<>();
                 String result = mActivity.getString(R.string.login_failed);
                 try {
-                    Call<BaseResponse<String>> baseResponseCall = ServiceManager.createGsonService(WalletService.class).deleteMyBank(parms[0]);
+                    Call<BaseResponse<String>> baseResponseCall = ServiceManager.createGsonService(WalletService.class).deleteMyBank(parms[0],UserCache.getInstance().getUser().getIds());
                     Response<BaseResponse<String>> responseResponse = baseResponseCall.execute();
                     if (responseResponse.body().getCode() == 0){
                         result = responseResponse.body().getData();

@@ -107,11 +107,11 @@ public class CertificationPresenterImpl extends BasePresenterImpl implements Cer
 
     @Override
     public void upLoadImage(String imageFile, final int type) {
-        addDisposable(new BaseAsyncTask<String, Void, String>() {
+        addDisposable(new BaseAsyncTask<String, Void, String>(mActivity,true) {
             @Override
             protected RxOptional<String> doInBackground(String... strings) {
                 FileUpload fileUpload = new FileUpload();
-                String url = mActivity.getString(R.string.end_point) + "/platform/upimage/idCardImg";
+                String url = mActivity.getString(R.string.end_point) + "platform/upimage/idCardImg";
                 fileUpload.setRequestName("imageFile");
                 String frontUrl = fileUpload.upload(url, strings[0], null, null);
                 RxOptional<String> rxResult = new RxOptional();

@@ -68,7 +68,7 @@ public class RecommendClassAdapter extends BaseRVAdapter<RecommendClass> {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) icon.getLayoutParams();
             params.weight = widthPixels/4;
             params.height = widthPixels/4-20;
-            icon.setLayoutParams(params);
+//            icon.setLayoutParams(params);
             itemView.setOnClickListener(this);
         }
 

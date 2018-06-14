@@ -48,6 +48,7 @@ public class CheckVersionPresenterImpl extends BasePresenterImpl implements Chec
                 RxOptional<VersionInfo> rxResult = new RxOptional<>();
                 try {
                     Call<BaseResponse<VersionInfo>> versionCall = ServiceManager.createGsonService(UserService.class).checkAppUpdate("android");
+//                    Call<BaseResponse<VersionInfo>> versionCall = ServiceManager.createGsonService(UserService.class).checkAppUpdate("android");
                     Response<BaseResponse<VersionInfo>> versionResponse = versionCall.execute();
                     if (versionResponse != null && versionResponse.body() != null && BaseResponse.SUCCESS.equals(versionResponse.body().getStatus())) {
                         rxResult.setResult(versionResponse.body().getData());
@@ -55,6 +56,9 @@ public class CheckVersionPresenterImpl extends BasePresenterImpl implements Chec
                     rxResult.setCode(versionResponse != null && versionResponse.body() != null ? versionResponse.body().getCode() : -1);
                 } catch (Exception e) {
                     Logger.e(e, e.getMessage());
+                    VersionInfo versionInfo = new VersionInfo();
+                    versionInfo.setVersioncode("1");
+                    rxResult.setResult(versionInfo);
                 }
                 return rxResult;
             }
@@ -62,9 +66,6 @@ public class CheckVersionPresenterImpl extends BasePresenterImpl implements Chec
             @Override
             protected void onPostExecute(VersionInfo result) {
                 super.onPostExecute(result);
-                //todo test
-                result = new VersionInfo();
-                result.setVersionCode(1);
                 if (mCheckVersionView != null) {
                     mCheckVersionView.onCheckVersion(result);
                 }
@@ -73,9 +74,8 @@ public class CheckVersionPresenterImpl extends BasePresenterImpl implements Chec
             @Override
             protected void doOnError() {
                 if (mCheckVersionView != null) {
-                    //todo test
                     VersionInfo result = new VersionInfo();
-                    result.setVersionCode(1);
+                    result.setVersioncode("1");
                     mCheckVersionView.onCheckVersion(result);
                 }
             }

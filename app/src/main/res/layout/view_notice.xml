@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:paddingRight="15dp">
 
         <FrameLayout
@@ -30,8 +32,8 @@
                 android:includeFontPadding="false"
                 android:gravity="center_vertical"
                 android:text="@string/kuaibao"
-                android:textColor="@color/white"
-                android:textSize="11dp" />
+                android:textSize="14dp"
+                android:textColor="@color/white" />
         </FrameLayout>
 
 
@@ -39,13 +41,14 @@
             android:id="@+id/marqueeView"
             android:layout_width="match_parent"
             android:layout_height="18dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             app:mvAnimDuration="500"
             app:mvGravity="left"
             app:mvInterval="5000"
+            app:mvTextSize="14dp"
             app:mvTextColor="@color/main_text" />
 
         <!--<View-->

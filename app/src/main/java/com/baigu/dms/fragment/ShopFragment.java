@@ -329,13 +329,9 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                                     mHandler.sendMessage(msg);
                                 }
                             }
-
                         }).start();
-
                     }
                 });
-
-
                 break;
             case R.id.ll_shop_search:
                 startActivity(new Intent(getActivity(), GoodsSearchActivity.class));
@@ -432,11 +428,8 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                 }
             }
         }
-
         mGoodsCategoryAdater.notifyDataSetChanged();
-
     }
-
 
     @Override
     public void onItemClick(BaseRVAdapter adapter, int position) {
@@ -445,5 +438,4 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
         intent.putExtra("goodsId", goods.getIds());
         startActivity(intent);
     }
-
 }

@@ -24,8 +24,10 @@ import com.baigu.dms.R;
 import com.baigu.dms.activity.BankCardActivity;
 import com.baigu.dms.activity.CertificationResultActivity;
 import com.baigu.dms.activity.CertificationStep1Activity;
+import com.baigu.dms.activity.UpdatePayPasswdActivity;
 import com.baigu.dms.activity.WalletSecurityActivity;
 import com.baigu.dms.activity.WithdrawActivity;
+import com.baigu.dms.common.utils.SPUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.model.Money;
@@ -48,6 +50,8 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
     private AlertDialog dialog;
     private Money money;
 
+    private boolean isMoney;
+
     public WalletView(@NonNull Context context) {
         super(context);
         initView();
@@ -65,7 +69,11 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
 
     public void setMoney(Money money) {
         this.money = money;
-        mTvMoney.setText(String.valueOf(money.getAmount()));
+        if (isMoney) {
+            mTvMoney.setText(String.valueOf(money.getAmount()));
+        } else {
+            mTvMoney.setText("****");
+        }
     }
 
     private void initView() {
@@ -107,13 +115,20 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
         mLayoutWallet = findViewById(R.id.ll_wallet);
         mBtnNext.setOnClickListener(this);
 
+        isMoney = SPUtils.getObject("isMoney",false);
+        eyes.setChecked(!isMoney);
+
         eyes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
+                if (isMoney) {
                     mTvMoney.setText("****");
+                    SPUtils.putObject("isMoney",false);
+                    isMoney = false;
                 } else {
                     mTvMoney.setText(String.valueOf(money.getAmount()));
+                    SPUtils.putObject("isMoney",true);
+                    isMoney = true;
                 }
             }
         });
@@ -169,7 +184,13 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                         ViewUtils.showToastInfo(getContext().getString(R.string.waite_certification));
                         break;
                     case User.IDCardStatus.VERIFY_FAILED:
-                        dialog.show();
+                        User user = UserCache.getInstance().getUser();
+                        String idcardstatus = user.getIdcardstatus();
+                        if (idcardstatus.equals("1")){
+
+                        }else {
+                            dialog.show();
+                        }
                         break;
                 }
                 break;

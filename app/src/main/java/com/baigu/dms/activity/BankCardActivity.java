@@ -116,12 +116,20 @@ public class BankCardActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.iv_bank_add:
                 if (ViewUtils.isFastClick()) return;
-                startActivity(new Intent(BankCardActivity.this, AddBankCardActivity.class));
+                startActivityForResult(new Intent(BankCardActivity.this, AddBankCardActivity.class),100);
                 break;
             case R.id.iv_bank_back:
                 finish();
                 break;
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100){
+            finish();
         }
     }
 

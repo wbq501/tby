@@ -18,13 +18,20 @@ import com.baigu.dms.R;
 import com.baigu.dms.common.utils.MoneyValueFilter;
 import com.baigu.dms.common.utils.StringUtils;
 import com.baigu.dms.common.utils.ViewUtils;
+import com.baigu.dms.common.view.GlideCircleTransform;
 import com.baigu.dms.common.view.PayPasswordDialog;
+import com.baigu.dms.domain.db.RepositoryFactory;
+import com.baigu.dms.domain.db.repository.BankTypeRepository;
 import com.baigu.dms.domain.model.Bank;
+import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.domain.model.Money;
 import com.baigu.dms.presenter.ApplywithdrawPresenter;
 import com.baigu.dms.presenter.PayPresenter;
 import com.baigu.dms.presenter.impl.ApplywithdrawPresenterImpl;
 import com.baigu.dms.presenter.impl.PayPresenterImpl;
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 /**
  * @Description 提现申请
@@ -159,8 +166,8 @@ public class WithdrawActivity extends BaseActivity implements ApplywithdrawPrese
     @Override
     public void OngetMyMoney(String result) {
         ViewUtils.showToastSuccess(result);
-        String change_success = getString(R.string.change_success);
-        if (result.equals(change_success)){
+        String withdraw_success = getString(R.string.withdraw_success);
+        if (result.equals(withdraw_success)){
             finish();
         }
     }
@@ -177,6 +184,13 @@ public class WithdrawActivity extends BaseActivity implements ApplywithdrawPrese
                     String number =bank.getBankAccount().substring(bank.getBankAccount().length()-4,bank.getBankAccount().length());
                     tv_bank_number.setText(number);
                     tv_bank_name.setText(bank.getBankName());
+                    BankTypeRepository bankRepository = RepositoryFactory.getInstance().getBankRepository();
+                    List<BankType> bankTypes = bankRepository.queryAllBank();
+                    for (BankType bankType : bankTypes){
+                        if (bankType.getValue().equals(bank.getBankCode()) && bankType.getName().equals(bank.getBankName())){
+                            Glide.with(this).load(bankType.getRemarks()).centerCrop().transform(new GlideCircleTransform(this)).into(iv_bank_icon);
+                        }
+                    }
                 }
                 break;
         }

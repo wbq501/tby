@@ -19,7 +19,7 @@ import com.baigu.dms.R;
  * @Author Micky Liu
  * @Email liuhongwei@isphere.top
  * @Date 2016-08-02 17:21
- * @Company 北京华云合创科技有限公司成都分公司
+ * @Company
  * @Copyright Copyright(C) 2016-2018
  * @Version 1.0.0
  */

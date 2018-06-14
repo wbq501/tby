@@ -29,6 +29,10 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
         this.state = state;
     }
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public void setListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -43,6 +47,7 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         super.onBindViewHolder(viewHolder, position);
         Coupon.ListBean coupon = getItem(position);
+        Coupon.ListBean.CouponUserBean couponUser = coupon.getCouponUser();
         ViewHolder holder = (ViewHolder) viewHolder;
         int rule = coupon.getCoupon().getRule();
         if (state == 1){
@@ -51,8 +56,8 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
             holder.tv_money2.setText(rule+"");
             holder.tv_title.setText(rule+"元全场通用卷");
             holder.tv_content.setText(coupon.getCoupon().getName());
-            holder.tv_time.setText("开始时间："+ DateUtils.StingSimpleDateFormat(coupon.getCoupon().getCreateDate())+
-                    "\n结束时间："+DateUtils.StingSimpleDateFormat(coupon.getCoupon().getUpdateDate()));
+            holder.tv_time.setText("开始时间："+ DateUtils.StingSimpleDateFormat(couponUser.getCreateDate())+
+                    "\n结束时间："+DateUtils.StingSimpleDateFormat(couponUser.getEndDate()));
         }else {
             holder.ll_type.setBackgroundResource(R.drawable.couponleft2);
             holder.ll_right.setBackgroundResource(R.drawable.couponright);
@@ -61,8 +66,8 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
             holder.tv_title.setTextColor(mActivity.getResources().getColor(R.color.coupon_textcolor));
             holder.tv_content.setText(coupon.getCoupon().getName());
             holder.tv_content.setTextColor(mActivity.getResources().getColor(R.color.coupon_textcolor));
-            holder.tv_time.setText("开始时间："+ DateUtils.StingSimpleDateFormat(coupon.getCoupon().getCreateDate())+
-                    "\n结束时间："+DateUtils.StingSimpleDateFormat(coupon.getCoupon().getUpdateDate()));
+            holder.tv_time.setText("开始时间："+ DateUtils.StingSimpleDateFormat(couponUser.getCreateDate())+
+                    "\n结束时间："+DateUtils.StingSimpleDateFormat(couponUser.getEndDate()));
             holder.tv_time.setTextColor(mActivity.getResources().getColor(R.color.coupon_no));
         }
 
