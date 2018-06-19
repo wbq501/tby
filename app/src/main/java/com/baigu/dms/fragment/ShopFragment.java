@@ -434,6 +434,7 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                 category.setNumber(0);
             }
             SPUtils.clearBuyType();
+            //所有购买商品数量清零
             for (int i = 0; i < mgoodsList.size(); i++){
                 List<Sku> skus = mgoodsList.get(i).getSkus();
                 for (int j = 0; j < skus.size(); j++){
