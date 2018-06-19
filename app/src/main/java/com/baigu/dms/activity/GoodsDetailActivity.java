@@ -324,7 +324,9 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                 @Override
                 public void OnBannerClick(int position) {
                     Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity.class);
+//                    Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity2.class);
                     intent.putExtra("position",position);
+//                    intent.putExtra("imageurl",mGoodsDetailImageList.get(position));
                     intent.putStringArrayListExtra("data", (ArrayList<String>) mGoodsDetailImageList);
                     startActivity(intent);
                 }
@@ -427,11 +429,13 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                 dialog.setData(mGoods);
                 dialog.setCancelListener(new SkuDialog.CancelListener() {
                     @Override
-                    public void UnmberUpData(List<Sku> skus) {
+                    public void UnmberUpData(List<Sku> skus,boolean isCance) {
                         setNumberMap();
                         goodsSpecificationAdapter.setMapNumber(mapNumber);
                         goodsSpecificationAdapter.notifyDataSetChanged();
-                        finish();
+                        if (isCance){
+                            finish();
+                        }
                     }
                 });
                 dialog.show();
@@ -442,17 +446,31 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                 mdialog.setData(mGoods);
                 mdialog.setCancelListener(new SkuDialog.CancelListener() {
                     @Override
-                    public void UnmberUpData(List<Sku> skus) {
-                        if (ShopCart.getGoodsListSelected().size() <= 0 || !ShopCart.hasContains(mGoods)) {
+                    public void UnmberUpData(List<Sku> skus,boolean isCance) {
+                        int carNum = 0;
+                        ArrayList<Goods> goodsListSelected = ShopCart.getGoodsListSelected();
+                        for (Goods goods : goodsListSelected){
+                            List<Sku> skus1 = goods.getSkus();
+                            for (Sku sku : skus1){
+                                carNum += sku.getNumber();
+                            }
+                        }
+                        if (carNum <= 0) {
+//                        if (ShopCart.getGoodsListSelected().size() <= 0 || !ShopCart.hasContains(mGoods)) {
                             ViewUtils.showToastInfo(R.string.buynumber_zero);
                             setNumberMap();
                             goodsSpecificationAdapter.setMapNumber(mapNumber);
                             goodsSpecificationAdapter.notifyDataSetChanged();
                             return;
                         } else {
+                            setNumberMap();
+                            goodsSpecificationAdapter.setMapNumber(mapNumber);
+                            goodsSpecificationAdapter.notifyDataSetChanged();
                             List<Goods> goodsList = new ArrayList<>();
                             goodsList.add(mGoods);
-                            buyNumPresenter.buyNum(goodsList);
+                            if (isCance){
+                                buyNumPresenter.buyNum(goodsList);
+                            }
                         }
 
                     }

@@ -67,8 +67,6 @@ public class ShopCart {
                 if (!hasNumber) {
                     getGoodsListSelected().remove(index);
                 }
-
-
             }
         }
     }

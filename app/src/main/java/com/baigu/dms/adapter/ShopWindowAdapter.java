@@ -99,10 +99,10 @@ public class ShopWindowAdapter extends BaseListAdapter<Goods> {
             }
 
             @Override
-            public void onNumChanged(int amount,boolean isAdd) {
+            public void onNumChanged(int amount,boolean isAdd,boolean isMore) {
                 int buynum = BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(), goods.getSkus().get(0).getMaxCount());
                 if (isAdd){
-                    if (amount >= buynum && getItem(position).getSkus().get(0).getShow()){
+                    if (isMore && getItem(position).getSkus().get(0).getShow()){
                         getItem(position).getSkus().get(0).setShow(false);
                         ViewUtils.showToastError(R.string.maxbuy_num);
                     }

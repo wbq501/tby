@@ -119,6 +119,8 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
         mTvNum.setText(String.valueOf(mCurrNum));
     }
 
+    private boolean isMore = false;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -128,15 +130,17 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                 }
 
                 if (mCurrNum < mMaxNum) {
-                    mCurrNum++;
                     if (!BuyGoodsType.isBuy(getSku(),false,false)){
                         ViewUtils.showToastError(R.string.buy_type);
                         return;
                     }
+                    mCurrNum++;
+                }else if (mCurrNum == mMaxNum){
+                    isMore = true;
                 }
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {
-                    mOnNumChangeListener.onNumChanged(mCurrNum,true);
+                    mOnNumChangeListener.onNumChanged(mCurrNum,true,isMore);
                 }
                 break;
             case R.id.iv_sub:
@@ -144,6 +148,7 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
                     return;
                 }
                 if (mCurrNum > mMinNum) {
+                    isMore = false;
                     mCurrNum--;
                 }
 
@@ -153,7 +158,7 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
 
                 mTvNum.setText(String.valueOf(mCurrNum));
                 if (mOnNumChangeListener != null) {
-                    mOnNumChangeListener.onNumChanged(mCurrNum,false);
+                    mOnNumChangeListener.onNumChanged(mCurrNum,false,isMore);
                 }
                 break;
             default:
@@ -163,6 +168,6 @@ public class NumberView extends FrameLayout implements View.OnClickListener {
 
     public interface OnNumChangeListener {
         boolean onAbleChanged(int currNum);
-        void onNumChanged(int amount,boolean isAdd);
+        void onNumChanged(int amount,boolean isAdd,boolean isMore);
     }
 }

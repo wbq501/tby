@@ -63,6 +63,7 @@ public class ShowImageAdapter extends PagerAdapter {
         ImageView imageView = view.findViewById(R.id.iv_img);
 //        ImageUtil.loadImage(context, data.get(position), imageView);
         Glide.with(context).load(data.get(position)).placeholder(R.mipmap.place_holder).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
+//        Glide.with(context).load(data.get(position)).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
         views[position]=view;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,9 +13,38 @@
             android:layout_height="wrap_content"
             android:background="@color/main_bg"
             android:fadingEdge="none"
+            android:layout_marginBottom="60dp"
             android:overScrollMode="never" />
 
         <include
             layout="@layout/view_empty_data"/>
+        <LinearLayout
+            android:id="@+id/ll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="确认"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:background="@drawable/choose_coupe"/>
+            <Button
+                android:id="@+id/btn_cale"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="不使用优惠券"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/choose_coupe"/>
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

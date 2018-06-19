@@ -16,6 +16,8 @@ import com.baigu.dms.domain.model.BankType;
 import com.baigu.dms.presenter.BankListPresenter;
 import com.baigu.dms.presenter.BankPresenter;
 import com.baigu.dms.presenter.impl.BankPresenterImpl;
+import com.github.yoojia.inputs.verifiers.BankCardVerifier;
+import com.github.yoojia.inputs.verifiers.IDCardVerifier;
 
 import java.util.List;
 
@@ -69,6 +71,12 @@ public class AddBankCardActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.rl_save:
                 Bank bank = new Bank();
+                BankCardVerifier bankCardVerifier = new BankCardVerifier();
+                boolean isBankCard = bankCardVerifier.performTestNotEmpty(edbankNumber.getText().toString().trim());
+                if (!isBankCard){
+                    ViewUtils.showToastError("请输入正确的银行卡号");
+                    return;
+                }
 //                bank.setName(bankName.getText().toString());
                 bank.setBankAccount(edbankNumber.getText().toString());
                 bank.setBankCode(banCode);

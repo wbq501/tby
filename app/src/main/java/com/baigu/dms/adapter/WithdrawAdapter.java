@@ -50,15 +50,19 @@ public class WithdrawAdapter extends BaseRVAdapter<WithdrawHistory>{
         switch (withdrawHistory.getApplyStatus()){
             case 1:
                 stats = "审核中";
+                viewHolder.tv_money.setText("￥"+ divide.doubleValue());
                 break;
             case 2:
                 stats = "办理中";
+                viewHolder.tv_money.setText("￥"+ divide.doubleValue());
                 break;
             case 3:
                 stats = "已完成";
+                viewHolder.tv_money.setText("￥"+ divide.doubleValue());
                 break;
             case 4:
                 stats = "已驳回";
+                viewHolder.tv_money.setText("￥"+ divide.doubleValue());
                 break;
             case 0:
                 stats = withdrawHistory.getDescribetion();

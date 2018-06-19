@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.baigu.dms.R;
 import com.baigu.dms.activity.AddressAddEditActivity;
 import com.baigu.dms.activity.AddressListActivity;
+import com.baigu.dms.activity.GoodsDetailActivity;
 import com.baigu.dms.domain.model.Address;
 import com.baigu.dms.domain.model.OrderDetailGoods;
 import com.baigu.dms.domain.model.OrderGoods;
@@ -39,13 +40,21 @@ public class OrderDetailGoodsAdapter extends BaseRVAdapter<OrderGoods> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder viewHolder = (ItemViewHolder) holder;
-        OrderGoods orderGoods = mDataList.get(position);
+        final OrderGoods orderGoods = mDataList.get(position);
         viewHolder.viewLine.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
         viewHolder.tvGoodsName.setText(orderGoods.getProductName());
         Glide.with(mActivity).load(orderGoods.getGoodsImg()).centerCrop().placeholder(R.mipmap.place_holder).into(viewHolder.ivGoods);
         char symbol = 165;
         viewHolder.tvGoodsPrice.setText(String.valueOf(symbol) + orderGoods.getAgentPrice());
         viewHolder.tvGoodsNum.setText("x" + orderGoods.getGoodsNum());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("goodsId", orderGoods.getProductId());
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

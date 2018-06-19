@@ -379,6 +379,9 @@
         <activity
             android:name=".activity.ShowImageActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.ShowImageActivity2"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

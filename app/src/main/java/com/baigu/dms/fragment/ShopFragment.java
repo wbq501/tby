@@ -393,7 +393,6 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                         } else {
                             numberCount += goods.getSkus().get(0).getNumber();
                         }
-
                     }
                 }
                 category.setNumber(numberCount);
@@ -414,6 +413,20 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
             for (String groupall : all){
                 if (!buyall.contains(groupall)){
                     all.remove(groupall);
+                }
+            }
+            //20180619 商品页面数量显示修正
+            for (int i = 0; i < mgoodsList.size(); i++){
+                List<Sku> skus = mgoodsList.get(i).getSkus();
+                for (int j = 0; j < skus.size(); j++){
+                    for (Goods good : ShopCart.getGoodsListSelected()){
+                        List<Sku> skus1 = good.getSkus();
+                        for (Sku sku : skus1){
+                            if (skus.get(j).getSkuId().equals(sku.getSkuId())){
+                                skus.get(j).setNumber(sku.getNumber());
+                            }
+                        }
+                    }
                 }
             }
         } else {

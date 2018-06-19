@@ -48,6 +48,7 @@ public class SkuDialog extends Dialog {
     private CancelListener cancelListener;
 
     boolean isshow = true;
+    private boolean isCance = false;
 
     public void setData(Goods goods) {
 //        sortSku(goods);
@@ -129,6 +130,7 @@ public class SkuDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 ShopCart.addGoods(goods);
+                isCance = true;
                 cancel();
             }
         });
@@ -140,7 +142,7 @@ public class SkuDialog extends Dialog {
             }
 
             @Override
-            public void onNumChanged(int amount,boolean isAdd) {
+            public void onNumChanged(int amount,boolean isAdd,boolean isMore) {
                 //记录购买数量，显示价格
                 adapter.upDataNumber(amount);
                 Sku sku = goods.getSkus().get(adapter.getSelsed());
@@ -157,7 +159,7 @@ public class SkuDialog extends Dialog {
                 }
                 int buynum = BuyGoodsType.buynum(sku.getStocknum(), sku.getMaxCount());
                 if (isAdd){
-                    if (amount == buynum){
+                    if (isMore){
                         if (isshow) {
                             ViewUtils.showToastError(R.string.maxbuy_num);
                             isshow = false;
@@ -196,7 +198,6 @@ public class SkuDialog extends Dialog {
         adapter.setMapNumber(mapNumber);
         sku.setLayoutManager(manager);
         sku.setAdapter(adapter);
-
         /**
          * 2018.5.24
          * 购买最大数量不超过库存
@@ -232,7 +233,6 @@ public class SkuDialog extends Dialog {
 
             }
         }
-
         tvMoney.setText("￥" + getCount());
     }
 
@@ -250,11 +250,11 @@ public class SkuDialog extends Dialog {
     public void cancel() {
         super.cancel();
         if (cancelListener != null) {
-            cancelListener.UnmberUpData(goods.getSkus());
+            cancelListener.UnmberUpData(goods.getSkus(),isCance);
         }
     }
 
     public interface CancelListener {
-        void UnmberUpData(List<Sku> skus);
+        void UnmberUpData(List<Sku> skus,boolean isCance);
     }
 }

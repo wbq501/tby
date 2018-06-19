@@ -122,7 +122,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener,
                         mgoods.setIds(goods.getIds());
                         mgoods.setSupercoverpath(goods.getSupercoverpath());
                         mgoods.setCoverpath(goods.getCoverpath());
-                        mgoods.setBuyNum(sku.getNumber());
+//                        mgoods.setBuyNum(sku.getNumber());
                         mgoods.setUniformprice(sku.getUniformprice());
                         mgoods.setMarketprice(sku.getMarketprice());
                         mgoods.setGoodsname(goods.getGoodsname());
@@ -141,7 +141,7 @@ public class ShopCardWindow extends PopupWindow implements View.OnClickListener,
                     mgoods.setSupercoverpath(goods.getSupercoverpath());
                     mgoods.setCoverpath(goods.getCoverpath());
                     mgoods.setStocknum(goods.getSkus().get(0).getStocknum());
-                    mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
+//                    mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
                     mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
                     mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
                     mgoods.setGoodsname(goods.getGoodsname());

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -36,6 +37,9 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
     CouponAdapter couponAdapter;
     CouponPresenter couponPresenter;
     FrameLayout ll_empty;
+    LinearLayout ll_btn;
+    Button btn_sure;
+    Button btn_cale;
 
     private int pageNum = 1;
     private CouponInterFace couponInterFace;
@@ -70,13 +74,16 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
         rv_hb.setHeaderViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         rv_hb.setFooterViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         rv_hb.setLayoutManager(new LinearLayoutManager(mActivity));
-        couponAdapter = new CouponAdapter(mActivity,couponPresenter,1);
+        couponAdapter = new CouponAdapter(mActivity,couponPresenter,true);
         LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(couponAdapter);
         rv_hb.setAdapter(adapter);
         rv_hb.setPullRefreshEnabled(true);
         rv_hb.setOnRefreshListener(this);
         rv_hb.setLoadMoreEnabled(true);
         rv_hb.setOnLoadMoreListener(this);
+        ll_btn = view.findViewById(R.id.ll_btn);
+        btn_sure = view.findViewById(R.id.btn_sure);
+        btn_cale = view.findViewById(R.id.btn_cale);
 
         couponAdapter.setListener(new com.baigu.dms.common.utils.OnItemClickListener() {
             @Override
@@ -87,6 +94,13 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
                 }
                 Coupon.ListBean couponAdapterItem = couponAdapter.getItem(position);
                 couponInterFace.getCoupon(couponAdapterItem);
+                dismiss();
+            }
+        });
+        btn_cale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                couponInterFace.getCoupon(null);
                 dismiss();
             }
         });
@@ -112,22 +126,25 @@ public class CouponWindow extends PopupWindow implements OnRefreshListener,OnLoa
     public void CouponList(Coupon coupon) {
         if (coupon == null && pageNum == 1){
             ll_empty.setVisibility(View.VISIBLE);
+            ll_btn.setVisibility(View.GONE);
             return;
         }
         if (coupon == null){
-            ll_empty.setVisibility(View.VISIBLE);
-            rv_hb.setNoMore(false);
+            ll_empty.setVisibility(View.GONE);
+            rv_hb.setNoMore(true);
             return;
         }
         List<Coupon.ListBean> lists = coupon.getList();
         if (lists.get(0).getCoupon() == null){
             ll_empty.setVisibility(View.VISIBLE);
+            ll_btn.setVisibility(View.GONE);
             rv_hb.setNoMore(true);
             return;
         }
         if (pageNum == 1){
             if (lists == null || lists.size() == 0){
                 ll_empty.setVisibility(View.VISIBLE);
+                ll_btn.setVisibility(View.GONE);
             }
             rv_hb.setNoMore(false);
         }else {

@@ -107,6 +107,7 @@ public class Coupon implements Serializable{
             private long createDate;
             private String updateBy;
             private long updateDate;
+            private boolean cb_choose = false;
 
             public String getId() {
                 return id;
@@ -178,6 +179,14 @@ public class Coupon implements Serializable{
 
             public void setUpdateDate(long updateDate) {
                 this.updateDate = updateDate;
+            }
+
+            public boolean isCb_choose() {
+                return cb_choose;
+            }
+
+            public void setCb_choose(boolean cb_choose) {
+                this.cb_choose = cb_choose;
             }
         }
 

@@ -39,7 +39,7 @@ public class DelMyBankPresenterimpl extends BasePresenterImpl implements DelMyBa
                     if (responseResponse.body().getCode() == 0){
                         result = responseResponse.body().getData();
                     }else {
-                        result = "";
+                        result = BaseResponse.SUCCESS;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -43,6 +43,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
     private TextView mTvTakePhone;
     private TextView mTvTakeAddress;
     private TextView mTvTotalPrice;
+    private TextView mTvCouponPrice;
     private TextView mTvGoodsTotalPrice;
     private TextView mTvExpressPrice;
     private TextView mTvOrderNo;
@@ -86,6 +87,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
         mTvTakePhone = findView(R.id.tv_take_phone);
         mTvTakeAddress = findView(R.id.tv_take_address);
         mTvTotalPrice = findView(R.id.tv_total_price);
+        mTvCouponPrice = findView(R.id.tv_coupon_price);
         mTvGoodsTotalPrice = findView(R.id.tv_goods_total_price);
         mTvExpressPrice = findView(R.id.tv_express_price);
         mTvOrderNo = findView(R.id.tv_order_no);
@@ -191,6 +193,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
             mTvTakeUser.setText(getString(R.string.take_user_label, mOrderDetailResult.getConsigneeName()));
             mTvTakePhone.setText(getString(R.string.take_phone_label, mOrderDetailResult.getConsigneePhone()));
             mTvTotalPrice.setText(String.valueOf(symbol) + String.valueOf(mOrderDetailResult.getTotalPrice()));
+            mTvCouponPrice.setText(String.valueOf(symbol) + orderDetailResult.getDiscountPrice() == null ? "0" : orderDetailResult.getDiscountPrice());
             mTvGoodsTotalPrice.setText(String.valueOf(symbol) + String.valueOf(mOrderDetailResult.getGoodsPrice()));
             mTvExpressPrice.setText(String.valueOf(symbol) + String.valueOf(mOrderDetailResult.getExpressPrice()));
             mTvOrderNo.setText(mOrderDetailResult.getOrderNo());

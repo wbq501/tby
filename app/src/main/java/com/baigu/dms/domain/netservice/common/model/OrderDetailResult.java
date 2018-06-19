@@ -22,11 +22,13 @@ public class OrderDetailResult implements Parcelable {
     private String createDate;
     private String consigneeName;
     private String expressName;
-    private Double expressPrice;
+    private String expressPrice;
     private String status;
     private String payMode;
-    private Double goodsPrice;
-    private Double totalPrice;
+    private String goodsPrice;
+    private String totalPrice;
+    private String actualPrice;
+    private String discountPrice;
     private String consigneePhone;
     private String consigneeAddress;
     private OrderDetail order;
@@ -115,28 +117,44 @@ public class OrderDetailResult implements Parcelable {
         this.createDate = createDate;
     }
 
-    public Double getExpressPrice() {
+    public String getExpressPrice() {
         return expressPrice;
     }
 
-    public void setExpressPrice(Double expressPrice) {
+    public void setExpressPrice(String expressPrice) {
         this.expressPrice = expressPrice;
     }
 
-    public Double getGoodsPrice() {
+    public String getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Double goodsPrice) {
+    public void setGoodsPrice(String goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 
-    public Double getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(String actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
     }
 
     public String getConsigneePhone() {
@@ -190,10 +208,11 @@ public class OrderDetailResult implements Parcelable {
         dest.writeTypedList(this.goodsList);
         dest.writeString(this.createTime);
         dest.writeString(this.orderNo);
-        dest.writeDouble(this.totalPrice);
+        dest.writeString(this.totalPrice);
         dest.writeString(this.payMode);
         dest.writeString(this.status);
-
+        dest.writeString(this.actualPrice);
+        dest.writeString(this.discountPrice);
     }
 
     public OrderDetailResult() {
@@ -204,7 +223,9 @@ public class OrderDetailResult implements Parcelable {
         this.goodsList = in.createTypedArrayList(OrderGoods.CREATOR);
         this.createTime = in.readString();
         this.orderNo = in.readString();
-        this.totalPrice = in.readDouble();
+        this.totalPrice = in.readString();
+        this.actualPrice = in.readString();
+        this.discountPrice = in.readString();
         this.payMode = in.readString();
         this.status=in.readString();
     }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,12 +22,13 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
     private CouponPresenter couponPresenter;
 
     private OnItemClickListener listener;
-    private int state;
+    private int state = 1;
+    private boolean isPop;
 
-    public CouponAdapter(Activity mActivity, CouponPresenter couponPresenter,int state){
+    public CouponAdapter(Activity mActivity, CouponPresenter couponPresenter,boolean isPop){
         this.mActivity = mActivity;
         this.couponPresenter = couponPresenter;
-        this.state = state;
+        this.isPop = isPop;
     }
 
     public void setState(int state) {
@@ -44,17 +46,24 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         super.onBindViewHolder(viewHolder, position);
-        Coupon.ListBean coupon = getItem(position);
+        final Coupon.ListBean coupon = getItem(position);
         Coupon.ListBean.CouponUserBean couponUser = coupon.getCouponUser();
-        ViewHolder holder = (ViewHolder) viewHolder;
+        final ViewHolder holder = (ViewHolder) viewHolder;
         int rule = coupon.getCoupon().getRule();
+        if (isPop){
+            holder.cb_choose.setVisibility(View.GONE);
+            holder.cb_choose.setChecked(coupon.getCoupon().isCb_choose());
+        }else {
+            holder.cb_choose.setVisibility(View.GONE);
+            holder.cb_choose.setChecked(coupon.getCoupon().isCb_choose());
+        }
         if (state == 1){
             holder.ll_type.setBackgroundResource(R.drawable.couponleft);
             holder.ll_right.setBackgroundResource(R.drawable.couponright);
             holder.tv_money2.setText(rule+"");
-            holder.tv_title.setText(rule+"元全场通用卷");
+            holder.tv_title.setText(rule+"元全场通用券");
             holder.tv_content.setText(coupon.getCoupon().getName());
             holder.tv_time.setText("开始时间："+ DateUtils.StingSimpleDateFormat(couponUser.getCreateDate())+
                     "\n结束时间："+DateUtils.StingSimpleDateFormat(couponUser.getEndDate()));
@@ -62,7 +71,7 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
             holder.ll_type.setBackgroundResource(R.drawable.couponleft2);
             holder.ll_right.setBackgroundResource(R.drawable.couponright);
             holder.tv_money2.setText(rule+"");
-            holder.tv_title.setText(rule+"元全场通用卷");
+            holder.tv_title.setText(rule+"元全场通用券");
             holder.tv_title.setTextColor(mActivity.getResources().getColor(R.color.coupon_textcolor));
             holder.tv_content.setText(coupon.getCoupon().getName());
             holder.tv_content.setTextColor(mActivity.getResources().getColor(R.color.coupon_textcolor));
@@ -70,11 +79,23 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
                     "\n结束时间："+DateUtils.StingSimpleDateFormat(couponUser.getEndDate()));
             holder.tv_time.setTextColor(mActivity.getResources().getColor(R.color.coupon_no));
         }
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.cb_choose.isChecked()){
+                    coupon.getCoupon().setCb_choose(false);
+                }else {
+                    coupon.getCoupon().setCb_choose(true);
+                }
+                if(listener != null){
+                    listener.OnItemClick(holder.itemView,position);
+                }
+            }
+        });
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout ll_type;
         private LinearLayout ll_right;
@@ -84,6 +105,7 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
         private TextView tv_title;
         private TextView tv_content;
         private TextView tv_time;
+        private CheckBox cb_choose;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -95,14 +117,7 @@ public class CouponAdapter extends BaseRVAdapter<Coupon.ListBean>{
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_content = itemView.findViewById(R.id.tv_content);
             tv_time = itemView.findViewById(R.id.tv_time);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if(listener != null){
-                listener.OnItemClick(view,getLayoutPosition()-1);
-            }
+            cb_choose = itemView.findViewById(R.id.cb_choose);
         }
     }
 }

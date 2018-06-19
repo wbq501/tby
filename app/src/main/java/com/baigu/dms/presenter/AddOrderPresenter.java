@@ -19,7 +19,7 @@ public interface AddOrderPresenter extends BasePresenter {
 
     void expressCompute(String cityId, String expressId,String logisticsName, List<Goods> goodsList);
 
-    void addOrder(List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark,String couponId);
+    void addOrder(List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark,String couponUserId);
     void checkGoodsStock(List<Goods> goodsList);
 
     interface OrderAddView {

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.baigu.dms.R;
 import com.baigu.dms.adapter.GoodsSelAdapter;
+import com.baigu.dms.common.utils.SPUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.utils.rxbus.EventType;
 import com.baigu.dms.common.utils.rxbus.RxBus;
@@ -99,7 +100,8 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     LinkedHashSet<String> expressB = new LinkedHashSet<>();
 
     private String expressValue;
-    private String couponId = "";
+    private String couponUserId = "";
+    private int rule;
 
     private float alpha = 1f;
     Handler mHandler = new Handler() {
@@ -169,7 +171,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                         List<Sku> mskus = new ArrayList<Sku>();
                         mskus.add(sku);
                         mgoods.setIds(goods.getIds());
-                        mgoods.setBuyNum(sku.getNumber());
+//                        mgoods.setBuyNum(sku.getNumber());
                         mgoods.setSupercoverpath(goods.getSupercoverpath());
                         mgoods.setCoverpath(goods.getCoverpath());
                         mgoods.setUniformprice(sku.getUniformprice());
@@ -194,7 +196,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 mgoods.setSupercoverpath(goods.getSupercoverpath());
                 mgoods.setCoverpath(goods.getCoverpath());
                 mskus.add(goods.getSkus().get(0));
-                mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
+//                mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
                 mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
                 mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
                 mgoods.setGoodsname(goods.getGoodsname());
@@ -364,11 +366,19 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
     CouponWindow.CouponInterFace couponInterFace = new CouponWindow.CouponInterFace() {
         @Override
         public void getCoupon(Coupon.ListBean couponAdapterItem) {
-            couponId = couponAdapterItem.getCouponUser().getCouponId();
-            int rule = couponAdapterItem.getCoupon().getRule();
-            char symbol = 165;
-            mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",computeGoodsPrice() - rule < 0 ? mTotalPrice - computeGoodsPrice() : mTotalPrice - rule));
-            tv_select_coupon.setText(couponAdapterItem.getCoupon().getName());
+            if (couponAdapterItem == null){
+                couponUserId = "";
+                rule = 0;
+                char symbol = 165;
+                mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",mTotalPrice));
+                tv_select_coupon.setText(R.string.choose_coupon_type);
+            }else {
+                couponUserId = couponAdapterItem.getCouponUser().getId();
+                rule = couponAdapterItem.getCoupon().getRule();
+                char symbol = 165;
+                mTvTotalPrice.setText(String.valueOf(symbol) + String.format("%.2f",computeGoodsPrice() - rule < 0 ? mTotalPrice - computeGoodsPrice() : mTotalPrice - rule));
+                tv_select_coupon.setText("-￥"+couponAdapterItem.getCoupon().getRule());
+            }
         }
     };
 
@@ -537,13 +547,14 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
+        SPUtils.clearBuyType();
         ShopCart.clearCart();
         RxBus.getDefault().post(EventType.TYPE_ADD_ORDER);
         Intent intent = new Intent(this, PayActivity.class);
 //        intent.putExtra("payMode", result.getPayMode());
         intent.putExtra("orderNum", result.getOrderNo());
         intent.putExtra("orderCreateDate", result.getCreateDate());
-        intent.putExtra("orderTotalPrice", new Double(String.format("%.2f",mTotalPrice)));
+        intent.putExtra("orderTotalPrice", new Double(String.format("%.2f",computeGoodsPrice() - rule < 0 ? mTotalPrice - computeGoodsPrice() : mTotalPrice - rule)));
         startActivity(intent);
         finish();
     }
@@ -650,10 +661,10 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
         mAddOrderPresenter.checkGoodsStock(mGoodsList);
         if (newAddresss) {
 //            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
-            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponId);
+            mAddOrderPresenter.addOrder(mGoodsList, address, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponUserId);
         } else {
 //            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressId, mEtRemark.getText().toString().trim());
-            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponId);
+            mAddOrderPresenter.addOrder(mGoodsList, mAddress, mCbAddFreqAddr.isChecked(), expressValue,expressId, mEtRemark.getText().toString().trim(),couponUserId);
         }
     }
 

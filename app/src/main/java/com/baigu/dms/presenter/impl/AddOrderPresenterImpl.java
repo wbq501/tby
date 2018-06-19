@@ -188,11 +188,10 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
     }
 
     @Override
-    public void addOrder(final List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark,String couponId) {
+    public void addOrder(final List<Goods> goodsList, Address address, boolean saveAddress, String expressId,String logisticsName, String remark,String couponUserId) {
         final JSONObject paramJsonObject = new JSONObject();
         JSONArray goodsJsonArr = new JSONArray();
         try {
-
             for (Goods goods : goodsList) {
                 JSONObject goodsJson = new JSONObject();
                 goodsJson.put("goodsId", goods.getIds());
@@ -205,10 +204,11 @@ public class AddOrderPresenterImpl extends BasePresenterImpl implements AddOrder
             paramJsonObject.put("logisticsName", logisticsName);
             paramJsonObject.put("userId", UserCache.getInstance().getUser().getIds());
             paramJsonObject.put("whetherSaveAddress", saveAddress ? "true" : "false");
-            JSONArray array = new JSONArray();
-            JSONObject couponUserId = new JSONObject();
-            couponUserId.put("couponId",couponId);
-            paramJsonObject.put("couponUserIds",array);
+            if (!TextUtils.isEmpty(couponUserId)){
+                JSONArray array = new JSONArray();
+                array.put(couponUserId);
+                paramJsonObject.put("couponUserIds",array);
+            }
             if (!TextUtils.isEmpty(address.getId())) {
                 paramJsonObject.put("addressId", address.getId());
             } else {

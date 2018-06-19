@@ -67,14 +67,6 @@ public class SkuDialogAdapter extends BaseRVAdapter<Sku> {
             ((MyHolder) holder).skunName.setTextColor(context.getResources().getColor(R.color.color_111111));
             ((MyHolder) holder).skunName.setBackground(context.getResources().getDrawable(R.drawable.bg_btn_goods_specification_unselecte));
         }
-
-//        if (sku.getNumber() > 0){
-//            ((MyHolder) holder).number.setText(sku.getNumber()+"");
-//            ((MyHolder) holder).number.setVisibility(View.VISIBLE);
-//        }else {
-//            ((MyHolder) holder).number.setVisibility(View.GONE);
-//        }
-
         if( mapNumber != null && mapNumber.containsKey(getDataList().get(position).getSkuId()) ){
             if(mapNumber.get(getDataList().get(position).getSkuId())>0){
                 ((MyHolder) holder).number.setText(mapNumber.get(getDataList().get(position).getSkuId())+"");

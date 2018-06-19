@@ -196,7 +196,7 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
                 dialog.setData(goods);
                 dialog.setCancelListener(new SkuDialog.CancelListener() {
                     @Override
-                    public void UnmberUpData(List<Sku> skus) {
+                    public void UnmberUpData(List<Sku> skus,boolean isCance) {
                         if (mOnGoodsAmountChangeListener != null) {
                             mOnGoodsAmountChangeListener.onAmountChanged(skus, position);
                         }
@@ -258,10 +258,10 @@ public class GoodsAdapter extends BaseRVAdapter<Goods> {
         }
 
         @Override
-        public void onNumChanged(int amount,boolean isAdd) {
+        public void onNumChanged(int amount,boolean isAdd,boolean isMore) {
             int buynum = BuyGoodsType.buynum(goods.getSkus().get(0).getStocknum(), goods.getSkus().get(0).getMaxCount());
             if (isAdd){
-                if (goods.getSkus().get(0).getShow() && amount >= buynum){
+                if (goods.getSkus().get(0).getShow() && isMore){
                     goods.getSkus().get(0).setShow(false);
                     ViewUtils.showToastError(R.string.maxbuy_num);
                     notifyDataSetChanged();

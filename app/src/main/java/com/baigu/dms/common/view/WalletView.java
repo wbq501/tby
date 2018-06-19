@@ -52,8 +52,9 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
 
     private boolean isMoney;
 
-    public WalletView(@NonNull Context context) {
+    public WalletView(@NonNull Context context,String idcardstatus) {
         super(context);
+        this.idcardstatus = idcardstatus;
         initView();
     }
 
@@ -65,6 +66,10 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
     public WalletView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
+    }
+
+    public void setIdcardstatus(String idcardstatus) {
+        this.idcardstatus = idcardstatus;
     }
 
     public void setMoney(Money money) {
@@ -133,7 +138,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
             }
         });
 
-        idcardstatus = UserCache.getInstance().getUser().getIdcardstatus();
+//        idcardstatus = UserCache.getInstance().getUser().getIdcardstatus();
         switch (idcardstatus) {
             case User.IDCardStatus.VERIFY_NONE:
                 mLayoutWallet.setVisibility(GONE);
@@ -184,13 +189,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                         ViewUtils.showToastInfo(getContext().getString(R.string.waite_certification));
                         break;
                     case User.IDCardStatus.VERIFY_FAILED:
-                        User user = UserCache.getInstance().getUser();
-                        String idcardstatus = user.getIdcardstatus();
-                        if (idcardstatus.equals("1")){
-
-                        }else {
-                            dialog.show();
-                        }
+                        goRenzhen();
                         break;
                 }
                 break;
@@ -219,7 +218,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                         ViewUtils.showToastInfo(getContext().getString(R.string.waite_certification));
                         break;
                     case User.IDCardStatus.VERIFY_FAILED:
-                        dialog.show();
+                        goRenzhen();
                         break;
                 }
                 break;
@@ -232,7 +231,7 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                         ViewUtils.showToastInfo(getContext().getString(R.string.waite_certification));
                         break;
                     case User.IDCardStatus.VERIFY_FAILED:
-                        dialog.show();
+                        goRenzhen();
                         break;
                 }
                 break;
@@ -241,6 +240,16 @@ public class WalletView extends FrameLayout implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void goRenzhen() {
+        User user = UserCache.getInstance().getUser();
+        String idcardstatus = user.getIdcardstatus();
+        if (idcardstatus.equals("1")){
+
+        }else {
+            dialog.show();
         }
     }
 

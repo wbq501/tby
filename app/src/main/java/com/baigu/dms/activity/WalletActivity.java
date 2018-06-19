@@ -40,6 +40,7 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener,On
     private int pageNum;
     WithdrawAdapter withdrawAdapter;
     boolean isHistory = false;
+    String idcardstatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,8 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener,On
         mRecyclerView.setFooterViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setOnRefreshListener(this);
-        mWalletView = new WalletView(this);
+        idcardstatus = UserCache.getInstance().getUser().getIdcardstatus();
+        mWalletView = new WalletView(this,idcardstatus);
         withdrawAdapter = new WithdrawAdapter(this, withdrawHistoryPresenter);
         LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(withdrawAdapter);
         adapter.addHeaderView(mWalletView);
@@ -109,6 +111,8 @@ public class WalletActivity extends BaseActivity implements OnRefreshListener,On
         mRecyclerView.refreshComplete(10);
         if (result != null) {
             mWalletView.setMoney(result);
+            idcardstatus = UserCache.getInstance().getUser().getIdcardstatus();
+            mWalletView.setIdcardstatus(idcardstatus);
         } else {
             ViewUtils.showToastError(R.string.failed_load_wallet_info);
             finish();

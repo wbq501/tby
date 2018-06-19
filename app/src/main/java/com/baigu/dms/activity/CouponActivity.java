@@ -59,7 +59,7 @@ public class CouponActivity extends BaseActivity implements OnLoadMoreListener,O
         rv_hb.setHeaderViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         rv_hb.setFooterViewColor(R.color.colorPrimary, R.color.colorPrimary, R.color.main_bg);
         rv_hb.setLayoutManager(new LinearLayoutManager(this));
-        couponAdapter = new CouponAdapter(this,couponPresenter,mStatus);
+        couponAdapter = new CouponAdapter(this,couponPresenter,false);
         LRecyclerViewAdapter adapter = new LRecyclerViewAdapter(couponAdapter);
         rv_hb.setAdapter(adapter);
         rv_hb.setPullRefreshEnabled(true);
@@ -189,6 +189,7 @@ public class CouponActivity extends BaseActivity implements OnLoadMoreListener,O
             if (lists == null || lists.size() == 0){
                 EmptyViewUtil.show(this);
             }
+            rv_hb.setNoMore(false);
         }else {
             rv_hb.setNoMore(false);
         }
