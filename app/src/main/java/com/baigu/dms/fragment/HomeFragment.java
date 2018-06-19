@@ -360,7 +360,6 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
         if (mAdView != null) {
             mAdView.setData(homeData.bannerlist);
         }
-
 //        if(mCompany != null){
 //            mCompany.setData(homeData.bannerList);
 //
