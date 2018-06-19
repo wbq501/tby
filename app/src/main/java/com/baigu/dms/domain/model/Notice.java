@@ -14,25 +14,7 @@ public class Notice implements Parcelable {
     private String btitle;
     private String bcontent;
     private String content;
-
-    protected Notice(Parcel in) {
-        ids = in.readString();
-        btitle = in.readString();
-        bcontent = in.readString();
-        content = in.readString();
-    }
-
-    public static final Creator<Notice> CREATOR = new Creator<Notice>() {
-        @Override
-        public Notice createFromParcel(Parcel in) {
-            return new Notice(in);
-        }
-
-        @Override
-        public Notice[] newArray(int size) {
-            return new Notice[size];
-        }
-    };
+    private long createTime;
 
     public String getContent() {
         return content;
@@ -87,10 +69,39 @@ public class Notice implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(ids);
-        parcel.writeString(btitle);
-        parcel.writeString(bcontent);
-        parcel.writeString(content);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.ids);
+        dest.writeString(this.btitle);
+        dest.writeString(this.bcontent);
+        dest.writeString(this.content);
+        dest.writeLong(this.createTime);
+    }
+
+    protected Notice(Parcel in) {
+        this.ids = in.readString();
+        this.btitle = in.readString();
+        this.bcontent = in.readString();
+        this.content = in.readString();
+        this.createTime = in.readLong();
+    }
+
+    public static final Creator<Notice> CREATOR = new Creator<Notice>() {
+        @Override
+        public Notice createFromParcel(Parcel source) {
+            return new Notice(source);
+        }
+
+        @Override
+        public Notice[] newArray(int size) {
+            return new Notice[size];
+        }
+    };
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 }

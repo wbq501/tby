@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
+import com.baigu.dms.common.utils.DateUtils;
 import com.baigu.dms.domain.model.Notice;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerViewAdapter;
 
@@ -36,14 +37,16 @@ public class NoticeAdapter extends BaseRVAdapter<Notice> {
         Notice notice = mDataList.get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.tvTitle.setText(notice.getBtitle());
+        itemViewHolder.tv_time.setText(DateUtils.StingSimpleDateFormat(notice.getCreateTime()));
     }
 
     public class ItemViewHolder extends LRecyclerViewAdapter.ViewHolder {
-        TextView tvTitle;
+        TextView tvTitle,tv_time;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_time = itemView.findViewById(R.id.tv_time);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

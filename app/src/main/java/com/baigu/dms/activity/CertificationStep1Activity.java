@@ -40,7 +40,9 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
     private ImageView mIvIDCardBack;
 
     private String mIDCardFrontPath;
+    private String mIDCardFrontPath2;
     private String mIDCardBackPath;
+    private String mIDCardBackPath2;
 
     private CertificationPresenter presenter;
 
@@ -109,7 +111,7 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
                         List<String> pathList = data.getStringArrayListExtra(ImagePickerActivity.FLAG_SELECTED_PATH_LIST);
                         if (pathList != null && pathList.size() > 0) {
                             String path = pathList.get(0);
-                            mIDCardFrontPath = path;
+                            mIDCardFrontPath2 = path;
                             presenter.upLoadImage(path, REQUEST_CODE_IDCARD_FRONT);
                             if (!TextUtils.isEmpty(path)) {
                                 Drawable drawable = Drawable.createFromPath(path);
@@ -123,10 +125,9 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
                         List<String> pathList = data.getStringArrayListExtra(ImagePickerActivity.FLAG_SELECTED_PATH_LIST);
                         if (pathList != null && pathList.size() > 0) {
                             String path = pathList.get(0);
-                            mIDCardBackPath = path;
+                            mIDCardBackPath2 = path;
                             presenter.upLoadImage(path, REQUEST_CODE_IDCARD_BACK);
                             if (!TextUtils.isEmpty(path)) {
-
                                 Drawable drawable = Drawable.createFromPath(path);
                                 mIvIDCardBack.setImageDrawable(drawable);
                             }
@@ -159,9 +160,9 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
         if (ViewUtils.isFastClick()) return;
         switch (v.getId()) {
             case R.id.ll_idcard_front:
-                if (!TextUtils.isEmpty(mIDCardFrontPath)) {
+                if (!TextUtils.isEmpty(mIDCardFrontPath2)) {
                     ArrayList<String> list = new ArrayList<>(1);
-                    list.add(mIDCardFrontPath);
+                    list.add(mIDCardFrontPath2);
                     Intent intent = new Intent(this, ImageDeletePreviewActivity.class);
                     intent.putExtra("isFront", true);
                     intent.putExtra("urlList", list);
@@ -171,9 +172,9 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
                 }
                 break;
             case R.id.ll_idcard_back:
-                if (!TextUtils.isEmpty(mIDCardBackPath)) {
+                if (!TextUtils.isEmpty(mIDCardBackPath2)) {
                     ArrayList<String> list = new ArrayList<>(1);
-                    list.add(mIDCardBackPath);
+                    list.add(mIDCardBackPath2);
                     Intent intent = new Intent(this, ImageDeletePreviewActivity.class);
                     intent.putExtra("front", false);
                     intent.putExtra("urlList", list);
@@ -209,7 +210,7 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
             mIDCardFrontPath = imgURL;
             return;
         }
-//        mIDCardFrontPath = imgURL;
+        mIDCardFrontPath = imgURL;
     }
 
     @Override
@@ -219,6 +220,6 @@ public class CertificationStep1Activity extends BaseActivity implements View.OnC
             mIDCardBackPath = imgURL;
             return;
         }
-//        mIDCardBackPath = imgURL;
+        mIDCardBackPath = imgURL;
     }
 }

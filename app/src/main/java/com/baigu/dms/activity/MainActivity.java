@@ -87,18 +87,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         HomeFragment homeFragment = new HomeFragment();
         homeFragment.setTabIndex(mFragmentList.size());
-        mFragmentList.add(homeFragment);
 
         ShopFragment shopFragment = new ShopFragment();
         shopFragment.setTabIndex(mFragmentList.size());
-        mFragmentList.add(shopFragment);
 
         DiscoverFragment discoverFragment = new DiscoverFragment();
         discoverFragment.setTabIndex(mFragmentList.size());
-        mFragmentList.add(discoverFragment);
 
         MyFragment myFragment = new MyFragment();
         myFragment.setTabIndex(mFragmentList.size());
+
+        mFragmentList.add(homeFragment);
+        mFragmentList.add(shopFragment);
+        mFragmentList.add(discoverFragment);
         mFragmentList.add(myFragment);
 
         mFragmentPageManager = new FragmentPageManager(this, mFragmentList, R.id.main_container);
@@ -107,7 +108,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initArcMenu() {
-
         mArcMenu = findView(R.id.arc_menu);
         final int[] itemDrawables = {R.mipmap.share_weixin, R.mipmap.share_weixin_circle, R.mipmap.share_qq, R.mipmap.share_qq_zone};
         final int itemCount = itemDrawables.length;

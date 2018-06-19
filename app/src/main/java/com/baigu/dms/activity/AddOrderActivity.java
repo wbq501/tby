@@ -171,7 +171,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                         List<Sku> mskus = new ArrayList<Sku>();
                         mskus.add(sku);
                         mgoods.setIds(goods.getIds());
-//                        mgoods.setBuyNum(sku.getNumber());
+                        mgoods.setBuyNum(sku.getNumber());
                         mgoods.setSupercoverpath(goods.getSupercoverpath());
                         mgoods.setCoverpath(goods.getCoverpath());
                         mgoods.setUniformprice(sku.getUniformprice());
@@ -196,7 +196,7 @@ public class AddOrderActivity extends BaseActivity implements View.OnClickListen
                 mgoods.setSupercoverpath(goods.getSupercoverpath());
                 mgoods.setCoverpath(goods.getCoverpath());
                 mskus.add(goods.getSkus().get(0));
-//                mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
+                mgoods.setBuyNum(goods.getSkus().get(0).getNumber());
                 mgoods.setUniformprice(goods.getSkus().get(0).getUniformprice());
                 mgoods.setMarketprice(goods.getSkus().get(0).getMarketprice());
                 mgoods.setGoodsname(goods.getGoodsname());

@@ -139,6 +139,18 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         mBanner.isAutoPlay(true);
         mBanner.setDelayTime(ADVERT_INTERVAL_TIME);
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
+        mBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity.class);
+//                    Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity2.class);
+                intent.putExtra("position",position);
+//                    intent.putExtra("imageurl",mGoodsDetailImageList.get(position));
+                intent.putStringArrayListExtra("data", (ArrayList<String>) mGoodsDetailImageList);
+                startActivity(intent);
+            }
+        });
+        mBanner.start();
 
         mTvGoodsName = findView(R.id.tv_goods_name);
         mTvGoodsPrice = findView(R.id.tv_goods_price);
@@ -229,7 +241,18 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         }
         mBanner.setImages(mGoodsDetailImageList);
         mBanner.start();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mBanner.startAutoPlay();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mBanner.stopAutoPlay();
     }
 
     @Override
@@ -319,18 +342,6 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
             });
             goods_specification.setLayoutManager(manager);
             goods_specification.setAdapter(goodsSpecificationAdapter);
-
-            mBanner.setOnBannerListener(new OnBannerListener() {
-                @Override
-                public void OnBannerClick(int position) {
-                    Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity.class);
-//                    Intent intent =new Intent(GoodsDetailActivity.this,ShowImageActivity2.class);
-                    intent.putExtra("position",position);
-//                    intent.putExtra("imageurl",mGoodsDetailImageList.get(position));
-                    intent.putStringArrayListExtra("data", (ArrayList<String>) mGoodsDetailImageList);
-                    startActivity(intent);
-                }
-            });
         } else {
             ViewUtils.showToastError(R.string.failed_load_data);
             finish();
