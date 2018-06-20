@@ -152,6 +152,9 @@ public class AddressAddEditActivity extends BaseActivity implements AddressPrese
         address.setAddress(mEtTakeDetailAddress.getText().toString().trim());
         address.setUserid(UserCache.getInstance().getUser().getIds());
         address.setDefault(mCbDefault.isChecked());
+        if (mAddress != null && mAddress.getAreaId() != null){
+            address.setRegionid(mAddress.getAreaId());
+        }
         if (mCityList != null && mCityList.size() > 0) {
             address.setRegionid(mCityList.get(mCityList.size() - 1).getId());
         }

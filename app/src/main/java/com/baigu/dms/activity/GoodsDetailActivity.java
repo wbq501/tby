@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +18,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baigu.dms.R;
@@ -33,6 +37,7 @@ import com.baigu.dms.common.view.ConfirmDialog;
 import com.baigu.dms.common.view.GoodsAddPopView;
 import com.baigu.dms.common.view.ObservableScrollView;
 import com.baigu.dms.common.view.SharePopView;
+import com.baigu.dms.common.view.ShopCardWindow;
 import com.baigu.dms.common.view.SkuDialog;
 import com.baigu.dms.common.view.SpaceItemDecoration;
 import com.baigu.dms.domain.cache.ShopCart;
@@ -477,10 +482,11 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                             setNumberMap();
                             goodsSpecificationAdapter.setMapNumber(mapNumber);
                             goodsSpecificationAdapter.notifyDataSetChanged();
-                            List<Goods> goodsList = new ArrayList<>();
-                            goodsList.add(mGoods);
+//                            List<Goods> goodsList = new ArrayList<>();
+//                            goodsList.add(mGoods);
                             if (isCance){
-                                buyNumPresenter.buyNum(goodsList);
+//                                buyNumPresenter.buyNum(goodsList);
+                                showCarWindow();
                             }
                         }
 
@@ -491,8 +497,78 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         }
     }
 
-    private void addGoods(boolean addCart) {
+    private void showCarWindow() {
+        if (ShopCart.getGoodsListSelected().size() == 0) {
+            return;
+        }
+        ShopCardWindow window = new ShopCardWindow(GoodsDetailActivity.this);
+        window.showAtLocation(this.findViewById(R.id.rl_main), Gravity.BOTTOM, 0, 0);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (alpha > 0.5f) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 1;
 
+                    alpha -= 0.01f;
+                    msg.obj = alpha;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+        }).start();
+
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setNumberMap();
+                goodsSpecificationAdapter.setMapNumber(mapNumber);
+                goodsSpecificationAdapter.notifyDataSetChanged();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (alpha < 1f) {
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = 1;
+                            alpha += 0.01f;
+                            msg.obj = alpha;
+                            mHandler.sendMessage(msg);
+                        }
+                    }
+                }).start();
+            }
+        });
+    }
+
+    private float alpha = 1f;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    changAlpha((float) msg.obj);
+                    break;
+            }
+        }
+    };
+    private void changAlpha(float v) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = v; //0.0-1.0
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    private void addGoods(boolean addCart) {
         if (mConfirmDialog == null) {
             mConfirmDialog = new ConfirmDialog(this, "");
             mConfirmDialog.setHideCancel(true);
@@ -506,7 +582,6 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
         if (mGoodsAddPopView == null) {
             mGoodsAddPopView = new GoodsAddPopView(this);
         }
-
         if (mSharePopView != null && mSharePopView.isShowing()) {
             mSharePopView.dismiss();
         }

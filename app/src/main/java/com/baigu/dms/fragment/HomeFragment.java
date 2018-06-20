@@ -194,7 +194,6 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
             }
         });
 
-
         mAdView = new AdvertView(getContext());
         mAdView.setOnItemClickListener(new AdvertView.OnAdvertItemClickListener() {
             @Override
@@ -242,7 +241,6 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
 //        });
 //        mLRecyclerViewAdapter.addHeaderView(mCompany);
 //        mCompany.setVisibility(View.GONE);
-
 
         mBannerView = new BannerView(getContext());
         mBannerView.setOnItemClickListener(new BannerView.OnBannerItemClickListener() {
@@ -333,7 +331,6 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
             getActivity().startActivity(intent);
     }
 
-
     @Override
     public void onRefresh() {
         loadData(false);
@@ -373,10 +370,6 @@ public class HomeFragment extends TabFragment implements OnRVItemClickListener, 
         if (mRecommendView != null) {
             mRecommendView.setData(homeData.recommendCategories);
         }
-//        if(mCompany!=null){
-//            //todo
-//        }
-
         if (mStarGoodsView != null) {
             mStarGoodsView.setData(homeData.superGoodsList);
         }

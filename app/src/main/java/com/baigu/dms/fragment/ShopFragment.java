@@ -311,6 +311,7 @@ public class ShopFragment extends TabFragment implements GoodsListPresenter.Good
                     @Override
                     public void onDismiss() {
                         changeCategoryNumber();
+                        onShopCartChanged();
                         mGoodsAdapter.notifyDataSetChanged();
                         new Thread(new Runnable() {
                             @Override

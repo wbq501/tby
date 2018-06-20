@@ -25,6 +25,8 @@ import com.baigu.dms.presenter.RegisterPresenter;
 import com.baigu.dms.presenter.SMSCodePresenter;
 import com.baigu.dms.presenter.impl.RegisterPresenterImpl;
 import com.baigu.dms.presenter.impl.SMSCodePresenterImpl;
+import com.github.yoojia.inputs.verifiers.BankCardVerifier;
+import com.github.yoojia.inputs.verifiers.MobileVerifier;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +43,7 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
     public static final int REQUEST_CODE_BANK_TYPE_SELECT = 30001;
 
     private StepView mStepView;
-    private TextView mTvTel;
+    private EditText mTvTel;
     private EditText mEtPasswd;
     private EditText mEtMsgCode;
     private EditText mEtRealname;
@@ -92,9 +94,11 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_register_step3);
         initToolBar();
         setTitle(R.string.register);
-        String phone = getIntent().getStringExtra("phone");
+//        String phone = getIntent().getStringExtra("phone");
         String inviteCode = getIntent().getStringExtra("inviteCode");
-        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(inviteCode)) {
+//        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(inviteCode)) {
+        if (TextUtils.isEmpty(inviteCode)) {
+            ViewUtils.showToastInfo(R.string.invite_code_null);
             finish();
             return;
         }
@@ -102,7 +106,7 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
         mRegisterPresenter = new RegisterPresenterImpl(this, this);
         mSMSCodePresenter = new SMSCodePresenterImpl(this, this);
 
-        mTvTel.setText(phone);
+//        mTvTel.setText(phone);
         mTvInviteCode.setText(inviteCode);
 
 //        mIsSendingCode = true;
@@ -133,11 +137,15 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         mStepView = findView(R.id.stepView);
-        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
-        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
-        mStepView.setCurStep(2);
+        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel);
+//        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
+//        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
+        mStepView.setText(getString(R.string.invite_code),getString(R.string.finish_register));
+//        mStepView.setCurStep(2);
+        mStepView.setCurStep(1);
 
         mTvTel = findView(R.id.tv_tel);
+        mTvTel.addTextChangedListener(this);
         mEtPasswd = findView(R.id.et_passswd);
         mEtPasswd.addTextChangedListener(this);
         mTvInviteCode = findView(R.id.tv_invite_code);
@@ -228,7 +236,7 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
 //                && mEtBankType.getText().length() > 0
 //                && mEtBank.getText().length() > 0
 //                && mEtAlipay.getText().length() > 0
-                && mEtWeixin.getText().length() > 0
+//                && mEtWeixin.getText().length() > 0
                 && mEtPasswd.getText().length()> 0 ?  255 : Constants.BUTTON_UNABLE_ALPHA;
         mBtnRegister.getBackground().mutate().setAlpha(alpha);
         mBtnRegister.setClickable(alpha == 255);
@@ -261,8 +269,15 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
         if (mRegistinng) {
             return;
         }
-
-        if (TextUtils.isEmpty(phone)) {
+        MobileVerifier mobileVerifier = new MobileVerifier();
+        try {
+            boolean testNotEmpty = mobileVerifier.performTestNotEmpty(phone);
+            if (!testNotEmpty) {
+                ViewUtils.showToastInfo(R.string.input_sure_phone);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             ViewUtils.showToastInfo(R.string.input_tip_phone);
             return;
         }
@@ -288,10 +303,10 @@ public class RegisterStep3Activity extends BaseActivity implements View.OnClickL
 //            ViewUtils.showToastInfo(R.string.input_tip_alipay);
 //            return;
 //        }
-        if (TextUtils.isEmpty(weixin)) {
-            ViewUtils.showToastInfo(R.string.input_tip_weixin);
-            return;
-        }
+//        if (TextUtils.isEmpty(weixin)) {
+//            ViewUtils.showToastInfo(R.string.input_tip_weixin);
+//            return;
+//        }
         if (TextUtils.isEmpty(inviteCode)) {
             ViewUtils.showToastInfo(R.string.invite_code_error);
             return;

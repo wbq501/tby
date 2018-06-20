@@ -63,27 +63,43 @@ public class StepView extends FrameLayout {
         mTvStep3 = (TextView) findViewById(R.id.tv_step3);
     }
 
-    public void setImgRes(int img1ResId, int img1PressResId, int img2ResId, int img2PressResId, int img3ResId, int img3PressResId) {
+    public void setImgRes(int img1ResId, int img1PressResId, int img2ResId, int img2PressResId) {
         mImg1ResId = img1ResId;
         mImg1PressedResId = img1PressResId;
         mImg2ResId = img2ResId;
         mImg2PressedResId = img2PressResId;
-        mImg3ResId = img3ResId;
-        mImg3PressedResId = img3PressResId;
 
         mIvStep1.setImageResource(mImg1ResId);
         mIvStep2.setImageResource(mImg2ResId);
-        mIvStep3.setImageResource(mImg3ResId);
     }
+//    public void setImgRes(int img1ResId, int img1PressResId, int img2ResId, int img2PressResId, int img3ResId, int img3PressResId) {
+//        mImg1ResId = img1ResId;
+//        mImg1PressedResId = img1PressResId;
+//        mImg2ResId = img2ResId;
+//        mImg2PressedResId = img2PressResId;
+//        mImg3ResId = img3ResId;
+//        mImg3PressedResId = img3PressResId;
+//
+//        mIvStep1.setImageResource(mImg1ResId);
+//        mIvStep2.setImageResource(mImg2ResId);
+//        mIvStep3.setImageResource(mImg3ResId);
+//    }
 
-    public void setText(String text1, String text2, String text3) {
+    public void setText(String text1, String text2) {
         mText1 = text1;
         mText2 = text2;
-        mText3 = text3;
         mTvStep1.setText(text1);
         mTvStep2.setText(text2);
-        mTvStep3.setText(text3);
     }
+
+//    public void setText(String text1, String text2, String text3) {
+//        mText1 = text1;
+//        mText2 = text2;
+//        mText3 = text3;
+//        mTvStep1.setText(text1);
+//        mTvStep2.setText(text2);
+//        mTvStep3.setText(text3);
+//    }
 
     public void setCurStep(int step) {
         switch (step) {

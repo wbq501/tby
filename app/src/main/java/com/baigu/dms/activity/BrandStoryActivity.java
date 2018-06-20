@@ -13,10 +13,13 @@ import android.widget.TextView;
 import com.baigu.dms.R;
 import com.baigu.dms.adapter.CommentPraiseAdapter;
 import com.baigu.dms.common.utils.ImageUtil;
+import com.baigu.dms.common.utils.MJavascriptInterface;
+import com.baigu.dms.common.utils.StringUtils;
 import com.baigu.dms.common.utils.ViewUtils;
 import com.baigu.dms.common.utils.rxbus.EventType;
 import com.baigu.dms.common.utils.rxbus.RxBus;
 import com.baigu.dms.common.view.BrandStoryDetailView;
+import com.baigu.dms.common.view.MyWebViewClient;
 import com.baigu.dms.common.view.shinebutton.ShineButton;
 import com.baigu.dms.domain.cache.UserCache;
 import com.baigu.dms.domain.model.BrandStory;
@@ -32,6 +35,9 @@ import com.baigu.lrecyclerview.interfaces.OnLoadMoreListener;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerView;
 import com.baigu.lrecyclerview.recyclerview.LRecyclerViewAdapter;
 import com.baigu.lrecyclerview.recyclerview.ProgressStyle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -54,6 +60,7 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
     private ImageView mIvIcon;
 
     private BrandStoryDetailPresenter mBrandStoryDetailPresenter;
+    private List<String> imageUrls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,7 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
     }
 
     private void initView() {
+        imageUrls = new ArrayList<>();
         mTvContent = findViewById(R.id.tv_content);
         mTvDate = findViewById(R.id.tv_time);
         mTvTitle = findViewById(R.id.tv_username);
@@ -87,7 +95,7 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
         webSettings.setSupportZoom(true); // 支持缩放
- }
+    }
 
     @Override
     public void onLoadBrandStory(BrandStory brandStory) {
@@ -107,6 +115,9 @@ public class BrandStoryActivity extends BaseActivity implements BrandStoryDetail
 //        ImageUtil.loadImage(this,brandStory.getBrand_ctx_img(),mIvIcon);
         ImageUtil.loadImage(this,brandStory.getBrand_img(),mIvIcon);
         mWebView.loadDataWithBaseURL(null, brandStory.getBrand_content(), "text/html" , "utf-8", null);
+        imageUrls = StringUtils.returnImageUrlsFromHtml(brandStory.getBrand_content());
+        mWebView.addJavascriptInterface(new MJavascriptInterface(this,imageUrls),"imagelistener");
+        mWebView.setWebViewClient(new MyWebViewClient());
     }
 
     @Override

@@ -64,8 +64,10 @@ public class RegisterStep2Activity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         mStepView = findView(R.id.stepView);
-        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
-        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
+        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel);
+//        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
+//        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
+        mStepView.setText(getString(R.string.invite_code), getString(R.string.finish_register));
         mStepView.setCurStep(1);
 
         mEtTel = findView(R.id.et_tel);

@@ -52,8 +52,10 @@ public class RegisterStep1Activity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         mStepView = findView(R.id.stepView);
-        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
-        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
+        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel);
+//        mStepView.setImgRes(R.mipmap.step1, R.mipmap.step1_sel, R.mipmap.step2, R.mipmap.step2_sel, R.mipmap.step3, R.mipmap.step3_sel);
+//        mStepView.setText(getString(R.string.invite_code), getString(R.string.phone_num), getString(R.string.finish_register));
+        mStepView.setText(getString(R.string.invite_code),  getString(R.string.finish_register));
         mStepView.setCurStep(0);
 
         mBtnInviteCode = findView(R.id.btn_next);
@@ -134,7 +136,7 @@ public class RegisterStep1Activity extends BaseActivity implements View.OnClickL
                     if (TextUtils.isEmpty(result.trim())) {
                         return;
                     }
-                    Intent intent = new Intent(RegisterStep1Activity.this, RegisterStep2Activity.class);
+                    Intent intent = new Intent(RegisterStep1Activity.this, RegisterStep3Activity.class);
                     intent.putExtra("inviteCode", mEtInviteCode.getText().toString().toUpperCase());
                     startActivity(intent);
                     finish();

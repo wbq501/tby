@@ -70,8 +70,15 @@ public class RecommendAdapter extends BaseRVAdapter<Goods> {
                 price = sku.getUniformprice();
             }
         }
-        if (goods.getSkus().size() > 1) {
-            itemHolder.price.setText("￥" + price + "起");
+        if (goods.getSkus().size() > 0) {
+            double minPrice = goods.getSkus().get(0).getUniformprice();
+            char symbol = 165;
+            if (goods.getSkus().get(0).getMinPrice() == null || goods.getSkus().get(0).getMaxPrice() == null){
+                itemHolder.price.setText(String.valueOf(symbol) + String.valueOf(minPrice));
+            }else {
+                itemHolder.price.setText(String.valueOf(symbol)+goods.getSkus().get(0).getMinPrice()+"-"+String.valueOf(symbol)+goods.getSkus().get(0).getMaxPrice());
+            }
+//            itemHolder.price.setText("￥" + price + "起");
         } else {
             itemHolder.price.setText("￥" + price);
         }

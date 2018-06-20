@@ -512,6 +512,7 @@
     <string name="choose_coupon_type">请选择优惠券</string>
     <string name="cannot_use">不可使用此优惠券</string>
     <string name="all_coupon">通用券</string>
+    <string name="input_sure_phone">请输入正确的手机号</string>
 
     <string name="express_support">所选地区不支持该快递</string>
     <string name="change_success">修改成功</string>

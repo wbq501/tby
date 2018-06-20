@@ -51,7 +51,7 @@
                         android:textColor="@color/main_text"
                         android:textSize="15dp" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_tel"
                         style="@style/edit_text_unline"
                         android:layout_weight="1"
@@ -353,6 +353,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
+                    android:visibility="gone"
                     android:background="@drawable/line_padding_left_15" />
 
                 <TableRow
