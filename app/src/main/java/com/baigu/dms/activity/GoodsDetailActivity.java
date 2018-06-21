@@ -449,9 +449,6 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailPres
                         setNumberMap();
                         goodsSpecificationAdapter.setMapNumber(mapNumber);
                         goodsSpecificationAdapter.notifyDataSetChanged();
-                        if (isCance){
-                            finish();
-                        }
                     }
                 });
                 dialog.show();

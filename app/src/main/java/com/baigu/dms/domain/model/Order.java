@@ -20,8 +20,10 @@ public class Order implements Parcelable {
     private String receiptpeople;
     private String receiptphone;
     private String orderNo;
-    private double totalPrice;
-    private double expressPrice;
+    private String totalPrice;
+    private String expressPrice;
+    private String actualPrice;
+    private String discountPrice;
     private String createTime;
     private String consigneePhone;
     private String consigneeName;
@@ -116,20 +118,36 @@ public class Order implements Parcelable {
         this.orderNo = orderNo;
     }
 
-    public double getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public double getExpressPrice() {
+    public String getExpressPrice() {
         return expressPrice;
     }
 
-    public void setExpressPrice(double expressPrice) {
+    public void setExpressPrice(String expressPrice) {
         this.expressPrice = expressPrice;
+    }
+
+    public String getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(String actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
     }
 
     public String getCreateTime() {
@@ -187,8 +205,10 @@ public class Order implements Parcelable {
         dest.writeString(this.ordernum);
         dest.writeString(this.createTime);
         dest.writeDouble(this.goodsprice);
-        dest.writeDouble(this.expressPrice);
-        dest.writeDouble(this.totalPrice);
+        dest.writeString(this.expressPrice);
+        dest.writeString(this.totalPrice);
+        dest.writeString(this.actualPrice);
+        dest.writeString(this.discountPrice);
         dest.writeString(this.receiptpeople);
         dest.writeString(this.receiptphone);
         dest.writeInt(this.status);
@@ -202,8 +222,10 @@ public class Order implements Parcelable {
         this.ordernum = in.readString();
         this.createTime = in.readString();
         this.goodsprice = in.readDouble();
-        this.expressPrice = in.readDouble();
-        this.totalPrice = in.readDouble();
+        this.expressPrice = in.readString();
+        this.totalPrice = in.readString();
+        this.actualPrice = in.readString();
+        this.discountPrice = in.readString();
         this.receiptpeople = in.readString();
         this.receiptphone = in.readString();
         this.status = in.readInt();

@@ -133,7 +133,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailPres
                 intent.putExtra("orderId", mOrderDetailResult.getId());
                 intent.putExtra("orderNum", mOrderDetailResult.getOrderNo());
                 intent.putExtra("orderCreateDate", mOrderDetailResult.getCreateTime());
-                intent.putExtra("orderTotalPrice", mOrderDetailResult.getTotalPrice());
+                Double discountPrice = Double.valueOf(mOrderDetailResult.getDiscountPrice() == null ? "0" : mOrderDetailResult.getDiscountPrice());
+                Double totalPrice = Double.valueOf(mOrderDetailResult.getTotalPrice());
+                Double goodsPrice = Double.valueOf(mOrderDetailResult.getGoodsPrice());
+                intent.putExtra("orderTotalPrice", discountPrice > goodsPrice ? (totalPrice - goodsPrice) : (totalPrice - discountPrice));
                 startActivity(intent);
                 break;
             case R.id.tv_cancel_order:

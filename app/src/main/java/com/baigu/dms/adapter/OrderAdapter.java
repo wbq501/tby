@@ -144,7 +144,12 @@ public class OrderAdapter extends BaseRVAdapter<OrderAdapter.OrderViewItem> {
             char symbol = 165;
 //            double totalPrice = item.order.getGoodsprice() + item.order.getExpressPrice();
             String expressPrice = String.valueOf(symbol) + item.order.getExpressPrice();
-            tvTotalPrice.setText(String.valueOf(symbol) + item.order.getTotalPrice());
+            if (Double.valueOf(item.order.getDiscountPrice() == null ? "0" : item.order.getDiscountPrice()) > 0){
+                tvTotalPrice.setText(String.valueOf(symbol) + item.order.getActualPrice()+"(优惠:"+item.order.getDiscountPrice()+")");
+            }else {
+                tvTotalPrice.setText(String.valueOf(symbol) + item.order.getActualPrice());
+            }
+//            tvTotalPrice.setText(String.valueOf(symbol) + item.order.getTotalPrice());
             tvExpressPrice.setText(mActivity.getString(R.string.express_price, expressPrice));
             tvCreateTime.setText(StringUtils.getTimeLabelStr(DateUtils.longToStr(Long.valueOf(item.order.getCreateTime()),new SimpleDateFormat("yyyy-MM-dd"))));
             if (item.order.getStatus() == Order.Status.UNPAY) {
@@ -179,8 +184,9 @@ public class OrderAdapter extends BaseRVAdapter<OrderAdapter.OrderViewItem> {
             intent.putExtra("orderId", order.getId());
             intent.putExtra("orderNum", order.getOrderNo());
             intent.putExtra("orderCreateDate", order.getCreateTime());
-            intent.putExtra("orderTotalPrice", order.getTotalPrice());
-            Log.i("test",order.getOrderNo()+"--"+order.getCreateTime()+"--"+order.getTotalPrice());
+//            intent.putExtra("orderTotalPrice", order.getTotalPrice());
+            intent.putExtra("orderTotalPrice", Double.valueOf(order.getActualPrice()));
+            Log.i("test",order.getOrderNo()+"--"+order.getCreateTime()+"--"+order.getActualPrice());
             mActivity.startActivity(intent);
         }
     }
