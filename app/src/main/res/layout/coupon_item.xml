@@ -11,59 +11,64 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/ll_type"
-                android:layout_width="match_parent"
+                android:layout_width="130dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:background="@drawable/couponleft"
                 android:gravity="center"
-                android:padding="10dp"
-                android:background="@drawable/couponleft">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/coupon"
                     android:gravity="center"
-                    android:textSize="16dp"
-                    android:textColor="@color/white"/>
+                    android:text="@string/coupon"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="bottom">
+
                     <TextView
                         android:id="@+id/tv_money1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:text="￥"
                         android:layout_marginBottom="5dp"
-                        android:textSize="16dp"
-                        android:textColor="@color/white"/>
+                        android:text="￥"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+
                     <TextView
                         android:id="@+id/tv_money2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_toRightOf="@id/tv_money1"
                         android:layout_marginLeft="2dp"
-                        android:text="0"
+                        android:layout_toRightOf="@id/tv_money1"
                         android:gravity="bottom"
+                        android:text="0"
                         android:textColor="@color/white"
-                        android:textSize="30dp"/>
+                        android:textSize="30dp" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_height"
-                    android:background="@color/circle_gray"/>
+                    android:background="@color/circle_gray" />
+
                 <TextView
                     android:id="@+id/tv_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="@string/all_coupon"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
         </FrameLayout>
         <FrameLayout
